@@ -1,0 +1,583 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\author{Euxhen Hasanaj}
+\title{Notes on Category Theory}
+\input{preamble}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+The most important concept in Category Theory is that of universal property. Universal properties state how the object being described relates to the entire universe in which it lives.
+
+\begin{example}
+    Let $1$ denote a set with one element. The $1$ has the following property:
+\end{example}
+\begin{center}
+for all sets $X$, there exists a unique map from $X$ to $1$.
+\end{center}
+Indeed, let $X$ be a set. There \textit{exists} a map $X\to 1$, because we can define $f:X\to 1$ by taking $f(x)$ to be the single element of $1$ for each $x\in X$. This is the \textit{unique} map $X\to 1$, because there is no choice in the matter: any map $X\to 1$ must send each elemet of $X$ to the single element of $1$.
+
+There can be only \textit{one} object satisfying a universal property in the sense that if two objects satisfy the property, then they are isomorphic.
+
+\section{Categories, functors, and natural transformations}
+Categories are systems of related objects and they are \textit{themselves} mathematical objects. The maps between categories are called functors and maps between functors are called natural transformations.
+
+\subsection{Categories}
+
+\begin{definition}
+    A \textbf{category} $\cat{A}$ consists of:
+\end{definition}
+\begin{itemize}
+    \item a collection ob($\cat{A}$) of \textbf{objects};
+    \item for each $A,B \in \text{ob}(\cat{A})$, a collection $\cat{A}(A,B)$ of \textbf{maps} or \textbf{arrows} or \textbf{morphisms} from $A$ to $B$;
+    \item for each $A,B,C\in \text{ob}(\cat{A}),$ a function
+        \begin{align*}
+            \cat{A}(B,C)\times \cat{A}(A,B) &\to \cat{A}(A,C) \\
+            (g,f) &\mapsto g\circ f,
+        \end{align*}
+        called \textbf{composition};
+    \item for each $A\in \text{ob}(\cat{A})$, an element $1_{A}$ of $\cat{A}(A, A)$, called the \textbf{identity} on $A$,\vspace{5mm} \\
+        satisfying the following axioms:
+    \item \textbf{associativity}: for each $f\in \cat{A}(A,B)$, $g\in \cat{A}(B,C)$ and $h\in \cat{A}(C,D)$, we have $$(h\circ g)\circ f=h\circ (g\circ f);$$
+    \item \textbf{identity laws}: for each $f\in \cat{A}(A,B)$, we have $f\circ 1_{A}=f=1_{B}\circ f$.
+\end{itemize}
+
+\begin{remark}
+    \begin{itemize}
+        \item We often write:
+            \begin{align*}
+                A\in\cat{A} &\text{ to mean } A\in \text{ob}(\cat{A});\\
+                f: A\to B \text{ or } A\xrightarrow{f}B &\text{ to mean } f\in \cat{A}(A,B);\\
+                gf &\text{ to mean } g\circ f.
+            \end{align*}
+        \item \text{We often speak of commutative diagrams. Given objects and maps as in}
+            \begin{equation*}
+            \begin{tikzcd}
+                A \arrow[r, "f"] \arrow[d, "h"'] & B \arrow[d, "g"] \\
+                C \arrow[r, "j"] & D
+            \end{tikzcd}
+            \end{equation*}
+            \text{ we say that the diagram commutes if} $g\circ f=j\circ h$.
+        \item \text{If} $f\in \cat{A}(A,B)$, we call $A$ the \textbf{domain} and $B$ the \textbf{codomain} of $f$.  
+        
+    \end{itemize}
+\end{remark}
+
+\begin{example}[Categories of mathematical structures]\leavevmode
+    \begin{enumerate}[label=(\alph*)]
+        \item There is a category \textbf{Set} described as follows. Its objects are sets, and an arrow from set $A$ to set $B$ is an ordinary function from $A$ to $B$. Composition in the category is the ordinary composition of functions, and the identity maps are the identity functions.
+        \item There is a category \textbf{Grp} of groups, whose objects are groups and arrows are homomorphisms.
+        \item For a field $k$, there is a category \textbf{Vect$_k$} of vector spaces over $k$ and linear maps between them.
+        \item There is a category \textbf{Top} of topological spaces and continuous maps.
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    A map $f: A\to B$ in a category $\cat{A}$ is an \textbf{isomorphism} if there exists a map $g: B \to A$ in $\cat{A}$ such that $gf=1_A$ and $fg=1_B$.
+\end{definition}
+We call $g$ the inverse of $f$ and write $g=f^{-1}$. If there exists an isomorphism from $A$ to $B$, we say that $A$ and $B$ are isomorphic and write $A \cong B$. 
+
+\begin{example}[Categories]\leavevmode
+    \begin{enumerate}[label=(\alph*)]
+        \item The isomorphisms in \textbf{Set} are the bijections. 
+        \item The isomorphisms in \textbf{Grp} are the isomorphisms of groups.
+        \item The isomorphisms in \textbf{Top} are the homeomorphisms. A bijective map in \textbf{Top} is not necessarily an isomorphism.
+    \end{enumerate}
+\end{example}
+
+In a general category the objects need not be sets with added structure, and the maps need not behave like functions.
+
+Some categories contain no maps at all apart from the identity maps. Such categories are called \textbf{discrete categories}.
+
+A group is the same thing as a category with one object in which all the maps are isomorphisms. Assume the object is called $A$ and the category is $\cat{A}$. Then the set $\cat{A}(A,A)$ corresponds to the elements of the group $G$. The identity arrow $1_A$ correponds to the identity element in the group. And the fact that every arrow is an isomorphism corresponds to the fact that there exists an inverse for every element in $G$. Composition correponds to the binary operation of $G$. The category $\cat{A}$ looks like:
+\begin{equation*}
+\begin{tikzcd}
+    A \arrow[in=0, out=60, distance=3em, ""]
+    \arrow[in=120, out=180, distance=3em, ""]
+    \arrow[in=240, out=300, distance=3em, ""]
+\end{tikzcd}
+\end{equation*}
+
+A \textbf{monoid} is a set equipped with an associative binary operation and a two-sided unit element, i.e., a group without inverses. A category with one object is essentially the same thing as a monoid.
+
+A \textbf{preorder} is a reflexive transitive binary relation. A \textbf{preordered set} $(S,\leq)$ is a set $S$ together with a preorder $\leq$ on it. Examples are: the ordering of $\mathbb{R}$ or inclusion of sets.
+A preordered set can be regarded as a category $\cat{A}$ where for each $A,B\in \cat{A}$ the set $\cat{A}(A,B)$ has at most one element. In this case we write $A\leq B$ to mean that there exists a map $A\to B$. It is easy to check that the composition of arrows corresponds to transitivity, and identity arrows correspond to reflexivity. Associativity and identity axioms follow immediately.
+
+A \textbf{poset} is an antisymmetric preorder.\bigskip
+
+Every category $\cat{A}$ has an \textbf{opposite}  or \textbf{dual} category $\catop{A}$, defined by reversing the arrows. Formally, ob($\catop{A}$)=ob($\cat{A}$) and $\catop{A}(B,A)$ = $\cat{A}(A,B)$ for all objects $A$ and $B$.
+
+\begin{remark}
+    The \textbf{principle of duality} is fundamental to category theory. It states that every categorical definition, theorem, and proof has a \textbf{dual} which is obtained by reversing all the arrows. This can save work as given any theorem, one can produce a dual theorem simply by reversing the arrows and applying the same proof to $\catop{A}$.
+\end{remark}
+
+\begin{exercise}
+    Show that a map in a category can have at most one inverse.
+\end{exercise}
+\begin{solution}
+    Suppose that $f: A\to B$ has inverses $g_1$ and $g_2$. Then
+    $$g_1 = 1_Ag_1 = (g_2f)g_1 = g_2(fg_1) = g_21_B = g_2.$$
+\end{solution}
+
+\subsection{Functors}
+A functor is a map between two categories that preserves composition and identities.
+\begin{definition}
+    Let $\cat{A}$ and $\cat{B}$ be categories. A \textbf{functor} $F: \cat{A}\to \cat{B}$ consists of:
+    \begin{itemize}
+        \item a function
+            $$\text{ob}(\cat{A})\to \text{ob}(\cat{B}),$$
+            written as $A\mapsto F(A)$;
+        \item for each $A,A'\in \cat{A}$, a function
+            $$\cat{A}(A,A')\to \cat{B}(F(A),F(A')),$$
+            written as $f\mapsto F(f),$
+    \end{itemize}
+    satisfying the following axioms:
+    \begin{itemize}
+        \item $F(f'\circ f)=F(f')\circ F(f)$ whenever $A\xrightarrow{f}A'\xrightarrow{f'}A''$ in $\cat{A}$;
+        \item $F(1_A) = 1_{F(A)}$ whenever $A\in \cat{A}$.
+    \end{itemize}
+\end{definition}
+
+\begin{example}[The Forgetful Functor]\leavevmode
+    \begin{enumerate}[label=(\alph*)]
+        \item There is a functor $U$: \textbf{Grp} $\to$ \textbf{Set} defined as follows: if $G$ is a group then $U(G)$ is the underlying set of $G$, and if $f:G\to H$. is a group homomorphism, then $U(f)$ is the function $f$ itself. So $U$ forgets some structure of $G$.
+        \item Forgetful functors do not have to forget all the structure. E.g., there is a forgetful functor \textbf{Ring} $\to$ \textbf{Ab}  from rings to abelian groups, that forgets the multiplicative structure, but preserves the additive group.
+    \end{enumerate}
+\end{example}
+
+\begin{example}[The Free Functor]\leavevmode
+    \begin{enumerate}[label=(\alph*)]
+        \item Given a set $S$, one can build the \textbf{free group} $F(S)$ on $S$. This group is obtained by $S$ by adding just enough elements so that it becomes a group.\\
+            Any map of sets $f: S\to S'$ gives rise to a homomorphism of groups $F(f): F(S)\to F(S')$.
+        \item We can also construct the free vector space on a set. Fix a field $k$. The free functor $F:$ \textbf{Set} $\to$ \textbf{Vect}$_k$ is defined on objects by taking $F(S)$ to be a vector space with basis $S$. Think of $F(S)$ as the set of all linear combinations of elements in $S$. More precisely, we can define $F(S)$ to be the set of all functions $\lambda: S\to k$ such that $\{s\in S | \lambda(s)\neq 0\}$ is finite (this restriction of finiteness is imposed because one can only take finite sums in a vector space). For each $\lambda, \mu \in F(S)$ the sum $\lambda + \mu \in F(S)$ is given by
+            $$(\lambda + \mu)(s) = \lambda(s) + \mu(s)$$
+            $(s \in S)$. Similarly, the scalar multiplication is given by $(c\cdot \lambda)(s) = c\cdot \lambda(s)\ (c\in k, \lambda\in F(S), s\in S)$.
+        \item Given two monoids, regarded as one-object categories: a functor between them is determined by its effects on maps. Preservation of composition, means that the functor is just a homomorphism between the monoids. 
+        \item When $A$ and $B$ are (pre)ordered sets, a functor between the corresponding categories is an \textbf{order-preserving map}, i.e., a function $f: A\to B$ such that $a\leq a' \implies f(a) \leq f(a')$.
+    \end{enumerate}
+\end{example}
+
+Sometimes we meet a functor-like behaving operation that reverses all the arrows, with a map $A\to A'$ giving rise to a map $F(A)\leftarrow F(A')$ in $\cat{B}$. Such operations are called contravariant functors.
+
+\begin{definition}
+    Let $\cat{A}$ and $\cat{B}$ be categories. A \textbf{contravariant functor}  from $\cat{A}$ to $\cat{B}$ is a functor $\catop{A}\to \cat{B}$.
+\end{definition}
+Contravariant functors whose codomain is \textbf{Set} are important and have special names.
+\begin{definition}
+    Let $\cat{A}$ be a category. A \textbf{presheaf} on $\cat{A}$ is a functor $\catop{A}\to$ \textbf{Set}.
+\end{definition}
+Let $X$ be a topological space. Write $\mathcal{O}(X)$ for the poset of open subsets of $X$ ordered by inclusion, and view it as a category. A \textbf{presheaf} on the space $X$ is a presheaf on the category $\mathcal{O}(X)$. For example, given any space $X$, there is a presheaf $F$ on $X$ defined by
+$$F(U)=\{\text{continuous functions } U\to \mathbb{R}\}$$
+for $U\in \mathcal{O}(X)$, and whenever $U\subseteq U'$ are open subsets of $X$, by taking the map $F(U')\to F(U)$ to be restriction.
+
+\begin{definition}
+    A functor $F: \cat{A}\to \cat{B}$ is \textbf{faithful} (respectively, \textbf{full} ) if for each $A,A'\in \cat{A}$, the function
+    $$\begin{aligned}
+        \cat{A}( A,A' ) &\to \cat{B}(F(A),F(A'))\\
+        f &\mapsto F(f)
+    \end{aligned}$$
+    is injective (respectively, surjective).
+\end{definition}
+
+\begin{remark}
+    Faithfulness does \textbf{not} say that if $f_1$ and $f_2$ are distinct maps in $\cat{A}$ then $F(f_1) \neq F(f_2)$. $F$ is faithful (respectively, full) if for each $A,A'\in \cat{A}$ and for each $g\in \cat{B}(F(A),F(A'))$, there is at most (respectively, at least) one arrow that $F$ sends to $g$.
+\end{remark}
+
+\begin{exercise}
+    Find an example of a functor $F:\cat{A}\to \cat{B}$ such that $F$ is faithful but there exist distinct maps $f_1$ and $f_2$ in $\cat{A}$ with $F(f_1)=F(f_2)$.
+\end{exercise}
+\begin{solution}
+\begin{equation*}
+\begin{tikzcd}
+    \cat{A}  &[-15pt]&&&&&&[-15pt] \cat{B} \\[-15pt]
+    &[-15pt] A_1 \arrow[d, "f_1"] \arrow[rrrrr, bend left=50, "F"] & A_2 \arrow[d,"f_2"] \arrow[rrrr, bend left=30] &&&& FA \arrow[d, "Ff"] \\
+    & B_1 \arrow[rrrrr, bend right=50] & B_2 \arrow[rrrr, bend right=30] &&&& FB
+\end{tikzcd}
+\end{equation*}
+\end{solution}
+
+\begin{definition}
+    Let $\cat{A}$ be a category. A \textbf{subcategory} $\cat{S}$ of $\cat{A}$ consists of a subclass ob$(\cat{S})$ of ob$(\cat{A})$ together with, for each $S,S' \in \text{ob}(\cat{S})$, a subclass $\cat{S}(S,S')$ of $\cat{A}(S,S')$, such that $\cat{S}$ is closed under composition and identities. It is a \textbf{full} subcategory if $\cat{S}(S,S')=\cat{A}(S,S')$ for all $S,S'\in \text{ob}(\cat{S})$.
+\end{definition}
+So, a full subcategory can be specified simply by saying what its objects are. For example, \textbf{Ab} is a full subcategory of \textbf{Grp}.\\
+Whenever $\cat{S}$ is a subcategory of a category $\cat{A}$, there is an inclusion functor $I:\cat{S}\to \cat{A}$ defined by $I(S)=S$ and $I(f)=f$. It is automatically faithful, and it is full if and only if $\cat{S}$ is a full subcategory.
+
+\begin{exercise}
+    \begin{enumerate}[label=(\alph*)]
+        \item What are the subcategories of an ordered set? Which are full?
+        \item What are the subcategories of a group? Which are full?
+    \end{enumerate}
+\end{exercise}
+\begin{solution}\leavevmode
+    \begin{enumerate}[label=(\alph*)]
+        \item A subcategory of an ordered set $P$ is another ordered set $Q$, such that\\ $\text{ob}(Q) \subseteq \text{ob}(P)$ and for all $a,b\in Q$ we have
+        $$\text{if } a \leq_Q b \text{ then } a \leq_P b.$$
+        In adition, a full subcategory will satisfy
+        $$a \leq_Q b \Longleftrightarrow a \leq_P b.$$
+        \item Subcategories of a group are all of its submonoids. The full subcategory is the group itself.
+    \end{enumerate}
+\end{solution}
+
+\begin{exercise}
+    Show that functors preserve isomorphisms.
+\end{exercise}
+\begin{solution}
+    Assume that $F: \cat{A}\to \cat{B}$ is a functor and $A,A'\in \cat{A}$ with $A\cong A'$. This means that there exists $f: A\to A'$ and $g: A'\to A$, such that $gf = 1_A$ and $fg = 1_{A'}$. Because the functor preserves composition and identities, we have $F(g)F(f) = F(gf) = F(1_A) = 1_{F(A)}$ and $F(f)F(g) = F(fg) = F(1_{A'}) = 1_{F(A')}$. I.e, $F(A)\cong F(A')$.
+\end{solution}
+
+\begin{definition}
+    Two categories $\cat{A}$ and $\cat{B}$ are \textbf{isomorphic}, written as $\cat{A} \cong \cat{B}$, if they are isomorphic as objects of \textbf{CAT}. Equivalently, if there are functors $F:\cat{A}\to \cat{B}$ and $G:\cat{B}\to \cat{A}$ with $F(G)=1_B$ and $G(F)=1_A$ (where the composition of functors is just a composition on objects and a composition on maps).
+\end{definition}
+
+\subsection{Natural transformations}
+Maps between functors are called natural transformations. This notion applies only when the functors have the same domain and codomain.
+\begin{equation*}
+\begin{tikzcd}
+    \cat{A} \arrow[r, shift left, "F"]\arrow[r, shift right, "G"'] & \cat{B}.
+\end{tikzcd}
+\end{equation*}
+
+Let's consider a special case. Let $\cat{A}$ be a discrete category whose objects are the natural numbers. A functor $F$ from $\cat{A}$ to another category $\cat{B}$ is a sequence of $F_0,F_1,...,$ of objects in $\cat{B}$. Take another functor $G$ from $\cat{A}$ to $\cat{B}$ which consists of another sequence $G_0,G_1,...$ of objects. It is reasonable to define a 'map' from $F$ to $G$ as
+$$(F_0\xrightarrow{a_0} G_0, F_1\xrightarrow{a_1} G_1,...)$$
+of maps in $\cat{B}$.
+This suggests that in the general case, a natural transformation between functors 
+\begin{tikzcd}
+    \cat{A} \arrow[r, shift left, "F"]\arrow[r, shift right, "G"'] & \cat{B}
+\end{tikzcd}
+should consist of maps $\alpha_A: F(A)\to G(A)$, one for each $A\in \cat{A}$.
+
+\begin{definition}
+    Let $\cat{A}$ and $\cat{B}$ be categories and let \begin{tikzcd}
+        \cat{A} \arrow[r, shift left, "F"]\arrow[r, shift right, "G"'] & \cat{B}
+    \end{tikzcd} be functors. A \textbf{natural transformation} $\alpha: F\to G$ is a family $\big( F(A) \xrightarrow{\alpha_A} G(A) \big)_{A\in\cat{A}}$ of maps in $\cat{B}$ such that for every map $A\xrightarrow{f}A'$ in $\cat{A}$, the square 
+    \begin{equation*}
+    \begin{tikzcd}
+        F(A) \arrow[r, "F(f)"] \arrow[d, "\alpha_A"] & F(A') \arrow[d, "\alpha_{A'}"] \\
+        G(A) \arrow[r, "G(f)"] & G(A')
+    \end{tikzcd}
+    \end{equation*}
+commutes. The maps $\alpha_i$ are called the \textbf{components} of $\alpha$.    
+\end{definition}
+
+We write
+\begin{equation*}
+\begin{tikzcd}
+    \cat{A} \arrow[rr, bend left=30, "F"{name=F}]
+    \arrow[rr, bend right=30, "G"'{name=G}]
+    && \cat{B} \
+    \arrow[from=F, Rightarrow, to=G, "\alpha", shorten <= 6pt, shorten >= 6pt]
+\end{tikzcd}
+\end{equation*}
+to mean that $\alpha$ is a natural transformation from $F$ to $G$.
+
+\begin{example}
+    Fix a natural number $n$. For any ring $R$, the $n\times n$ matrices with entries in $R$ form a monoid $M_n(R)$ under multiplication. Any ring homomorphism $R\to S$ induces a monoid homomorphism $M_n(R)\to M_n(S)$. This defines a functor $M_n: \textbf{CRing} \to \textbf{Mon}$ from the category of commutative rings to the category of monoids.\\
+    Also, the elements of any ring $R$ form a monoid $U(R)$ under multiplication, giving another functor $U: \textbf{CRing}\to \textbf{Mon}$.\\
+    Now, every $n\times n$ matrix $X$ over a commutative ring $R$ has a determinant $\text{det}_R(X)$, which is an element of $R$. Familiar properties of the determinant -
+    \begin{equation*}
+        \text{det}_R(XY)=\text{det}_R(X)\text{det}_R(Y),\qquad \text{det}_R(I)=1
+    \end{equation*}
+    - tell us that for each $R$, the function $\text{det}_R:M_n(R)\to U(R)$ is a monoid homomorphism. So, we have a family of maps
+    $$\big(M_n(R) \xrightarrow{\text{det}_R} U(R)\big)_{R\in \textbf{CRing}}$$
+    which define a natural transformation. That the naturality squares commute reflects the fact that determinant is defined in the same way for all rings.
+\end{example}
+
+Natural transformations can be composed. Given natural transformations
+\begin{equation*}
+\begin{tikzcd}
+    \cat{A}
+    \arrow[rr, bend left=70, "F"{name=F}]
+    \arrow{rr}[name=G, description]{G}
+    \arrow[rr, bend right=70, "H"'{name=H}]
+    && \cat{B} \
+    \arrow[Rightarrow, from=F, to=G, "\alpha", shorten <= 3pt, shorten >= 3pt]
+    \arrow[Leftarrow, from=H, to=G, "\beta"', shorten <= 3pt, shorten >= 3pt]
+\end{tikzcd}
+\end{equation*}
+there is a composite natural transformation
+\begin{equation*}
+\begin{tikzcd}
+    \cat{A} \arrow[rr, bend left=30, "F"{name=F}]
+    \arrow[rr, bend right=30, "H"'{name=H}]
+    && \cat{B} \
+    \arrow[from=F, Rightarrow, to=H, "\beta\circ\alpha", shorten <= 6pt, shorten >= 6pt]
+\end{tikzcd}
+\end{equation*}
+defined by $(\beta\circ\alpha)_A = \beta_A \circ \alpha_A$ for all $A\in\cat{A}$.
+There is also an identity natural transformation
+\begin{equation*}
+\begin{tikzcd}
+    \cat{A} \arrow[rr, bend left=30, "F"{name=F}]
+    \arrow[rr, bend right=30, "F"'{name=F1}]
+    && \cat{B} \
+    \arrow[from=F, Rightarrow, to=F1, "1_F", shorten <= 6pt, shorten >= 6pt]
+\end{tikzcd}
+\end{equation*}
+on any functor $F$, defined by $(1_F)_A=1_{F(A)}$. So for any two categories $\cat{A}$ and $\cat{B}$, there is a category whose objects are the functors from $\cat{A}$ to $\cat{B}$ and whose maps are the natural transformations between them. This is called the \textbf{functor category} from $\cat{A}$ to $\cat{B}$, and written as [ $\cat{A}$, $\cat{B}$ ] or $\cat{B}^{\cat{A}}$.
+
+\begin{example}
+    Take ordered sets $A$ and $B$, viewed as categories. Given order-preserving maps \begin{tikzcd}
+        \cat{A} \arrow[r, shift left, "f"]\arrow[r, shift right, "g"'] & \cat{B}
+    \end{tikzcd} viewed as functors, there is at most one natural transformation
+    \begin{equation*}
+    \begin{tikzcd}
+        \cat{A} \arrow[rr, bend left=30, "f"{name=f}]
+        \arrow[rr, bend right=30, "g"'{name=g}]
+        && \cat{B} \
+        \arrow[from=f, Rightarrow, to=g, "", shorten <= 6pt, shorten >= 6pt]
+    \end{tikzcd}
+    \end{equation*}
+    and there is one if and only if $f(a)\leq g(a)$ for all $a\in A$.
+\end{example}
+
+\begin{definition}
+    Let $\cat{A}$ and $\cat{B}$ be categories. A \textbf{natural isomorphism} between functors from $\cat{A}$ to $\cat{B}$ is an isomorphism in [ $\cat{A}$, $\cat{B}$ ].
+\end{definition}
+Equivalently,
+\begin{lemma}
+    Let \begin{tikzcd}
+        \cat{A} \arrow[r, bend left=30, "F"{name=F}]
+        \arrow[r, bend right=30, "G"'{name=G}]
+        & \cat{B} \
+        \arrow[from=F, Rightarrow, to=G, "\alpha", shorten <= 3pt, shorten >= 3pt]
+    \end{tikzcd} be a natural transformation. Then $\alpha$ is a natural isomorphism if and only if $\alpha_A: F(A) \to G(A)$ is an isomorphism for all $A\in \cat{A}$.
+\end{lemma}
+
+\begin{definition}
+    Given functors \begin{tikzcd}
+        \cat{A} \arrow[r, shift left, "F"]\arrow[r, shift right, "G"'] & \cat{B}
+    \end{tikzcd}, we say that
+    \begin{center}
+        $F(A)\cong G(A)$ \textbf{naturally in} $A$
+    \end{center}
+    if $F$ and $G$ are naturally isomorphic.
+\end{definition}
+
+We may sometimes use the word \textbf{canonical} to refer to a decision without making arbitrary choices, i.e., something that arises naturally. E.g., for any two sets $A$ and $B$ there is a canonical bijection $A\times B\to B\times A$ defined by $(a, b)\to (b, a)$.\par
+The concept of natural isomorphism leads to the equivalence of categories. In set theory we say two objects are the same if they are equal. In category theory, sameness refers to isomorphisms. Two objects are the same if they are isomorphic. Two functors are the same if they are naturally isomorphic.\par
+However, our definition of two isomorphic categories is strict. Given
+\begin{tikzcd}
+    \cat{A} \arrow[r, shift left, "F"] & \cat{B} \arrow[l, shift left, "G"] 
+\end{tikzcd}, we say that $A\cong B$ if there are functors such that
+\begin{equation*}
+    G\circ F=1_{\cat{A}} \qquad \text{and} \qquad F\circ G=1_{\cat{B}}.
+\end{equation*}
+It is more useful to speak of equivalence between categories. In this case we simply replace the strict equalities by isomorphisms. This gives
+\begin{equation*}
+    G\circ F\cong 1_{\cat{A}} \qquad \text{and} \qquad F\circ G\cong 1_{\cat{B}}.
+\end{equation*}
+
+\begin{definition}
+    An \textbf{equivalence} between categories $\cat{A}$ and $\cat{B}$ consists of a pair of functors together with natural isomorphisms
+    \begin{equation*}
+        \eta: 1_{\cat{A}} \to G\circ F, \qquad \epsilon: F\circ G\to 1_{\cat{B}}.
+    \end{equation*}
+\end{definition}
+
+If there exists an equivalence between $\cat{A}$ and $\cat{B}$, we say that $\cat{A}$ and $\cat{B}$ are \textbf{equivalent}, and write $\cat{A}\simeq\cat{B}$.
+
+\begin{definition}
+    A functor $F: \cat{A}\to \cat{B}$ is \textbf{essentially surjective on objects} if for all $B\in\cat{B}$, there exists $A\in\cat{A}$ such that $F(A)\cong B$.
+\end{definition}
+
+\begin{proposition}
+    A functor is an equivalence if and only if it is full, faithful, and essentially surjective on objects.
+\end{proposition}
+
+This result is useful because it allows us to show that a functor is an equivalence without constructing an 'inverse'.
+
+\begin{corollary}
+    Let $F:\cat{C}\to\cat{D}$ be a full and faithful functor. Then $\cat{C}$ is equivalent to the full subcategory $\cat{C'}$ of $\cat{D}$ whose objectts are those of the form $F(C)$ for some $C\in\cat{C}$.
+\end{corollary}
+\proof Trivial.
+
+\begin{example}
+    Let \textbf{FinSet} be the category of finite sets and functions between them, For each natural number $n$, choose a set $\mathbf{n}$ with $n$ elements, and let $\cat{B}$ be the full subcategory of \textbf{FinSet} with objects $\mathbf{0, 1, ...}$. Then $\cat{B} \simeq$ \textbf{FinSet}.
+\end{example}
+
+\begin{example}
+    An equivalence of the form $\catop{A} \simeq \cat{B}$ is sometimes called a \textbf{duality} between $\cat{A}$ and $\cat{B}$. One says that $\cat{A}$ is \textbf{dual} to $\cat{B}$.
+\end{example}
+
+The composition of natural transformations we defined
+\begin{equation*}
+\begin{tikzcd}
+    \cat{.}
+    \arrow[rr, bend left=70, ""{name=F}]
+    \arrow{rr}[name=G, description]{}
+    \arrow[rr, bend right=70, ""{name=H}]
+    && \cat{.} \
+    \arrow[Rightarrow, from=F, to=G, "", shorten <= 3pt, shorten >= 3pt]
+    \arrow[Leftarrow, from=H, to=G, "", shorten <= 3pt, shorten >= 3pt]
+\end{tikzcd}
+\end{equation*}
+is sometimes called a \textbf{vertical composition}. There is also \textbf{horizonal compositon}, which takes natural transformations
+\begin{equation*}
+\begin{tikzcd}
+    \cat{A}
+    \arrow[rr, bend left=30, "F"{name=F}]
+    \arrow[rr, bend right=30, "G"'{name=G}]
+    && \cat{A'} \
+    \arrow[from=F, Rightarrow, to=G, "\alpha", shorten <= 6pt, shorten >= 6pt]
+    \arrow[rr, bend left=30, "F'"{name=F'}]
+    \arrow[rr, bend right=30, "G'"'{name=G'}]
+    && \cat{A''} \
+    \arrow[from=F', Rightarrow, to=G', "\alpha'", shorten <= 6pt, shorten >= 6pt]
+\end{tikzcd}
+\end{equation*}
+and produces a natural transformation
+\begin{equation*}
+\begin{tikzcd}
+    \cat{A}
+    \arrow[rr, bend left=30, "F'\circ F"{name=F}]
+    \arrow[rr, bend right=30, "G'\circ G"'{name=G}]
+    && \cat{A''} \
+    \arrow[from=F, Rightarrow, to=G, "", shorten <= 6pt, shorten >= 6pt]
+\end{tikzcd}
+\end{equation*}
+traditionally written as $\alpha' * \alpha$.\par
+
+Vertical and horizonal compositon interact well: natural transformations
+\begin{equation*}
+\begin{tikzcd}
+    \cat{A}
+    \arrow[rr, bend left=70, "F"{name=F}]
+    \arrow{rr}[name=G, description]{G}
+    \arrow[rr, bend right=70, "H"'{name=H}]
+    && \cat{A'} \
+    \arrow[rr, bend left=70, "F'"{name=F'}]
+    \arrow{rr}[name=G', description]{G'}
+    \arrow[rr, bend right=70, "H'"'{name=H'}]
+    \arrow[Rightarrow, from=F, to=G, "\alpha", shorten <= 3pt, shorten >= 3pt]
+    \arrow[Leftarrow, from=H, to=G, "\beta"', shorten <= 3pt, shorten >= 3pt]
+    && \cat{A''} \
+    \arrow[Rightarrow, from=F', to=G', "\alpha'", shorten <= 3pt, shorten >= 3pt]
+    \arrow[Leftarrow, from=H', to=G', "\beta'"', shorten <= 3pt, shorten >= 3pt]
+\end{tikzcd}
+\end{equation*}
+obey the \textbf{interchange law},
+\begin{equation*}
+    (\beta'\circ\alpha') * (\beta\circ\alpha) = (\beta'*\beta)\circ(\alpha'*\alpha): F'\circ F\to H'\circ H.
+\end{equation*}
+
+\section{Adjoints}
+\subsection{Definition and examples}
+Consider a pair of functors in opposite directions, $F:\cat{A}\to\cat{B}$ and $G:\cat{B}\to\cat{A}$. Roughly speaking, $F$ is said to be a left adjoint to $G$ if, whenever $A\in\cat{A}$ and $B\in\cat{B}$, maps $F(A)\to B$ are essentially the same as maps $A\to G(B)$.
+
+\begin{definition}
+    Let \begin{tikzcd}
+        \cat{A} \arrow[r, shift left, "F"] & \cat{B} \arrow[l, shift left, "G"] 
+    \end{tikzcd} be categories and functors. We say that $F$ is \textbf{left adjoint} to $G$, and $G$ is \textbf{right adjoint} to $F$, and write $F\dashv G$, if
+    $$\cat{B}(F(A), B)\cong \cat{A}(A, G(B))$$
+    naturally in $A\in\cat{A}$ and $B\in\cat{B}$.
+\end{definition}
+Naturally in $A\in\cat{A}$ and $B\in\cat{B}$ means that there is a specified bijection for each $A\in\cat{A}$ and $B\in\cat{B}$, and that it satisfies a naturality axiom. To state it, we need some notation. Given objects $A\in\cat{A}$ and $B\in\cat{B}$, the correspondence between maps $F(A)\to B$ and $A\to G(B)$ is denoted by a horizontal bar, in both directions:
+\begin{align*}
+    \big(F(A)\xrightarrow{g}B \big) &\mapsto \big(A\xrightarrow{\bar{g}}G(B) \big),\\
+    \big(F(A)\xrightarrow{\bar{f}}B \big) &\mapsfrom \big(A \xrightarrow{f} G(B) \big).
+\end{align*}
+So $\bar{\bar{f}}=f$ and $\bar{\bar{g}}=g$. We call $\bar{f}$ the \textbf{transpose} of $f$, and similarly for $g$. The naturality axiom has two parts:
+\begin{equation*}
+    \overline{\big( F(A)\xrightarrow{g} B\xrightarrow{q} B' \big)} = \big( A\xrightarrow{\bar{g}} G(B) \xrightarrow{G(q)} G(B') \big)
+\end{equation*}
+(that is, $\overline{q\circ g}=G(q)\circ\bar{g}$) for all $g$ and $q$, and
+\begin{equation*}
+    \overline{\big(A' \xrightarrow{p} A \xrightarrow{f} G(B) \big)} = \big(F(A') \xrightarrow{F(p)} F(A) \xrightarrow{\bar{f}} B\big)
+\end{equation*}
+for all $p$ and $f$.\par
+    A given functor $G$ may or may not have a left adjoint, but if it does, it is unique up to isomorphism. Same goes for right adjoints.
+
+\begin{example}
+    Forgetful functors between categories of algebraic structures usually have left adjoints. For instance:
+    \item Let $k$ be a field. There is an adjunction
+        \begin{equation*}
+        \begin{tikzcd}
+            \bcat{Vect}_k \arrow[d, shift left=2, "U"] \\
+            \bcat{Set,} \arrow[u, shift left=3, "F", "\dashv"'] \
+        \end{tikzcd}
+        \end{equation*}
+    where $U$ is the forgetful functor and $F$ is the free functor. Adjointness says that given a set $S$ and a vector space $V$, a linear map $F(S)\to V$ is essentially the same thing as a function $S\to U(V)$.\par
+    Fix a set $S$ and a vector space $V$. Given a linear map $g:F(S)\to V$, we may define a map of sets $\bar{g}: S\to U(V)$ by $\bar{g}(s)=g(s)$ for all $s\in S$. This gives a function
+    \begin{align*}
+    \bcat{Vect}_k(F(S),V) &\to \bcat{Set}(S,U(V))\\
+        g &\mapsto \bar{g}.
+    \end{align*}
+    In the other direction, given a map of sets $f:S\to U(V)$, we may define a linear map $\bar{f}:F(S)\to V$ by $\bar{f}\Big( \sum_{s\in S}\lambda_s s\Big) =\sum_{s\in S}\lambda_sf(s)$ for all formal linear combinations $\sum \lambda_s s\in F(S)$. This gives a function
+    \begin{align*}
+        \bcat{Set}(S, U(V)) &\to \bcat{Vect}_k(F(S), V) \\
+        f &\mapsto \bar{f}.
+    \end{align*}
+    These two functions 'bar' are mutually inverse: for any linear map $g:F(S)\to V$, we have
+    $$\bar{\bar{g}}\Bigg( \sum\limits_{s\in S} \lambda_s s \Bigg) = \sum\limits_{s\in S} \lambda_s \bar{g}(s) = \sum\limits_{s\in S} \lambda_s g(s) = g\Bigg( \sum\limits_{s\in S} \lambda_s s \Bigg)$$
+    for all $\sum \lambda_s s \in F(S)$, so $\bar{\bar{g}}=g$, and for any map of sets $f: S\to U(V)$, we have
+    $$\bar{\bar{f}}(s)=\bar{f}(s)=f(s)$$
+    for all $s\in S$, so $\bar{\bar{f}}=f$. We therefore have a canonical bijection between $\bcat{Vect}_k(F(S), V)$ and $\bcat{Set}(S, U(V)$ for each $S\in \bcat{Set}$ and $V\in \bcat{Vect}_k$, as required.
+\end{example}
+\begin{remark}
+    Note that we are using $(\bar{\cdot})$ for both directions. With a little care, the notation becomes clear and useful.
+\end{remark}
+\begin{example}
+    There are adjunctions
+    \begin{equation*}
+    \begin{tikzcd}
+        \bcat{Top} \arrow[dd, "U" description] \\ \\
+        \bcat{Set} \arrow[uu, shift left=6, "D", "\dashv"'] \arrow[uu, shift right=6, "I"', "\dashv"]
+    \end{tikzcd}
+    \end{equation*}
+    where $U$ sends a space to its set of points, $D$ equips a set with the discrete topology, and $I$ equips a set with the indiscrete topology.
+\end{example}
+\begin{example}
+    Given sets $A$ and $B$, we can form their (cartesian) product $A\times B$. We can also form the set $B^A$ of functions from $A$ to $B$. This is the same as the set $\textbf{Set}(A,B)$, but we tend to use the notattion $B^A$ when we want to emphasize that it is an object of the same category as $A$ and $B$.\par
+    Now fix a set $B$. Taking the product with $B$ defines a functor
+    \begin{align*}
+        \_\times B: \bcat{Set} &\to \bcat{Set} \\
+        A &\mapsto A\times B.
+    \end{align*}
+    There is also a functor
+    \begin{align*}
+        (\_)^B: \bcat{Set} &\to \bcat{Set} \\
+        C &\mapsto C^B.
+    \end{align*}
+    Moreover, there is a canonical bijection
+    $$ \textbf{Set}(A\times B, C) \cong \textbf{Set}(A, C^B)$$
+    for any sets $A$ and $C$. It is defined by simply changing the punctuation: given a map $g:A\times B\to C$, define $\bar{g}: A\to C^B$ by
+    $$(\bar{g}(a))(b) = g(a,b)$$
+    $(a\in A, b\in B)$, and in the other direction, given $f:A\to C^B$, define $\bar{f}:A\times B\to C$ by
+    $$\bar{f}(a,b)=(f(a))(b)$$
+    $(a\in A, b\in B)$. Putting all this together, we obtain an adjunction
+    \begin{equation*}
+    \begin{tikzcd}
+        \bcat{Set} \arrow[d, shift left=2, "(\_)^B"] \\
+        \bcat{Set} \arrow[u, shift left=2, "\_\times B", "\dashv"']
+    \end{tikzcd}
+    \end{equation*}
+    for every set $B$.
+\end{example}
+
+\begin{definition}
+    Let $\cat{A}$ be a category. An object $I\in\cat{A}$ is \textbf{initial} if for every $A\in\cat{A}$, there is exactly one map $I\to A$. An object $T\in\cat{A}$ is \textbf{terminal} if for every $A\in\cat{A}$, there is exactly one map $A\to T$.
+\end{definition}
+    For example, the empty set is initial in $\bcat{Set}$, the trivial group is initial in $\bcat{Grp}$, and $\mathbb{Z}$ is initial in $\bcat{Ring}$. The one-element set is terminal in $\bcat{Set}$, the trivial group is terminal (as well as initial) in $\bcat{Grp}$, and the trivial (one-element) ring is terminal in $\bcat{Ring}$.\par
+    A category need not have an initial object, but if it does have one, it is unique up to isomorphism.
+\begin{lemma}
+    Let $I$ and $I'$ be initial objects of a category. Then there is a unique isomorphism $I\to I'$. In particular, $I\cong I'$.
+\end{lemma}
+\begin{proof}
+    Since $I$ is initial, there is a unique map $f: I\to I'$. Since $I'$ is initial, there is a unique map $f':I'\to I$. Now $f'\circ f$ and $1_I$ are both maps $I\to I$, and $I$ is initial, so $f'\circ f=1_I$. Similarly, $f\circ f'=1_{I'}$. Hence, $f$ is an isomorphism.
+\end{proof}
+
+\begin{example}
+    Initial and terminal objects can be described as adjoints. Let $\cat{A}$ be a category. There is precisely one functor $\cat{A} \to \textbf{1}$. Also, a functor $ \textbf{1}\to\cat{A}$ is essentially just an object of $\cat{A}$. Viewing functors $ \textbf{1}\to\cat{A}$ as objects of $\cat{A}$, a left adjoint to $\cat{A}\to \textbf{1}$ is exactly an initial object of $\cat{A}$.\par
+    Similarly, a right adjoint to the unique functor $\cat{A}\to \textbf{1}$ is exactly a terminal object of $\cat{A}$.
+\end{example}
+
+\end{document}
