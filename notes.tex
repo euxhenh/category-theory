@@ -482,17 +482,17 @@ Consider a pair of functors in opposite directions, $F:\cat{A}\to\cat{B}$ and $G
 \end{definition}
 Naturally in $A\in\cat{A}$ and $B\in\cat{B}$ means that there is a specified bijection for each $A\in\cat{A}$ and $B\in\cat{B}$, and that it satisfies a naturality axiom. To state it, we need some notation. Given objects $A\in\cat{A}$ and $B\in\cat{B}$, the correspondence between maps $F(A)\to B$ and $A\to G(B)$ is denoted by a horizontal bar, in both directions:
 \begin{align*}
-    \big(F(A)\xrightarrow{g}B \big) &\mapsto \big(A\xrightarrow{\bar{g}}G(B) \big),\\
+    \big(F(A)\xrightarrow{g}B \big) &\mapsto \big(A\xrightarrow{\bar{g}}G(B) \big)\label{eq:nat1},\\
     \big(F(A)\xrightarrow{\bar{f}}B \big) &\mapsfrom \big(A \xrightarrow{f} G(B) \big).
 \end{align*}
 So $\bar{\bar{f}}=f$ and $\bar{\bar{g}}=g$. We call $\bar{f}$ the \textbf{transpose} of $f$, and similarly for $g$. The naturality axiom has two parts:
-\begin{equation*}
+\begin{equation}\label{eq:naturality1}
     \overline{\big( F(A)\xrightarrow{g} B\xrightarrow{q} B' \big)} = \big( A\xrightarrow{\bar{g}} G(B) \xrightarrow{G(q)} G(B') \big)
-\end{equation*}
+\end{equation}
 (that is, $\overline{q\circ g}=G(q)\circ\bar{g}$) for all $g$ and $q$, and
-\begin{equation*}
+\begin{equation}\label{eq:naturality2}
     \overline{\big(A' \xrightarrow{p} A \xrightarrow{f} G(B) \big)} = \big(F(A') \xrightarrow{F(p)} F(A) \xrightarrow{\bar{f}} B\big)
-\end{equation*}
+\end{equation}
 for all $p$ and $f$.\par
     A given functor $G$ may or may not have a left adjoint, but if it does, it is unique up to isomorphism. Same goes for right adjoints.
 
@@ -580,4 +580,113 @@ for all $p$ and $f$.\par
     Similarly, a right adjoint to the unique functor $\cat{A}\to \textbf{1}$ is exactly a terminal object of $\cat{A}$.
 \end{example}
 
+\begin{remark}
+    Adjunctions can be composed. Take adjunctions
+    \begin{equation*}
+    \begin{tikzcd}
+        \cat{A}
+        \arrow[r, shift left=2, "F"] &
+        \cat{A'}
+        \arrow[l, shift left=2, "G", "\bot"'] \arrow[r, shift left=2, "F'"] &
+        \cat{A''.}
+        \arrow[l, shift left=2, "G'", "\bot"']
+    \end{tikzcd}
+    \end{equation*}
+    Then we obtain an adjunction
+    \begin{equation*}
+    \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F'\circ F"] &
+        \cat{A''.} \arrow[l, shift left=2, "G\circ G'", "\bot"'] \
+    \end{tikzcd}
+    \end{equation*}
+\end{remark}
+
+\subsection{Adjunctions via units and counits}
+    To start building the theory of adjoint functors, we have to take seriously the naturality reqiurement. Suppose we have maps
+    \begin{equation*}
+    \begin{tikzcd}
+        F(A) \arrow[r, "g"] & B \arrow[r, "q"] & B'
+    \end{tikzcd}
+    \end{equation*}
+    in $\cat{B}$. We can either compose and take the transpose, which produces a map $\overline{q\circ g}: A\to G(B')$, or take the trasnpose of $g$ then compose it with $G(q)$, which produces $G(q)\circ\bar{g}: A\to G(B')$. The first naturality equation says that they are equal.\par
+    For each $A\in\cat{A}$, we have a map
+    \begin{equation}\label{eq:eta}
+        \big(A\xrightarrow{\eta_A} GF(A)\big) = \overline{\big(F(A)\xrightarrow{1} F(A)\big)}.
+    \end{equation}
+    Dually, for each $B\in\cat{B}$, we have a map
+    \begin{equation}\label{eq:eps}
+        \big(FG(B)\xrightarrow{\epsilon_B} B\big) = \overline{\big(G(B)\xrightarrow{1} G(B)\big)}.
+    \end{equation}
+    These define natural transformations
+    \begin{equation*}
+        \eta: 1_{\cat{A}}\to G\circ F,\qquad\epsilon: F\circ G\to 1_{\cat{B}},
+    \end{equation*}
+    called the \textbf{unit} and \textbf{counit} of the adjunction, respectively.
+\begin{example}
+    Take the usual adjunction \begin{tikzcd}
+        \bcat{Vect}_k \arrow[r, shift left=2, "U"] &
+        \bcat{Set} \arrow[l, shift left=2, "F", "\top"']
+    \end{tikzcd}. Its unit $\eta: 1_{\bcat{Set}}\to U\circ F$ has components
+    \begin{align*}
+        \eta_S : S &\to UF(S) = \{\text{formal $k$-linear sums} \sum_{s\in S}\lambda_s s\} \\
+        s & \mapsto \qquad s
+    \end{align*}
+    ($S\in\bcat{Set}$). The component of the counit $\epsilon$ at a vector space $V$ is the linear map
+    $$\epsilon_V: FU(V)\to V$$
+    that sends a \textit{formal} linear sum $\sum_{v\in V}\lambda_v v$ to its \textit{actual} value in $V$.\par
+    The vector space $FU(V)$ is enormous. For instance, if $k=\mathbb{R}$ and $V$ is the vector space $\mathbb{R}^2$, then $U(V)$ is the set $\mathbb{R}^2$ and $FU(V)$ is a vector space with one basis element for every element of $\mathbb{R}^2$; thus, it is uncountably infinite-dimensional. Then $\epsilon_V$ is a map from this infinite-dimensional space to the 2-dimensional space $V$.
+\end{example}
+
+\begin{lemma}\label{lemma:adjunction}
+    Given an adjunction $F\dashv G$ with unit $\eta$ and counit $\epsilon$, the triangles
+    \begin{equation*}
+    \begin{tikzcd}
+        F \arrow[r, "F\eta"] \arrow[dr, "1_F"'] & FGF \arrow[d, "\epsilon F"] \\
+        & F
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+        G \arrow[r, "\eta G"] \arrow[dr, "1_G"'] & GFG \arrow[d, "G\epsilon"] \\
+        & G
+    \end{tikzcd}
+    \end{equation*}
+    commute.
+\end{lemma}
+\begin{remark}
+    These are called the \textbf{triangle identities}. An equivalent statement is that the triangles
+    \begin{equation}\label{lemma:adjunction_equiv}
+    \begin{tikzcd}
+        F(A) \arrow[r, "F(\eta_A)"] \arrow[dr, "1_{F(A)}"'] & FGF(A) \arrow[d, "\epsilon_{F(A)}"] \\
+        & F(A)
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+        G(B) \arrow[r, "\eta_{G(B)}"] \arrow[dr, "1_{G(B)}"'] & GFG(B) \arrow[d, "G(\epsilon_B)"] \\
+        & G(B)
+    \end{tikzcd}
+    \end{equation}
+    commute for all $A\in\cat{A}$ and $B\in\cat{B}$.
+\end{remark}
+\begin{proof}[Proof of Lemma \ref{lemma:adjunction}]
+    We prove that the triangles (\ref{lemma:adjunction_equiv}) commute. Let $A\in\cat{A}$. From (\ref{eq:eps}) we know that $\overline{1_{GF(A)}}=\epsilon_{F(A)}$ and from (\ref{eq:eta}) we know that $\eta_A = \overline{1_{F(A)}}$, i.e., $\overline{\eta_A}=\overline{\overline{1_{F(A)}}}=1_{F(A)}$. We can express $\overline{\big( A\xrightarrow{\eta_A}GF(A)\big)}$ as $\overline{\big( A\xrightarrow{\eta_A} GF(A) \xrightarrow{1} GF(A) \big)}$ where we just extended $GF(A)$ by the identity arrow. Then from the second part of the naturality axiom (\ref{eq:naturality2}) we get
+    \begin{equation*}
+        \overline{\big( A\xrightarrow{\eta_A} GF(A) \xrightarrow{1} GF(A) \big)} = \big( F(A) \xrightarrow{F(\eta_A)} FGF(A) \xrightarrow{\epsilon_{F(A)}} F(A) \big).
+    \end{equation*}
+    But the left-hand side is $\overline{\eta_A}=1_{F(A)}$, proving the first identity. The second follows by duality.
+\end{proof}
+
+\begin{lemma}
+    Let \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd} be an adjunction, with unit $\eta$ and counit $\epsilon$. Then
+    \begin{equation*}
+        \bar{g} = G(g)\circ \eta_A
+    \end{equation*}
+    for any $g: F(A)\to B$, and
+    \begin{equation*}
+        \bar{f} = \epsilon_B\circ F(f)
+    \end{equation*}
+    for any $f: A\to G(B)$.
+\end{lemma}
 \end{document}
