@@ -477,7 +477,9 @@ Consider a pair of functors in opposite directions, $F:\cat{A}\to\cat{B}$ and $G
     Let \begin{tikzcd}
         \cat{A} \arrow[r, shift left, "F"] & \cat{B} \arrow[l, shift left, "G"] 
     \end{tikzcd} be categories and functors. We say that $F$ is \textbf{left adjoint} to $G$, and $G$ is \textbf{right adjoint} to $F$, and write $F\dashv G$, if
-    $$\cat{B}(F(A), B)\cong \cat{A}(A, G(B))$$
+    \begin{equation}\label{eq:adjoint_def}
+        \cat{B}(F(A), B)\cong \cat{A}(A, G(B))
+    \end{equation}
     naturally in $A\in\cat{A}$ and $B\in\cat{B}$.
 \end{definition}
 Naturally in $A\in\cat{A}$ and $B\in\cat{B}$ means that there is a specified bijection for each $A\in\cat{A}$ and $B\in\cat{B}$, and that it satisfies a naturality axiom. To state it, we need some notation. Given objects $A\in\cat{A}$ and $B\in\cat{B}$, the correspondence between maps $F(A)\to B$ and $A\to G(B)$ is denoted by a horizontal bar, in both directions:
@@ -654,7 +656,7 @@ for all $p$ and $f$.\par
 \end{lemma}
 \begin{remark}
     These are called the \textbf{triangle identities}. An equivalent statement is that the triangles
-    \begin{equation}\label{lemma:adjunction_equiv}
+    \begin{equation}\label{lemma:triangle_identities}
     \begin{tikzcd}
         F(A) \arrow[r, "F(\eta_A)"] \arrow[dr, "1_{F(A)}"'] & FGF(A) \arrow[d, "\epsilon_{F(A)}"] \\
         & F(A)
@@ -668,7 +670,7 @@ for all $p$ and $f$.\par
     commute for all $A\in\cat{A}$ and $B\in\cat{B}$.
 \end{remark}
 \begin{proof}[Proof of Lemma \ref{lemma:adjunction}]
-    We prove that the triangles (\ref{lemma:adjunction_equiv}) commute. Let $A\in\cat{A}$. From (\ref{eq:eps}) we know that $\overline{1_{GF(A)}}=\epsilon_{F(A)}$ and from (\ref{eq:eta}) we know that $\eta_A = \overline{1_{F(A)}}$, i.e., $\overline{\eta_A}=\overline{\overline{1_{F(A)}}}=1_{F(A)}$. We can express $\overline{\big( A\xrightarrow{\eta_A}GF(A)\big)}$ as $\overline{\big( A\xrightarrow{\eta_A} GF(A) \xrightarrow{1} GF(A) \big)}$ where we just extended $GF(A)$ by the identity arrow. Then from the second part of the naturality axiom (\ref{eq:naturality2}) we get
+    We prove that the triangles (\ref{lemma:triangle_identities}) commute. Let $A\in\cat{A}$. From (\ref{eq:eps}) we know that $\overline{1_{GF(A)}}=\epsilon_{F(A)}$ and from (\ref{eq:eta}) we know that $\eta_A = \overline{1_{F(A)}}$, i.e., $\overline{\eta_A}=\overline{\overline{1_{F(A)}}}=1_{F(A)}$. We can express $\overline{\big( A\xrightarrow{\eta_A}GF(A)\big)}$ as $\overline{\big( A\xrightarrow{\eta_A} GF(A) \xrightarrow{1} GF(A) \big)}$ where we just extended $GF(A)$ by the identity arrow. Then from the second part of the naturality axiom (\ref{eq:naturality2}) we get
     \begin{equation*}
         \overline{\big( A\xrightarrow{\eta_A} GF(A) \xrightarrow{1} GF(A) \big)} = \big( F(A) \xrightarrow{F(\eta_A)} FGF(A) \xrightarrow{\epsilon_{F(A)}} F(A) \big).
     \end{equation*}
@@ -689,4 +691,94 @@ for all $p$ and $f$.\par
     \end{equation*}
     for any $f: A\to G(B)$.
 \end{lemma}
+\begin{proof}
+    Let $g:F(A)\to B$. By using the naturality axiom (\ref{eq:naturality1}), we have
+    \begin{align*}
+        \overline{\big( F(A) \xrightarrow{g} B \big)} &= \overline{\big( F(A) \xrightarrow{1} F(A) \xrightarrow{g} B \big)} \\
+                                                      &= \big( A \xrightarrow{\eta} GF(A) \xrightarrow{G(g)} G(B) \big)
+    \end{align*}
+    which proves the first statement. The second follows by duality.
+\end{proof}
+
+\begin{theorem}\label{thm:adj_nat}
+    Take categories and functors \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd}. There is a one-to-one correspondence between:
+    \begin{enumerate}[label=(\alph*)]
+        \item adjunctions between $F$ and $G$ (with $F$ on the left and $G$ on the right)
+        \item pairs $\big( 1_{\cat{A}} \xrightarrow{\eta} GF, FG \xrightarrow{\epsilon} 1_{\cat{B}} \big)$ of natural transformations satisfying the triangle identities.
+    \end{enumerate}
+\end{theorem}
+
+\begin{example}
+    An adjunction between two ordered sets consists of order-preserving maps 
+    \begin{tikzcd}
+        A \arrow[r, shift left=1, "f"] &
+        B \arrow[l, shift left=1, "g"]
+    \end{tikzcd} such that
+    \begin{equation}\label{eq:poset_adj}
+        \forall a\in A, \forall b\in B, \qquad f(a)\leq b \Longleftrightarrow a\leq g(b).
+    \end{equation}
+    This is because each of the homsets in the definition of adjoints (\ref{eq:adjoint_def}) contains at most one element and for the isomorphism to hold, both homsets should either be empty or both contain a single arrow. Naturality axioms are trivially satisfied since any two maps with the same domain and codomain are equal in \textbf{PreOSet}.\par
+    The unit of the adjunction says that $a\leq gf(a)$ for all $a\in A$, and the counit says that $fg(b)\leq b$ for all $b\in B$. Theorem (\ref{thm:adj_nat}) states that (\ref{eq:poset_adj}) is equivalent to:
+    \begin{equation*}
+        \forall a\in A, a\leq gf(a) \quad \text{and} \quad \forall b\in B, fg(b)\leq b.
+    \end{equation*}
+\end{example}
+
+\begin{example}
+    Let $X$ be a topological space. Take the set $\mathcal{C}(X)$ of closed subsets of $X$ and the set $\mathcal{P}(X)$ of all subsets of $X$, both ordered by $\subseteq$. There are order-preserving maps
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathcal{P}(X) \arrow[r, shift left=1, "\text{Cl}"] &
+            \mathcal{C}(X) \arrow[l, shift left=1, "i"]
+        \end{tikzcd}
+    \end{equation*}
+    where $i$ is the inclusion map and Cl is the closure. This is an adjunction, with Cl left adjoint of $i$ as can be seen by
+    \begin{equation*}
+        \text{Cl}(A) \subseteq B \Longleftrightarrow A\subseteq B
+    \end{equation*}
+    for all $A\subseteq X$ and closed $B\subseteq X$.
+\end{example}
+
+\begin{remark}
+    An equivalence of categories is not necessarily an adjunction.
+\end{remark}
+\vspace{0.5cm}
+
+    The idea of an adjoint functor is best understood as an approximation of a possibly non-existent inverse. Any pair of adjoint functors, however, restricts to an equivalence of categories on subcategories. These subcategories are sometimes known as the \textbf{center of the adjunction}, and their objects are known as \textbf{fixed points} of the adjunction.\par
+    The equivalences of categories that arise from fixed points of adjunctions this way are often known as \textbf{dualities}.
+    \begin{definition}
+        Let \begin{tikzcd}
+            \cat{A} \arrow[r, shift left=2, "F"] &
+            \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+        \end{tikzcd} be a pair of adjoint functors. Say that an object $A\in\cat{A}$ is a fixed point of the adjunction if its adjunction unit is an isomorphism
+\begin{equation*}
+    A \xrightarrow[\cong]{\eta_A} GF(A)
+\end{equation*}
+and write $\cat{A}_{\text{fix}}$ for the full subcategory on these fixed objects. Similarly, an object $B\in\cat{B}$ is a fixed point of the adjunction if its adjunction unit is an isomorphism
+\begin{equation*}
+    FG(B) \xrightarrow[\cong]{\epsilon_B} B
+\end{equation*}
+and write $\cat{B}_{\text{fix}}$ for the full subcategory on these fixed objects.
+\end{definition}
+
+\begin{proposition}
+    The adjunction $(F,G,\eta,\epsilon)$ restricts to an adjoint equivalence $(F',G',\eta',\epsilon')$ on these full subcategories of fixed points
+    \begin{equation*}
+    \begin{tikzcd}
+        \cat{A}_{\text{fix}} \arrow[r, shift left=2, "F'"] &
+        \cat{B}_{\text{fix}} \arrow[l, shift left=2, "G'", "\bot"']
+    \end{tikzcd}
+    \end{equation*}
+\end{proposition}
+\begin{proof}
+    The restricted adjunction unit/counit are isomorphisms by definition. So in order to show that the functors exhibit an adjoint equivalence, it is sufficient to see that the functors restrict as claimed.\par
+    Hence we need to show that $F'(\cat{A}_{\text{fix}}) \subset  \cat{B}_{\text{fix}}$ and $G'(\cat{B}_{\text{fix}}) \subset \cat{A}_{\text{fix}}$. Consider the first of these.\par
+    Given some $A\in\cat{A}_{\text{fix}}$ we need to show that $F'(A)\in\cat{B}_{\text{fix}}$, in other words we need to show that $\epsilon'_{F'(A)}$ is an isomorphism. But because $A\in\cat{A}_{\text{fix}}$, then $\eta'_A$ is an isomorphism. Functors preserve isomorphisms so $F'(\eta'_A)$ must be an isomorphism. Because inverses are unique and $\epsilon'_{F'(A)} \circ F'(\eta'_A) = 1_{F'(A)}$ by the triangle identities (\ref{lemma:triangle_identities}), the inverse of $F'(\eta'_A)$ must be $\epsilon'_{F'(A)}$ which means that $\epsilon'_{F'(A)}$ is itself an isomorphism.\par
+    The second statement follows by duality.
+\end{proof}
+
+    If the adjunction is idempotent, then the fixed objects in $\cat{A}$ are precisely those of the form $G(B)$, and dually the fixed objects in $\cat{B}$ are those of the form $F(A)$. This is essentially the definition of an idempotent adjunction.
 \end{document}
