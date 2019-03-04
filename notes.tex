@@ -604,26 +604,27 @@ for all $p$ and $f$.\par
 \end{remark}
 
 \subsection{Adjunctions via units and counits}
-    To start building the theory of adjoint functors, we have to take seriously the naturality reqiurement. Suppose we have maps
-    \begin{equation*}
-    \begin{tikzcd}
-        F(A) \arrow[r, "g"] & B \arrow[r, "q"] & B'
-    \end{tikzcd}
-    \end{equation*}
-    in $\cat{B}$. We can either compose and take the transpose, which produces a map $\overline{q\circ g}: A\to G(B')$, or take the trasnpose of $g$ then compose it with $G(q)$, which produces $G(q)\circ\bar{g}: A\to G(B')$. The first naturality equation says that they are equal.\par
-    For each $A\in\cat{A}$, we have a map
-    \begin{equation}\label{eq:eta}
-        \big(A\xrightarrow{\eta_A} GF(A)\big) = \overline{\big(F(A)\xrightarrow{1} F(A)\big)}.
-    \end{equation}
-    Dually, for each $B\in\cat{B}$, we have a map
-    \begin{equation}\label{eq:eps}
-        \big(FG(B)\xrightarrow{\epsilon_B} B\big) = \overline{\big(G(B)\xrightarrow{1} G(B)\big)}.
-    \end{equation}
-    These define natural transformations
-    \begin{equation*}
-        \eta: 1_{\cat{A}}\to G\circ F,\qquad\epsilon: F\circ G\to 1_{\cat{B}},
-    \end{equation*}
-    called the \textbf{unit} and \textbf{counit} of the adjunction, respectively.
+To start building the theory of adjoint functors, we have to take seriously the naturality reqiurement. Suppose we have maps
+\begin{equation*}
+\begin{tikzcd}
+    F(A) \arrow[r, "g"] & B \arrow[r, "q"] & B'
+\end{tikzcd}
+\end{equation*}
+in $\cat{B}$. We can either compose and take the transpose, which produces a map $\overline{q\circ g}: A\to G(B')$, or take the trasnpose of $g$ then compose it with $G(q)$, which produces $G(q)\circ\bar{g}: A\to G(B')$. The first naturality equation says that they are equal.\par
+For each $A\in\cat{A}$, we have a map
+\begin{equation}\label{eq:eta}
+    \big(A\xrightarrow{\eta_A} GF(A)\big) = \overline{\big(F(A)\xrightarrow{1} F(A)\big)}.
+\end{equation}
+Dually, for each $B\in\cat{B}$, we have a map
+\begin{equation}\label{eq:eps}
+    \big(FG(B)\xrightarrow{\epsilon_B} B\big) = \overline{\big(G(B)\xrightarrow{1} G(B)\big)}.
+\end{equation}
+These define natural transformations
+\begin{equation*}
+    \eta: 1_{\cat{A}}\to G\circ F,\qquad\epsilon: F\circ G\to 1_{\cat{B}},
+\end{equation*}
+called the \textbf{unit} and \textbf{counit} of the adjunction, respectively.
+
 \begin{example}
     Take the usual adjunction \begin{tikzcd}
         \bcat{Vect}_k \arrow[r, shift left=2, "U"] &
@@ -747,21 +748,21 @@ for all $p$ and $f$.\par
 \end{remark}
 \vspace{0.5cm}
 
-    The idea of an adjoint functor is best understood as an approximation of a possibly non-existent inverse. Any pair of adjoint functors, however, restricts to an equivalence of categories on subcategories. These subcategories are sometimes known as the \textbf{center of the adjunction}, and their objects are known as \textbf{fixed points} of the adjunction.\par
-    The equivalences of categories that arise from fixed points of adjunctions this way are often known as \textbf{dualities}.
-    \begin{definition}
-        Let \begin{tikzcd}
-            \cat{A} \arrow[r, shift left=2, "F"] &
-            \cat{B} \arrow[l, shift left=2, "G", "\bot"']
-        \end{tikzcd} be a pair of adjoint functors. Say that an object $A\in\cat{A}$ is a fixed point of the adjunction if its adjunction unit is an isomorphism
-\begin{equation*}
-    A \xrightarrow[\cong]{\eta_A} GF(A)
-\end{equation*}
-and write $\cat{A}_{\text{fix}}$ for the full subcategory on these fixed objects. Similarly, an object $B\in\cat{B}$ is a fixed point of the adjunction if its adjunction unit is an isomorphism
-\begin{equation*}
-    FG(B) \xrightarrow[\cong]{\epsilon_B} B
-\end{equation*}
-and write $\cat{B}_{\text{fix}}$ for the full subcategory on these fixed objects.
+The idea of an adjoint functor is best understood as an approximation of a possibly non-existent inverse. Any pair of adjoint functors, however, restricts to an equivalence of categories on subcategories. These subcategories are sometimes known as the \textbf{center of the adjunction}, and their objects are known as \textbf{fixed points} of the adjunction.\par
+The equivalences of categories that arise from fixed points of adjunctions this way are often known as \textbf{dualities}.
+\begin{definition}
+    Let \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd} be a pair of adjoint functors. Say that an object $A\in\cat{A}$ is a fixed point of the adjunction if its adjunction unit is an isomorphism
+    \begin{equation*}
+        A \xrightarrow[\cong]{\eta_A} GF(A)
+    \end{equation*}
+    and write $\cat{A}_{\text{fix}}$ for the full subcategory on these fixed objects. Similarly, an object $B\in\cat{B}$ is a fixed point of the adjunction if its adjunction unit is an isomorphism
+    \begin{equation*}
+        FG(B) \xrightarrow[\cong]{\epsilon_B} B
+    \end{equation*}
+    and write $\cat{B}_{\text{fix}}$ for the full subcategory on these fixed objects.
 \end{definition}
 
 \begin{proposition}
@@ -780,5 +781,80 @@ and write $\cat{B}_{\text{fix}}$ for the full subcategory on these fixed objects
     The second statement follows by duality.
 \end{proof}
 
-    If the adjunction is idempotent, then the fixed objects in $\cat{A}$ are precisely those of the form $G(B)$, and dually the fixed objects in $\cat{B}$ are those of the form $F(A)$. This is essentially the definition of an idempotent adjunction.
+If the adjunction is idempotent, then the fixed objects in $\cat{A}$ are precisely those of the form $G(B)$, and dually the fixed objects in $\cat{B}$ are those of the form $F(A)$. This is essentially the definition of an idempotent adjunction.
+
+\subsection{Adjunctions via initial objects}
+This third formulation of adjointness is probably the most common.\par
+Consider the adjunction
+\begin{equation*}
+\begin{tikzcd}
+    \bcat{Vect}_k \arrow[d, shift left=2, "U", "\dashv"'] \\
+    \bcat{Set.} \arrow[u, shift left=2, "F"]
+\end{tikzcd}
+\end{equation*}
+Let $S$ be a set. The universal property of $F(S)$, the vector space whose basis is $S$, is most commonly stated like this:\par
+
+\bigskip\noindent given a vector space $V$, any function $f:S\to V$ extends uniquely to a linear map $\bar{f}:F(S)\to V$.\par
+
+\bigskip Forgetful functors are often forgotten: in this statement '$f:S\to V$' should strictly speaking be '$f:S\to U(V)$'. The word 'extends' refers to the embedding
+\begin{align*}
+    \eta_S:\quad & S\to UF(S)\\
+            & s\mapsto s.
+\end{align*}
+In precise language the statement reads:\par\bigskip
+
+    for any $V\in\bcat{Vect}_k$ and $f\in\bcat{Set}(S,U(V))$, there is a unique $\bar{f}\in\bcat{Vect}_k(F(S),V)$ such that the diagram
+    \begin{equation}\label{eq:third_adj_def}
+    \begin{tikzcd}
+        S \arrow[r, "\eta_S"] \arrow[dr, "f"'] & U(F(S)) \arrow[d, "U(\bar{f})"] \\
+                                              & U(V)
+    \end{tikzcd}
+    \end{equation}
+    commutes.\par\bigskip
+
+In this section we show that this statement is equivalent to the statement that $F$ is left adjoint to $U$ with unit $\eta$.
+
+\begin{definition}
+    Given categories and functors
+    \begin{equation*}
+    \begin{tikzcd}
+        & \cat{B} \arrow[d, "Q"]\\
+        \cat{A} \arrow[r, "P"'] & \cat{C},
+    \end{tikzcd}
+    \end{equation*}
+    the \textbf{comma category} $(P\Rightarrow Q)$ (often written as $(P\downarrow Q)$) is the category defined as follows:
+    \begin{itemize}
+        \item objects are triples $(A,h,B)$ with $A\in\cat{A}, B\in\cat{B}$, and $h: P(A)\to Q(B)$ in $\cat{C}$;
+        \item maps $(A,h,B)\to (A',h',B')$ are pairs $(f:A\to A', g:B\to B')$ of maps such that the square
+            \begin{equation*}
+            \begin{tikzcd}
+                P(A) \arrow[r, "P(f)"] \arrow[d, "h"'] & P(A') \arrow[d, "h'"] \\
+                Q(B) \arrow[r, "Q(g)"'] & Q(B')
+            \end{tikzcd}
+            \end{equation*}
+            commutes.
+    \end{itemize}
+\end{definition}
+
+\begin{example}
+    Let $\cat{A}$ be a category and $A\in\cat{A}$. The \textbf{slice category} of $\cat{A}$ over $A$, denoted by $\cat{A}/A$, is the category whose objects are maps into $A$ and whose maps are commutative triangles. More precisely, an object is a pair $(X,h)$ with $X\in\cat{A}$ and $h:X\to A$ in $\cat{A}$, and a map $(X,h)\to (X',h')$ in $\cat{A}/A$ is a map $f: X\to X'$ in $\cat{A}$ making the triangle
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[rr, "f"] \arrow[dr, "h"'] && X' \arrow[dl, "h'"] \\
+        & A
+    \end{tikzcd}
+    \end{equation*}
+    commute.
+\end{example}
+Slice categories are a special case of comma categories. Functors $\bcat{1}\to\cat{A}$ are just objects of $\cat{A}$. Now, given an object $A$ of $\cat{A}$, consider the comma category $(1_{\cat{A}})\Rightarrow A$, as in the diagram
+    \begin{equation*}
+    \begin{tikzcd}
+        & \bcat{1} \arrow[d, "A"] \\
+        \cat{A} \arrow[r, "1_{\cat{A}}"'] & \cat{A}.
+    \end{tikzcd}
+    \end{equation*}
+    An object of $(1_{\cat{A}}\Rightarrow A)$ is in principle a triple $(X,h,B)$, with $X\in\cat{A}$, $B\in\bcat{1}$, and $h:X\to A$ in $\cat{A}$; but $\bcat{1}$ has only one object, so it is essentially just a pair $(X,h)$. Hence the comma category $(1_{\cat{A}}\Rightarrow A)$ has the same objects as the slice category $\cat{A}/A$ and one can check that is has the same maps too, so $\cat{A}/A\cong (1_{\cat{A}}\Rightarrow A)$.\par
+
+    Dually, there is \textbf{coslice category} $A/\cat{A}\cong (A\Rightarrow 1_{\cat{A}})$, whose objects are the maps out of $A$.
+
 \end{document}
