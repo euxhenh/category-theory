@@ -1,0 +1,453 @@
+\section{Adjoints}
+\subsection{Definition and examples}
+Consider a pair of functors in opposite directions, $F:\cat{A}\to\cat{B}$ and $G:\cat{B}\to\cat{A}$. Roughly speaking, $F$ is said to be a left adjoint to $G$ if, whenever $A\in\cat{A}$ and $B\in\cat{B}$, maps $F(A)\to B$ are essentially the same as maps $A\to G(B)$.
+
+\begin{definition}
+    Let \begin{tikzcd}
+        \cat{A} \arrow[r, shift left, "F"] & \cat{B} \arrow[l, shift left, "G"] 
+    \end{tikzcd} be categories and functors. We say that $F$ is \textbf{left adjoint} to $G$, and $G$ is \textbf{right adjoint} to $F$, and write $F\dashv G$, if
+    \begin{equation}\label{eq:adjoint_def}
+        \cat{B}(F(A), B)\cong \cat{A}(A, G(B))
+    \end{equation}
+    naturally in $A\in\cat{A}$ and $B\in\cat{B}$.
+\end{definition}
+Naturally in $A\in\cat{A}$ and $B\in\cat{B}$ means that there is a specified bijection for each $A\in\cat{A}$ and $B\in\cat{B}$, and that it satisfies a naturality axiom. To state it, we need some notation. Given objects $A\in\cat{A}$ and $B\in\cat{B}$, the correspondence between maps $F(A)\to B$ and $A\to G(B)$ is denoted by a horizontal bar, in both directions:
+\begin{align*}
+    \big(F(A)\xrightarrow{g}B \big) &\mapsto \big(A\xrightarrow{\bar{g}}G(B) \big)\label{eq:nat1},\\
+    \big(F(A)\xrightarrow{\bar{f}}B \big) &\mapsfrom \big(A \xrightarrow{f} G(B) \big).
+\end{align*}
+So $\bar{\bar{f}}=f$ and $\bar{\bar{g}}=g$. We call $\bar{f}$ the \textbf{transpose} of $f$, and similarly for $g$. The naturality axiom has two parts:
+\begin{equation}\label{eq:naturality1}
+    \overline{\big( F(A)\xrightarrow{g} B\xrightarrow{q} B' \big)} = \big( A\xrightarrow{\bar{g}} G(B) \xrightarrow{G(q)} G(B') \big)
+\end{equation}
+(that is, $\overline{q\circ g}=G(q)\circ\bar{g}$) for all $g$ and $q$, and
+\begin{equation}\label{eq:naturality2}
+    \overline{\big(A' \xrightarrow{p} A \xrightarrow{f} G(B) \big)} = \big(F(A') \xrightarrow{F(p)} F(A) \xrightarrow{\bar{f}} B\big)
+\end{equation}
+for all $p$ and $f$.\par
+    A given functor $G$ may or may not have a left adjoint, but if it does, it is unique up to isomorphism. Same goes for right adjoints.
+
+\begin{example}
+    Forgetful functors between categories of algebraic structures usually have left adjoints. For instance:
+    \item Let $k$ be a field. There is an adjunction
+        \begin{equation*}
+        \begin{tikzcd}
+            \bcat{Vect}_k \arrow[d, shift left=2, "U"] \\
+            \bcat{Set,} \arrow[u, shift left=3, "F", "\dashv"'] \
+        \end{tikzcd}
+        \end{equation*}
+    where $U$ is the forgetful functor and $F$ is the free functor. Adjointness says that given a set $S$ and a vector space $V$, a linear map $F(S)\to V$ is essentially the same thing as a function $S\to U(V)$.\par
+    Fix a set $S$ and a vector space $V$. Given a linear map $g:F(S)\to V$, we may define a map of sets $\bar{g}: S\to U(V)$ by $\bar{g}(s)=g(s)$ for all $s\in S$. This gives a function
+    \begin{align*}
+    \bcat{Vect}_k(F(S),V) &\to \bcat{Set}(S,U(V))\\
+        g &\mapsto \bar{g}.
+    \end{align*}
+    In the other direction, given a map of sets $f:S\to U(V)$, we may define a linear map $\bar{f}:F(S)\to V$ by $\bar{f}\Big( \sum_{s\in S}\lambda_s s\Big) =\sum_{s\in S}\lambda_sf(s)$ for all formal linear combinations $\sum \lambda_s s\in F(S)$. This gives a function
+    \begin{align*}
+        \bcat{Set}(S, U(V)) &\to \bcat{Vect}_k(F(S), V) \\
+        f &\mapsto \bar{f}.
+    \end{align*}
+    These two functions 'bar' are mutually inverse: for any linear map $g:F(S)\to V$, we have
+    $$\bar{\bar{g}}\Bigg( \sum\limits_{s\in S} \lambda_s s \Bigg) = \sum\limits_{s\in S} \lambda_s \bar{g}(s) = \sum\limits_{s\in S} \lambda_s g(s) = g\Bigg( \sum\limits_{s\in S} \lambda_s s \Bigg)$$
+    for all $\sum \lambda_s s \in F(S)$, so $\bar{\bar{g}}=g$, and for any map of sets $f: S\to U(V)$, we have
+    $$\bar{\bar{f}}(s)=\bar{f}(s)=f(s)$$
+    for all $s\in S$, so $\bar{\bar{f}}=f$. We therefore have a canonical bijection between $\bcat{Vect}_k(F(S), V)$ and $\bcat{Set}(S, U(V)$ for each $S\in \bcat{Set}$ and $V\in \bcat{Vect}_k$, as required.
+\end{example}
+\begin{remark}
+    Note that we are using $(\bar{\cdot})$ for both directions. With a little care, the notation becomes clear and useful.
+\end{remark}
+\begin{example}
+    There are adjunctions
+    \begin{equation*}
+    \begin{tikzcd}
+        \bcat{Top} \arrow[dd, "U" description] \\ \\
+        \bcat{Set} \arrow[uu, shift left=6, "D", "\dashv"'] \arrow[uu, shift right=6, "I"', "\dashv"]
+    \end{tikzcd}
+    \end{equation*}
+    where $U$ sends a space to its set of points, $D$ equips a set with the discrete topology, and $I$ equips a set with the indiscrete topology.
+\end{example}
+\begin{example}
+    Given sets $A$ and $B$, we can form their (cartesian) product $A\times B$. We can also form the set $B^A$ of functions from $A$ to $B$. This is the same as the set $\textbf{Set}(A,B)$, but we tend to use the notattion $B^A$ when we want to emphasize that it is an object of the same category as $A$ and $B$.\par
+    Now fix a set $B$. Taking the product with $B$ defines a functor
+    \begin{align*}
+        \_\times B: \bcat{Set} &\to \bcat{Set} \\
+        A &\mapsto A\times B.
+    \end{align*}
+    There is also a functor
+    \begin{align*}
+        (\_)^B: \bcat{Set} &\to \bcat{Set} \\
+        C &\mapsto C^B.
+    \end{align*}
+    Moreover, there is a canonical bijection
+    $$ \textbf{Set}(A\times B, C) \cong \textbf{Set}(A, C^B)$$
+    for any sets $A$ and $C$. It is defined by simply changing the punctuation: given a map $g:A\times B\to C$, define $\bar{g}: A\to C^B$ by
+    $$(\bar{g}(a))(b) = g(a,b)$$
+    $(a\in A, b\in B)$, and in the other direction, given $f:A\to C^B$, define $\bar{f}:A\times B\to C$ by
+    $$\bar{f}(a,b)=(f(a))(b)$$
+    $(a\in A, b\in B)$. Putting all this together, we obtain an adjunction
+    \begin{equation*}
+    \begin{tikzcd}
+        \bcat{Set} \arrow[d, shift left=2, "(\_)^B"] \\
+        \bcat{Set} \arrow[u, shift left=2, "\_\times B", "\dashv"']
+    \end{tikzcd}
+    \end{equation*}
+    for every set $B$.
+\end{example}
+
+\begin{definition}
+    Let $\cat{A}$ be a category. An object $I\in\cat{A}$ is \textbf{initial} if for every $A\in\cat{A}$, there is exactly one map $I\to A$. An object $T\in\cat{A}$ is \textbf{terminal} if for every $A\in\cat{A}$, there is exactly one map $A\to T$.
+\end{definition}
+    For example, the empty set is initial in $\bcat{Set}$, the trivial group is initial in $\bcat{Grp}$, and $\mathbb{Z}$ is initial in $\bcat{Ring}$. The one-element set is terminal in $\bcat{Set}$, the trivial group is terminal (as well as initial) in $\bcat{Grp}$, and the trivial (one-element) ring is terminal in $\bcat{Ring}$.\par
+    A category need not have an initial object, but if it does have one, it is unique up to isomorphism.
+\begin{lemma}
+    Let $I$ and $I'$ be initial objects of a category. Then there is a unique isomorphism $I\to I'$. In particular, $I\cong I'$.
+\end{lemma}
+\begin{proof}
+    Since $I$ is initial, there is a unique map $f: I\to I'$. Since $I'$ is initial, there is a unique map $f':I'\to I$. Now $f'\circ f$ and $1_I$ are both maps $I\to I$, and $I$ is initial, so $f'\circ f=1_I$. Similarly, $f\circ f'=1_{I'}$. Hence, $f$ is an isomorphism.
+\end{proof}
+
+\begin{example}
+    Initial and terminal objects can be described as adjoints. Let $\cat{A}$ be a category. There is precisely one functor $\cat{A} \to \textbf{1}$. Also, a functor $ \textbf{1}\to\cat{A}$ is essentially just an object of $\cat{A}$. Viewing functors $ \textbf{1}\to\cat{A}$ as objects of $\cat{A}$, a left adjoint to $\cat{A}\to \textbf{1}$ is exactly an initial object of $\cat{A}$.\par
+    Similarly, a right adjoint to the unique functor $\cat{A}\to \textbf{1}$ is exactly a terminal object of $\cat{A}$.
+\end{example}
+
+\begin{remark}
+    Adjunctions can be composed. Take adjunctions
+    \begin{equation*}
+    \begin{tikzcd}
+        \cat{A}
+        \arrow[r, shift left=2, "F"] &
+        \cat{A'}
+        \arrow[l, shift left=2, "G", "\bot"'] \arrow[r, shift left=2, "F'"] &
+        \cat{A''.}
+        \arrow[l, shift left=2, "G'", "\bot"']
+    \end{tikzcd}
+    \end{equation*}
+    Then we obtain an adjunction
+    \begin{equation*}
+    \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F'\circ F"] &
+        \cat{A''.} \arrow[l, shift left=2, "G\circ G'", "\bot"'] \
+    \end{tikzcd}
+    \end{equation*}
+\end{remark}
+
+\subsection{Adjunctions via units and counits}
+To start building the theory of adjoint functors, we have to take seriously the naturality reqiurement. Suppose we have maps
+\begin{equation*}
+\begin{tikzcd}
+    F(A) \arrow[r, "g"] & B \arrow[r, "q"] & B'
+\end{tikzcd}
+\end{equation*}
+in $\cat{B}$. We can either compose and take the transpose, which produces a map $\overline{q\circ g}: A\to G(B')$, or take the trasnpose of $g$ then compose it with $G(q)$, which produces $G(q)\circ\bar{g}: A\to G(B')$. The first naturality equation says that they are equal.\par
+For each $A\in\cat{A}$, we have a map
+\begin{equation}\label{eq:eta}
+    \big(A\xrightarrow{\eta_A} GF(A)\big) = \overline{\big(F(A)\xrightarrow{1} F(A)\big)}.
+\end{equation}
+Dually, for each $B\in\cat{B}$, we have a map
+\begin{equation}\label{eq:eps}
+    \big(FG(B)\xrightarrow{\epsilon_B} B\big) = \overline{\big(G(B)\xrightarrow{1} G(B)\big)}.
+\end{equation}
+These define natural transformations
+\begin{equation*}
+    \eta: 1_{\cat{A}}\to G\circ F,\qquad\epsilon: F\circ G\to 1_{\cat{B}},
+\end{equation*}
+called the \textbf{unit} and \textbf{counit} of the adjunction, respectively.
+
+\begin{example}
+    Take the usual adjunction \begin{tikzcd}
+        \bcat{Vect}_k \arrow[r, shift left=2, "U"] &
+        \bcat{Set} \arrow[l, shift left=2, "F", "\top"']
+    \end{tikzcd}. Its unit $\eta: 1_{\bcat{Set}}\to U\circ F$ has components
+    \begin{align*}
+        \eta_S : S &\to UF(S) = \{\text{formal $k$-linear sums} \sum_{s\in S}\lambda_s s\} \\
+        s & \mapsto \qquad s
+    \end{align*}
+    ($S\in\bcat{Set}$). The component of the counit $\epsilon$ at a vector space $V$ is the linear map
+    $$\epsilon_V: FU(V)\to V$$
+    that sends a \textit{formal} linear sum $\sum_{v\in V}\lambda_v v$ to its \textit{actual} value in $V$.\par
+    The vector space $FU(V)$ is enormous. For instance, if $k=\mathbb{R}$ and $V$ is the vector space $\mathbb{R}^2$, then $U(V)$ is the set $\mathbb{R}^2$ and $FU(V)$ is a vector space with one basis element for every element of $\mathbb{R}^2$; thus, it is uncountably infinite-dimensional. Then $\epsilon_V$ is a map from this infinite-dimensional space to the 2-dimensional space $V$.
+\end{example}
+
+\begin{lemma}\label{lemma:adjunction}
+    Given an adjunction $F\dashv G$ with unit $\eta$ and counit $\epsilon$, the triangles
+    \begin{equation*}
+    \begin{tikzcd}
+        F \arrow[r, "F\eta"] \arrow[dr, "1_F"'] & FGF \arrow[d, "\epsilon F"] \\
+        & F
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+        G \arrow[r, "\eta G"] \arrow[dr, "1_G"'] & GFG \arrow[d, "G\epsilon"] \\
+        & G
+    \end{tikzcd}
+    \end{equation*}
+    commute.
+\end{lemma}
+\begin{remark}
+    These are called the \textbf{triangle identities}. An equivalent statement is that the triangles
+    \begin{equation}\label{lemma:triangle_identities}
+    \begin{tikzcd}
+        F(A) \arrow[r, "F(\eta_A)"] \arrow[dr, "1_{F(A)}"'] & FGF(A) \arrow[d, "\epsilon_{F(A)}"] \\
+        & F(A)
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+        G(B) \arrow[r, "\eta_{G(B)}"] \arrow[dr, "1_{G(B)}"'] & GFG(B) \arrow[d, "G(\epsilon_B)"] \\
+        & G(B)
+    \end{tikzcd}
+    \end{equation}
+    commute for all $A\in\cat{A}$ and $B\in\cat{B}$.
+\end{remark}
+\begin{proof}[Proof of Lemma \ref{lemma:adjunction}]
+    We prove that the triangles (\ref{lemma:triangle_identities}) commute. Let $A\in\cat{A}$. From (\ref{eq:eps}) we know that $\overline{1_{GF(A)}}=\epsilon_{F(A)}$ and from (\ref{eq:eta}) we know that $\eta_A = \overline{1_{F(A)}}$, i.e., $\overline{\eta_A}=\overline{\overline{1_{F(A)}}}=1_{F(A)}$. We can express $\overline{\big( A\xrightarrow{\eta_A}GF(A)\big)}$ as $\overline{\big( A\xrightarrow{\eta_A} GF(A) \xrightarrow{1} GF(A) \big)}$ where we just extended $GF(A)$ by the identity arrow. Then from the second part of the naturality axiom (\ref{eq:naturality2}) we get
+    \begin{equation*}
+        \overline{\big( A\xrightarrow{\eta_A} GF(A) \xrightarrow{1} GF(A) \big)} = \big( F(A) \xrightarrow{F(\eta_A)} FGF(A) \xrightarrow{\epsilon_{F(A)}} F(A) \big).
+    \end{equation*}
+    But the left-hand side is $\overline{\eta_A}=1_{F(A)}$, proving the first identity. The second follows by duality.
+\end{proof}
+
+\begin{lemma}\label{lemma:adjunction_composition}
+    Let \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd} be an adjunction, with unit $\eta$ and counit $\epsilon$. Then
+    \begin{equation*}
+        \bar{g} = G(g)\circ \eta_A
+    \end{equation*}
+    for any $g: F(A)\to B$, and
+    \begin{equation*}
+        \bar{f} = \epsilon_B\circ F(f)
+    \end{equation*}
+    for any $f: A\to G(B)$.
+\end{lemma}
+\begin{proof}
+    Let $g:F(A)\to B$. By using the naturality axiom (\ref{eq:naturality1}), we have
+    \begin{align*}
+        \overline{\big( F(A) \xrightarrow{g} B \big)} &= \overline{\big( F(A) \xrightarrow{1} F(A) \xrightarrow{g} B \big)} \\
+                                                      &= \big( A \xrightarrow{\eta} GF(A) \xrightarrow{G(g)} G(B) \big)
+    \end{align*}
+    which proves the first statement. The second follows by duality.
+\end{proof}
+
+\begin{theorem}\label{thm:adj_nat}
+    Take categories and functors \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd}. There is a one-to-one correspondence between:
+    \begin{enumerate}[label=(\alph*)]
+        \item adjunctions between $F$ and $G$ (with $F$ on the left and $G$ on the right)
+        \item pairs $\big( 1_{\cat{A}} \xrightarrow{\eta} GF, FG \xrightarrow{\epsilon} 1_{\cat{B}} \big)$ of natural transformations satisfying the triangle identities.
+    \end{enumerate}
+\end{theorem}
+
+\begin{example}
+    An adjunction between two ordered sets consists of order-preserving maps 
+    \begin{tikzcd}
+        A \arrow[r, shift left=1, "f"] &
+        B \arrow[l, shift left=1, "g"]
+    \end{tikzcd} such that
+    \begin{equation}\label{eq:poset_adj}
+        \forall a\in A, \forall b\in B, \qquad f(a)\leq b \Longleftrightarrow a\leq g(b).
+    \end{equation}
+    This is because each of the homsets in the definition of adjoints (\ref{eq:adjoint_def}) contains at most one element and for the isomorphism to hold, both homsets should either be empty or both contain a single arrow. Naturality axioms are trivially satisfied since any two maps with the same domain and codomain are equal in \textbf{PreOSet}.\par
+    The unit of the adjunction says that $a\leq gf(a)$ for all $a\in A$, and the counit says that $fg(b)\leq b$ for all $b\in B$. Theorem (\ref{thm:adj_nat}) states that (\ref{eq:poset_adj}) is equivalent to:
+    \begin{equation*}
+        \forall a\in A, a\leq gf(a) \quad \text{and} \quad \forall b\in B, fg(b)\leq b.
+    \end{equation*}
+\end{example}
+
+\begin{example}
+    Let $X$ be a topological space. Take the set $\mathcal{C}(X)$ of closed subsets of $X$ and the set $\mathcal{P}(X)$ of all subsets of $X$, both ordered by $\subseteq$. There are order-preserving maps
+    \begin{equation*}
+        \begin{tikzcd}
+            \mathcal{P}(X) \arrow[r, shift left=1, "\text{Cl}"] &
+            \mathcal{C}(X) \arrow[l, shift left=1, "i"]
+        \end{tikzcd}
+    \end{equation*}
+    where $i$ is the inclusion map and Cl is the closure. This is an adjunction, with Cl left adjoint of $i$ as can be seen by
+    \begin{equation*}
+        \text{Cl}(A) \subseteq B \Longleftrightarrow A\subseteq B
+    \end{equation*}
+    for all $A\subseteq X$ and closed $B\subseteq X$.
+\end{example}
+
+\begin{remark}
+    An equivalence of categories is not necessarily an adjunction.
+\end{remark}
+\vspace{0.5cm}
+
+The idea of an adjoint functor is best understood as an approximation of a possibly non-existent inverse. Any pair of adjoint functors, however, restricts to an equivalence of categories on subcategories. These subcategories are sometimes known as the \textbf{center of the adjunction}, and their objects are known as \textbf{fixed points} of the adjunction.\par
+The equivalences of categories that arise from fixed points of adjunctions this way are often known as \textbf{dualities}.
+\begin{definition}
+    Let \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd} be a pair of adjoint functors. Say that an object $A\in\cat{A}$ is a fixed point of the adjunction if its adjunction unit is an isomorphism
+    \begin{equation*}
+        A \xrightarrow[\cong]{\eta_A} GF(A)
+    \end{equation*}
+    and write $\cat{A}_{\text{fix}}$ for the full subcategory on these fixed objects. Similarly, an object $B\in\cat{B}$ is a fixed point of the adjunction if its adjunction unit is an isomorphism
+    \begin{equation*}
+        FG(B) \xrightarrow[\cong]{\epsilon_B} B
+    \end{equation*}
+    and write $\cat{B}_{\text{fix}}$ for the full subcategory on these fixed objects.
+\end{definition}
+
+\begin{proposition}
+    The adjunction $(F,G,\eta,\epsilon)$ restricts to an adjoint equivalence $(F',G',\eta',\epsilon')$ on these full subcategories of fixed points
+    \begin{equation*}
+    \begin{tikzcd}
+        \cat{A}_{\text{fix}} \arrow[r, shift left=2, "F'"] &
+        \cat{B}_{\text{fix}} \arrow[l, shift left=2, "G'", "\bot"']
+    \end{tikzcd}
+    \end{equation*}
+\end{proposition}
+\begin{proof}
+    The restricted adjunction unit/counit are isomorphisms by definition. So in order to show that the functors exhibit an adjoint equivalence, it is sufficient to see that the functors restrict as claimed.\par
+    Hence we need to show that $F'(\cat{A}_{\text{fix}}) \subset  \cat{B}_{\text{fix}}$ and $G'(\cat{B}_{\text{fix}}) \subset \cat{A}_{\text{fix}}$. Consider the first of these.\par
+    Given some $A\in\cat{A}_{\text{fix}}$ we need to show that $F'(A)\in\cat{B}_{\text{fix}}$, in other words we need to show that $\epsilon'_{F'(A)}$ is an isomorphism. But because $A\in\cat{A}_{\text{fix}}$, then $\eta'_A$ is an isomorphism. Functors preserve isomorphisms so $F'(\eta'_A)$ must be an isomorphism. Because inverses are unique and $\epsilon'_{F'(A)} \circ F'(\eta'_A) = 1_{F'(A)}$ by the triangle identities (\ref{lemma:triangle_identities}), the inverse of $F'(\eta'_A)$ must be $\epsilon'_{F'(A)}$ which means that $\epsilon'_{F'(A)}$ is itself an isomorphism.\par
+    The second statement follows by duality.
+\end{proof}
+
+If the adjunction is idempotent, then the fixed objects in $\cat{A}$ are precisely those of the form $G(B)$, and dually the fixed objects in $\cat{B}$ are those of the form $F(A)$. This is essentially the definition of an idempotent adjunction.
+
+\subsection{Adjunctions via initial objects}
+This third formulation of adjointness is probably the most common.\par
+Consider the adjunction
+\begin{equation*}
+\begin{tikzcd}
+    \bcat{Vect}_k \arrow[d, shift left=2, "U", "\dashv"'] \\
+    \bcat{Set.} \arrow[u, shift left=2, "F"]
+\end{tikzcd}
+\end{equation*}
+Let $S$ be a set. The universal property of $F(S)$, the vector space whose basis is $S$, is most commonly stated like this:\par
+
+\bigskip\noindent given a vector space $V$, any function $f:S\to V$ extends uniquely to a linear map $\bar{f}:F(S)\to V$.\par
+
+\bigskip Forgetful functors are often forgotten: in this statement '$f:S\to V$' should strictly speaking be '$f:S\to U(V)$'. The word 'extends' refers to the embedding
+\begin{align*}
+    \eta_S:\quad & S\to UF(S)\\
+            & s\mapsto s.
+\end{align*}
+In precise language the statement reads:\par\bigskip
+
+    for any $V\in\bcat{Vect}_k$ and $f\in\bcat{Set}(S,U(V))$, there is a unique $\bar{f}\in\bcat{Vect}_k(F(S),V)$ such that the diagram
+    \begin{equation}\label{eq:third_adj_def}
+    \begin{tikzcd}
+        S \arrow[r, "\eta_S"] \arrow[dr, "f"'] & U(F(S)) \arrow[d, "U(\bar{f})"] \\
+                                              & U(V)
+    \end{tikzcd}
+    \end{equation}
+    commutes.\par\bigskip
+
+In this section we show that this statement is equivalent to the statement that $F$ is left adjoint to $U$ with unit $\eta$.
+
+\begin{definition}
+    Given categories and functors
+    \begin{equation*}
+    \begin{tikzcd}
+        & \cat{B} \arrow[d, "Q"]\\
+        \cat{A} \arrow[r, "P"'] & \cat{C},
+    \end{tikzcd}
+    \end{equation*}
+    the \textbf{comma category} $\comma{P}{Q}$ (often written as $(P\downarrow Q)$) is the category defined as follows:
+    \begin{itemize}
+        \item objects are triples $(A,h,B)$ with $A\in\cat{A}, B\in\cat{B}$, and $h: P(A)\to Q(B)$ in $\cat{C}$;
+        \item maps $(A,h,B)\to (A',h',B')$ are pairs $(f:A\to A', g:B\to B')$ of maps such that the square
+            \begin{equation*}
+            \begin{tikzcd}
+                P(A) \arrow[r, "P(f)"] \arrow[d, "h"'] & P(A') \arrow[d, "h'"] \\
+                Q(B) \arrow[r, "Q(g)"'] & Q(B')
+            \end{tikzcd}
+            \end{equation*}
+            commutes.
+    \end{itemize}
+\end{definition}
+
+\begin{example}
+    Let $\cat{A}$ be a category and $A\in\cat{A}$. The \textbf{slice category} of $\cat{A}$ over $A$, denoted by $\cat{A}/A$, is the category whose objects are maps into $A$ and whose maps are commutative triangles. More precisely, an object is a pair $(X,h)$ with $X\in\cat{A}$ and $h:X\to A$ in $\cat{A}$, and a map $(X,h)\to (X',h')$ in $\cat{A}/A$ is a map $f: X\to X'$ in $\cat{A}$ making the triangle
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[rr, "f"] \arrow[dr, "h"'] && X' \arrow[dl, "h'"] \\
+        & A
+    \end{tikzcd}
+    \end{equation*}
+    commute.
+\end{example}
+Slice categories are a special case of comma categories. Functors $\bcat{1}\to\cat{A}$ are just objects of $\cat{A}$. Now, given an object $A$ of $\cat{A}$, consider the comma category $\comma{1_{\cat{A}}}{A}$, as in the diagram
+    \begin{equation*}
+    \begin{tikzcd}
+        & \bcat{1} \arrow[d, "A"] \\
+        \cat{A} \arrow[r, "1_{\cat{A}}"'] & \cat{A}.
+    \end{tikzcd}
+    \end{equation*}
+    An object of $\comma{1_{\cat{A}}}{A}$ is in principle a triple $(X,h,B)$, with $X\in\cat{A}$, $B\in\bcat{1}$, and $h:X\to A$ in $\cat{A}$; but $\bcat{1}$ has only one object, so it is essentially just a pair $(X,h)$. Hence the comma category $\comma{1_{\cat{A}}}{A}$ has the same objects as the slice category $\cat{A}/A$ and one can check that is has the same maps too, so $\cat{A}/A\cong \comma{1_{\cat{A}}}{A}$.\par
+
+    Dually, there is \textbf{coslice category} $A/\cat{A}\cong \comma{A}{1_{\cat{A}}}$, whose objects are the maps out of $A$.\par
+
+\begin{example}
+    Let $G:\cat{B}\to\cat{A}$ be a functors and let $A\in\cat{A}$. We can form the comma category $\comma{A}{G}$, as in the diagram
+    \begin{equation*}
+    \begin{tikzcd}
+        & \cat{B} \arrow[d, "G"] \\
+        \bcat{1} \arrow[r, "A"'] & \cat{A}.
+    \end{tikzcd}
+    \end{equation*}
+Its objects are pairs $(B\in\cat{B}, f:A\to G(B))$. A map $(B,f)\to (B',f')$ in $\comma{A}{G}$ is a map $q:B\to B'$ in $\cat{B}$ making the triangle
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[r, "f"] \arrow[dr, "f'"'] & G(B) \arrow[d, "G(q)"] \\
+                                           & G(B')
+    \end{tikzcd}
+    \end{equation*}
+commute.
+
+\end{example}
+\bigskip We now make the connecton between comma categories and adjunctions.
+\begin{lemma}\label{lemma:unit_is_initial}
+    Take an adjunction \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd} and an object $A\in\cat{A}$. Then the unit map $\eta_A: A\to GF(A)$ is an initial object of $\comma{A}{G}$.
+\end{lemma}
+\begin{proof}
+    Take $(B,f)\in\comma{A}{G}$, where $B\in\cat{B}$ and $f:A\to G(B)$. We want to show that there exists a single map from $(F(A), \eta_A)$ to $(B,f)$. Such a map in $\comma{A}{G}$ is a map $q$ in $\cat{B}$ such that
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[r, "\eta_A"] \arrow[dr, "f"'] & GF(A) \arrow[d, "G(q)"]\\
+                                               & G(B)
+    \end{tikzcd}
+    \end{equation*}
+    commutes. By Lemma \ref{lemma:adjunction_composition}, we know that $G(q)\circ\eta_A=\bar{g}$. So the triangle above commutes if and only if $\bar{g}=f$ if and only if $g=\bar{f}$. Hence $\bar{f}$ is the unique map from $(F(A),\eta_A)$ to $(B,f)$.
+\end{proof}
+
+This leads us the the third formulation of adjointness.
+
+\begin{theorem}\label{thm:third_adj}
+    Take categories and functors \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd}. There is a one-to-one correspondence between:
+    \begin{enumerate}[label=(\alph*)]
+        \item adjunctions between $F$ and $G$;
+        \item natural transformations $\eta:1_{\cat{A}}\to GF$ such that $\eta_A:A\to GF(A)$ is initial in $\comma{A}{G}$ for every $A\in\cat{A}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Omitted.
+\end{proof}
+
+\begin{corollary}
+    Let $G:\cat{B}\to\cat{A}$ be a functor. Then $G$ has a left adjoint if and only if for each $A\in\cat{A}$, the category $\comma{A}{G}$ has an initial object.
+\end{corollary}
+\begin{proof}
+    We have already shown the 'only if' part from Lemma \ref{lemma:unit_is_initial}. Now choose for each $A\in\cat{A}$ an initial object of $\comma{A}{G}$ and call it $\big( F(A),\eta_A:A\to GF(A) \big)$. (Here $F(A)$ and $\eta_A$ are names we chose.) For each map $f:A\to A'$ in $\cat{A}$, let $F(f):F(A)\to F(A')$ be the unique map such that
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[r, "\eta_A"] \arrow[d, "f"'] & G(F(A)) \arrow[d, "G(F(f))"]\\
+        A' \arrow[r, "\eta_{A'}"'] & G(F(A'))
+    \end{tikzcd}
+    \end{equation*}
+    commutes. It is easily checked that $F$ is a functor $\cat{A}\to\cat{B}$, and the diagram tells us that $\eta$ is a natural transformation $1\to GF$. By Theorem \ref{thm:third_adj}, $F$ is left adjoint to $G$.
+\end{proof}

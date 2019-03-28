@@ -1,0 +1,63 @@
+\section{Limits}
+\subsection{Definition and examples}
+\begin{center}
+    \textbf{Products}
+\end{center}
+Let $X$ and $Y$ be sets. The familiar cartesian product $X\times Y$ consists of pairs of elements from $X$ and $Y$.
+
+\begin{definition}
+    Let $\cat{A}$ be a category and $X,Y\in\cat{A}$. A \textbf{product} of $X$ and $Y$ consists of an object $P$ and maps
+    \begin{equation*}
+    \begin{tikzcd}
+        & P \arrow[dl, "p_1"'] \arrow[dr, "p_2"] \\
+        X && Y
+    \end{tikzcd}
+    \end{equation*}
+    with the property that for all objects and maps
+    \begin{equation*}
+    \begin{tikzcd}
+        & A \arrow[dl, "f_1"'] \arrow[dr, "f_2"] \\
+        X && Y
+    \end{tikzcd}
+    \end{equation*}
+    in $\cat{A}$, there exists a unique map $\bar{f}:A\to P$ such that
+    \begin{equation*}
+    \begin{tikzcd}
+        & A \arrow[ddl, "f_1"'] \arrow[ddr, "f_2"] \arrow[d, dotted, "\bar{f}" description] \\
+        & P \arrow[dl, "p_1"] \arrow[dr, "p_2"'] \\
+        X && Y
+    \end{tikzcd}
+    \end{equation*}
+    commutes. The maps $p_1$ and $p_2$ are called the \textbf{projections}.
+\end{definition}
+
+\begin{example}
+    Any two sets $X$ and $Y$ have a product in \textbf{Set}, however, products do not always exist. It is easy to check that the usual cartesian product $X\times Y$, is really a product in the sense of the definition above.
+\end{example}
+
+\begin{example}
+    In the category of topological spaces, any two objects $X$ and $Y$ have a product. It is the set $X\times Y$ equipped with the product topology and the standard projection maps. The product topology is designed so that the function
+    \begin{align*}
+        A &\to X\times Y\\
+        t &\mapsto \big(x(t), y(t)\big)
+    \end{align*}
+    is continuous if and only if both functions
+    \begin{equation*}
+        t\mapsto x(t), \qquad t\mapsto y(t)
+    \end{equation*}
+    are continuous.\par
+
+    The product topology is the crudest topology on $X\times Y$ for which the projections are continuous. In this sense, if we have another topology $\mathcal{T}$ on $X\times Y$ such that $p_1$ and $p_2$ are continuous, then every subset of $X\times Y$ which is open in the product topology, is also open in $\mathcal{T}$. I.e., there exists a unique map from $\mathcal{T}$ to the product topology which is continuous.
+\end{example}
+
+\begin{example}
+    View the poset $(\mathbb{R}, \leq)$ as a category. Then the product of $x,y\in\mathbb{R}$ is $\min\{x,y\}$. Indeed, we have $\min\{x,y\}\leq x$ and $\min\{x,y\}\leq y$ and for all $a\in\mathbb{R}$ which satisfy $a\leq x$, and $a\leq y$, we must have $a\leq\min\{x,y\}$.
+\end{example}
+
+In a similar fashion, if $S$ is a set, one can view $X\cap Y$ as the product of $X,Y\in\powerset{S}$ in the poset $(\powerset{S}, \subseteq)$ regarded as a category. And $\gcd(x,y)$ as the product of $x,y\in\mathbb{N}$ in the poset $(\mathbb{N}, \vert)$ regarded as category.\par
+
+In general, when a poset is regarded as a category, meets are exactly products. They do not always exist, but when they do, they are unique.\par
+
+The product of a family of objects can be constructed in the most obvious way.\par
+
+Let $\cat{A}$ be a category, and consider an $I$-indexed family $(X_i)_{i\in I}$ of objects of $\cat{A}$ which is a function $I\to\text{ob}(\cat{A})$. The product of the empty family consists of an object $P$ of $\cat{A}$ such that for each object $A\in\cat{A}$, there exists a unique map $\bar{f}:A\to P$. (The commutativity conditions hold trivially.) In other words, a product of the empty family is exactly a terminal object.

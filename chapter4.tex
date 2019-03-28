@@ -1,0 +1,94 @@
+\section{Interlude on sets}
+\subsection{Constructions with sets}
+Sets and functions form a category, denoted by $\bcat{Set}$. The empty set, $\emptyset$, is an initial object of $\bcat{Set}$ and the one-element set, $1$, is a terminal object. Any two sets have a \textbf{product}, $A\times B$, and a \textbf{sum} $A+B$, also known as disjoint union written as $\sqcup$. For any two sets $A$ and $B$, we can form the set $A^B$ of functions from $B$ to $A$.\par
+
+Let $2$ be the set $1+1$ (two elements). Write the elements of $2$ as \texttt{true} and \texttt{false}.\par
+
+Let $A$ be a set. Given a subset $S$ of $A$, we obtain a function $\chi_S:A\to 2$ (the \textbf{characteristic function} of $S\subseteq A$), where
+\begin{equation*}
+    \chi_S(a) = \begin{cases}
+        \texttt{true} & \text{if } a\in S,\\
+        \texttt{false} & \text{if } a\notin S
+    \end{cases}
+\end{equation*}
+$(a\in A)$. Conversely, given a function $f:A\to 2$, we obtain a subset
+\begin{equation*}
+    f^{-1}\{\texttt{true}\} = \{a\in A\mid f(a)=\texttt{true}\}
+\end{equation*}
+of $A$. These two processes are mutually inverse; that is, $\chi_S$ is the unique function $f:A\to 2$ such that $f^{-1}\{\texttt{true}\}=S$. Hence:
+\begin{equation*}
+    \textit{Subsets of $A$ correspond one-to-one with functions } A\to 2.
+\end{equation*}
+Hence we can think of $2^A$ as the set of all subset of $A$, and call it the \textbf{power set} of $A$ and write it as $\mathcal{P}(A)$.\par
+
+\bigskip\noindent\textbf{Equalizers}: Given sets and functions \begin{tikzcd}
+    A \arrow[r, shift left=1, "f"] \arrow[r, shift right=1, "g"'] & B
+\end{tikzcd}, there is a set
+\begin{equation*}
+    \{ a\in A\mid f(a)=g(a) \}.
+\end{equation*}
+This set is called the \textbf{equalizer} of $f$ and $g$, since it is the part of $A$ on which the two functions are equal.\par
+
+\bigskip\noindent\textbf{Quotients}: Let $A$ be a set and $\sim$ an equivalence relation on $A$. There is a set $A/\sim$, the \textbf{quotient of} $A$ \textbf{by} $\sim$, whose elements are the equivalence classes. There is also a canonical map
+\begin{equation*}
+    p: A\to A/\sim,
+\end{equation*}
+sending an element of $A$ to its equivalence class. It is surjective, and has the property that $p(a)=p(a') \Longleftrightarrow a\sim a'$. In fact, it has a universal property: any function $f:A\to B$ such that
+\begin{equation}\label{eq:equiv_univ}
+    \forall a,a'\in A, \quad a\sim a' \Rightarrow f(a)=f(a')
+\end{equation}
+factorizes uniquely through $p$, as in the diagram
+\begin{equation*}
+\begin{tikzcd}
+    A \arrow[r, "p"] \arrow[dr, "f"'] & A/\sim \arrow[d, dotted, "\bar{f}"] \\
+    & B
+\end{tikzcd}
+\end{equation*}
+Thus, for any set $B$, the functions $A/\sim\ \to B$ correspond one-to-one with the functions $f:A\to B$ satisfying (\ref{eq:equiv_univ}).\par
+
+\bigskip\noindent\textbf{Natural numbers}: A function with domain $\mathbb{N}$ is usually called a \textbf{sequence}. A crucial property of $\mathbb{N}$ is that sequences can be defined recursively: given a set $X$, an element $a\in X$, and a function $r:X\to X$, there is a unique sequence $(x_n)_{n=0}^{\infty}$ of elements of $X$ such that
+\begin{equation*}
+    x_0=a,\quad x_{n+1}=r(x_n) \text{ for all } n\in\mathbb{N}.
+\end{equation*}
+This property is related to two pieces of structure on $\mathbb{N}$: the element $0$, and the function $s:\mathbb{N}\to\mathbb{N}$ defined by $s(n)=n+1$. Reformulated in terms of functions, and writing $x_n=x(n)$, the property is this: for any set $X$, element $a\in X$, and function $r:X\to X$, there is a unique function $x:\mathbb{N}\to X$ such that $x(0)=a$ and $x\circ s=r\circ x$. This is a universal property of $\mathbb{N}, 0$ and $s$ (for more, see Peano Category).\par
+
+\bigskip\noindent\textbf{Choice}: Let $f:A\to B$ be a map in a category $\cat{A}$. A \textbf{section} (or \textbf{right inverse}) of $f$ is a map $i: B\to A$ in $\cat{A}$ such that $f\circ i=1_B$.\par
+In the category of sets, any map with a section is certainly surjective. The converse statement is called the \textbf{axiom of choice}:
+
+\smallskip \textit{Every surjection has a section}.\smallskip
+
+It is called 'choice' because specifying a section of $f:A\to B$ amounts to choosing, for each $b\in B$, an element of the nonempty set $\{ a\in A\mid f(a)=b \}$.
+
+\subsection{Small and large categories}
+Given sets $A$ and $B$, write $\vert A\vert\leq\vert B\vert$ if there exists an injection $A\to B$. Since identity maps are injective, $\vert A\vert\leq\vert A\vert$ for all sets $A$.
+\begin{theorem}[Cantor-Bernstein]
+    Let $A$ and $B$ be sets. If $\vert A\vert\leq\vert B\vert\leq\vert A\vert$ then $A\cong B$.
+\end{theorem}
+These observations tell us that $\leq$ is a preorder. We write $\vert A\vert = \vert B\vert$, and say that $A$ and $B$ have the same \textbf{cardinality} if $A\cong B$.
+
+\begin{theorem}
+    Let $A$ be a set. Then $\vert A\vert < \vert \mathcal{P}(A)\vert$.
+\end{theorem}
+
+\begin{corollary}
+    For every set $A$, there is a set $B$ such that $\vert A\vert < \vert B\vert$.
+\end{corollary}
+In other words, there is no biggest set.\par
+
+We use the word \textbf{class} informally to mean any collection of mathematical objects. All sets are classes, but some classes are too big to be sets. A class will be called \textbf{small} if it is a set, and \textbf{large} otherwise.\par
+A category $\cat{A}$ is \textbf{small} if the class or collection of all maps in $\cat{A}$ is small, and \textbf{large} otherwise. If $\cat{A}$ is small then the class of objects of $\cat{A}$ is small too, since objects correspond one-to-one with identity maps.\par
+A category $\cat{A}$ is \textbf{locally small} if for eah $A, B\in\cat{A}$, the class $\cat{A}(A,B)$ is small. The class $\cat{A}(A,B)$ is often called the \textbf{hom-set} from $A$ to $B$.
+
+\begin{example}
+    $\bcat{Set}, \bcat{Vect}_k, \bcat{Grp}, \bcat{Ab}, \bcat{Ring}$ and $\bcat{Top}$ are all locally small but not small.
+\end{example}
+A category is small if and only if it is locally small and its class of objects is small.\par
+A category is \textbf{essentially small} if it is equivalent to some small category. For example, the category of finite sets is essentially small as it is equivalent to the category whose objects are natural numbers, which form a set.\par
+
+\begin{proposition}
+    $\bcat{Set}$ is not essentially small.
+\end{proposition}
+
+\begin{definition}
+    We denote by $\bcat{Cat}$ the category of small categories and functors between them.
+\end{definition}

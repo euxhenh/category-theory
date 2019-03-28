@@ -1,0 +1,263 @@
+\section{Representables}
+\subsection{Definitions and examples}
+\begin{definition}
+    Let $\cat{A}$ be a locally small category and $A\in\cat{A}$. We define a functor
+    \begin{equation*}
+        H^A=\cat{A}(A,-): \cat{A}\to\bcat{Set}
+    \end{equation*}
+    as follows:
+    \begin{itemize}
+        \item for objects $B\in\cat{A}$, put $H^A(B)=\cat{A}(A,B)$;
+        \item for maps $B\xrightarrow{g}B'$ in $\cat{A}$, define
+            \begin{equation*}
+                H^A(g)=\cat{A}(A,g): \cat{A}(A,B)\to\cat{A}(A,B')
+            \end{equation*}
+            by
+            \begin{equation*}
+                p\mapsto g\circ p
+            \end{equation*}
+            for all $p:A\to B$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category. A functor $X:\cat{A}\to\bcat{Set}$ is \textbf{representable} if $X\cong H^A$ for some $A\in\cat{A}$. A \textbf{representation} of $X$ is a choice of an object $A\in\cat{A}$ and an isomorphism between $H^A$ and $X$.
+\end{definition}
+
+\begin{example}
+    Consider $H^1:\bcat{Set}\to\bcat{Set}$ where $1$ is the singleton. $H^1$ sees elements of a set $S$ in $\bcat{Set}$. We have
+    \begin{equation*}
+        H^1(S)\cong S
+    \end{equation*}
+    for each $S\in\bcat{Set}$. It can be verified that this isomorphism is natural in $S$, so $H^1$ is isomorphic to the identity functor $1_{\bcat{Set}}$. Hence $1_{\bcat{Set}}$ is representable.
+\end{example}
+
+\begin{example}
+All the 'seeing' functors are representable. The forgetful functor $\bcat{Top}\to\bcat{Set}$ is isomorphic to $H^1=\bcat{Top}(1,-)$, and the forgetful functor $\bcat{Grp}\to\bcat{Set}$ is isomorphic to $\bcat{Grp}(\mathbb{Z},-)$.
+\end{example}
+
+\begin{example}
+    There is a functor ob:$\bcat{Cat}\to\bcat{Set}$ sending a small category to its set of objects. It is representable. Indeed, consider the terminal category $\bcat{1}$. A functor from $\bcat{1}$ to a category $\cat{B}$ simply picks out an object of $\cat{B}$. Thus,
+    \begin{equation*}
+        H^1(\cat{B})\cong\text{ob}\cat{B}.
+    \end{equation*}
+    Again, it is easily verified that this isomorphism is natural in $\cat{B}$; hence ob$\cong\bcat{Cat}(\bcat{1},-)$.
+\end{example}
+
+\begin{lemma}\label{lemma:rep_comp}
+    Let \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd} be locally small categories, and let $A\in\cat{A}$. Then the functor
+    \begin{equation*}
+        \cat{A}(A,G(-)): \cat{B}\to\bcat{Set}
+    \end{equation*}
+    (that is, the composite $\cat{B} \xrightarrow{G} \cat{A} \xrightarrow{H^A} \bcat{Set}$) is representable.
+\end{lemma}
+\begin{proof}
+    We have
+    \begin{equation*}
+        \cat{A}(A,G(B))\cong \cat{B}(F(A),B)
+    \end{equation*}
+    for each $B\in\cat{B}$. This isomorphism is natural in $B$, so $\cat{A}(A,G(-))$ is isomorphic to $H^{F(A)}$ and is therefore representable.
+\end{proof}
+
+\begin{proposition}
+    Any set-valued functor with left adjoint is representable.
+\end{proposition}
+\begin{proof}
+    Let $G:\cat{A}\to\bcat{Set}$ be a functor with a left adjoint $F$. If $1$ is the singleton, consider
+    \begin{equation*}
+        \cat{A}\xrightarrow{G}\bcat{Set}\xrightarrow{H^1}\bcat{Set}.
+    \end{equation*}
+    We have
+    \begin{equation*}
+        G(A)\cong\bcat{Set}(1,G(A))
+    \end{equation*}
+    naturally in $A\in\cat{A}$, i.e., $G\cong \bcat{Set}(1,G(-))$. By Lemma \ref{lemma:rep_comp}, we have $\bcat{Set}(1,G(-))\cong H^{F(1)}$, hence, $G\cong H^{F(1)}$.
+\end{proof}
+
+\begin{example}
+    The forgetful functor $U:\bcat{Vect}_k\to\bcat{Set}$ is representable, since it has a left adjoint. Indeed, if $F$ is the left ajoint then $F(1)$ is the $1$-dimensional vector space $k$, so $U\cong H^k$.
+\end{example}
+
+A map $A'\xrightarrow{f}A$ induces a natural transformation
+\begin{equation*}
+\begin{tikzcd}
+    \cat{A}
+    \arrow[rr, bend left=30, "H^A"{name=t}]
+    \arrow[rr, bend right=30, "H^{A'}"'{name=b}]
+    && \bcat{Set} \
+    \arrow[from=t, Rightarrow, to=b, "H^f", shorten <= 6pt, shorten >= 6pt]
+\end{tikzcd}
+\end{equation*}
+whose $B$-component (for $B\in\cat{A}$) is the function
+\begin{align*}
+    H^A(B)=\cat{A}(A,B) &\to H^{A'}(B)=\cat{A}(A',B)\\
+    p\qquad &\mapsto \qquad p\circ f.
+\end{align*}
+Note the reversal of direction. Each functor $H^A$ is covariant, but they come together to form a \textit{contravariant} functor.
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category. The functor
+    \begin{equation*}
+        H^{\bullet}: \catop{A}\to[\cat{A}, \bcat{Set}]
+    \end{equation*}
+    is defined on objects $A$ by $H^{\bullet}(A)=H^A$ and on maps $f$ by $H^{\bullet}(f)=H^f$.
+\end{definition}
+
+All the definitions presented so far can be dualized.
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category and $A\in\cat{A}$. We define a functor
+    \begin{equation*}
+        H_A=\cat{A}(-,A): \catop{A}\to\bcat{Set}
+    \end{equation*}
+    as follows:
+    \begin{itemize}
+        \item for objects $B\in\cat{A}$, put $H_A(B)=\cat{A}(B,A)$;
+        \item for maps $B'\xrightarrow{g}B$ in $\cat{A}$, define
+            \begin{equation*}
+                H_A(g)=\cat{A}(g,A): \cat{A}(B,A)\to\cat{A}(B',A)
+            \end{equation*}
+            by
+            \begin{equation*}
+                p\mapsto p\circ g
+            \end{equation*}
+            for all $p:B\to A$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category. A functor $X:\catop{A}\to\bcat{Set}$ is \textbf{representable} if $X\cong H_A$ for some $A\in\cat{A}$. A \textbf{representation} of $X$ is a choice of an object $A\in\cat{A}$ and an isomorphism between $H_A$ and $X$.
+\end{definition}
+
+Any map $A\xrightarrow{f}A'$ in $\cat{A}$ induces a natural transformation
+\begin{equation*}
+\begin{tikzcd}
+    \catop{A}
+    \arrow[rr, bend left=30, "H_A"{name=t}]
+    \arrow[rr, bend right=30, "H_{A'}"'{name=b}]
+    && \bcat{Set} \
+    \arrow[from=t, Rightarrow, to=b, "H_f", shorten <= 6pt, shorten >= 6pt]
+\end{tikzcd}
+\end{equation*}
+whose component at an object $B\in\cat{A}$ is 
+\begin{align*}
+    H_A(B)=\cat{A}(B,A) &\to H_{A'}(B)=\cat{A}(B,A')\\
+    p\qquad &\mapsto\qquad f\circ p.
+\end{align*}
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category. The \textbf{Yoneda embedding} of $\cat{A}$ is the functor
+    \begin{equation*}
+        H_{\bullet}:\cat{A}\to [\catop{A},\bcat{Set}]
+    \end{equation*}
+    defined on objects $A$ by $H_{\bullet}(A)=H_A$ and on maps $f$ by $H_{\bullet}(f)=H_f$.
+\end{definition}
+
+Here is a summary of the definitions so far.
+\begin{align*}
+    &\text{For each $A\in\cat{A}$, we have a functor} &\cat{A} \xrightarrow{H^A} \bcat{Set}.\\
+    &\text{Putting them all together gives a functor} &\catop{A} \xrightarrow{H^{\bullet}} [\cat{A},\bcat{Set}].\\ \\
+    &\text{For each $A\in\cat{A}$, we have a functor} &\catop{A} \xrightarrow{H_A} \bcat{Set}.\\
+    &\text{Putting them all together gives a functor} &\cat{A} \xrightarrow{H_{\bullet}} [\catop{A},\bcat{Set}].
+\end{align*}
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category. The functor
+    \begin{equation*}
+        \homf_{\cat{A}}: \catop{A}\times\cat{A}\to\bcat{Set}
+    \end{equation*}
+    is defined by
+    \begin{equation*}
+    \begin{tikzcd}
+        (A,B) \arrow[dd, "g", shift left=2] & \mapsto & \cat{A}(A,B) \arrow[dd, "g\circ-\circ f"] \\
+              & \mapsto \\
+        (A',B') \arrow[uu, "f", shift left=2] & \mapsto & \cat{A}(A',B').
+    \end{tikzcd}
+    \end{equation*}
+    In other words, $\homf_{\cat{A}}(A,B)=\cat{A}(A,B)$ and $(\homf_{\cat{A}}(f,g))(p)=g\circ p\circ f$, whenever $A'\xrightarrow{f}A\xrightarrow{p}B\xrightarrow{g}B'$.
+\end{definition}
+
+\begin{remark}
+    We can now explain the naturality in the definition of adjunction. Take categories and functors \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd}. They give rise to functors
+    \begin{equation*}
+    \begin{tikzcd}
+        \catop{A}\times\cat{B} \arrow[rr, "1\times G"] \arrow[dd, "F^{\text{op}}\times 1"'] && \catop{A}\times\cat{A} \arrow[dd, "\homf_{\cat{A}}"] \\\\
+        \catop{B}\times\cat{B} \arrow[rr, "\homf_{\cat{B}}"'] && \bcat{Set}.
+    \end{tikzcd}
+    \end{equation*}
+    The composite functor $\downarrow_{\to}$ sends $(A,B)$ to $\cat{B}(F(A),B)$; it can be written as $\cat{B}(F(-),-)$. The composite $^{\to}\downarrow$ sends $(A,B)$ to $\cat{A}(A,G(B))$. Two functors
+    \begin{equation*}
+        \cat{B}(F(-),-),\ \cat{A}(-,G(-)): \catop{A}\times\cat{B}\to\bcat{Set}
+    \end{equation*}
+    are naturally isomorphic if and only if $F$ and $G$ are adjoint.
+\end{remark}
+
+\begin{definition}
+    Let $A$ be an object of a category. A \textbf{generalized element} of $A$ is a map with codomain $A$. A map $S\to A$ is a generalized element of $A$ of \textbf{shape} S.
+\end{definition}
+'Generalized element' is nothing more than a synonym of 'map', but sometimes it is useful to think of maps as generalized elements. For example, when $A$ is a set, a generalized element of $A$ of shape $1$ is an ordinary element of $A$, and a generalized element of $A$ of shape $\mathbb{N}$ is a sequence in $A$.
+
+\subsection{The Yoneda lemma}
+Functors from $\catop{A}\to\bcat{Set}$ are sometimes called 'presheaves' on $\cat{A}$. So for each $A\in\cat{A}$ we have a representable presheaf $H_A$, and we are asking how the rest of the presheaf category $[\catop{A},\bcat{Set}]$ looks from the viewpoint of $H_A$. I.e., if $X$ is another presheaf, what are the maps $H_A\to X$?\par
+
+Fix a small category $\cat{A}$. Take an object $A\in\cat{A}$ and a functor $X:\catop{A}\to\bcat{Set}$. The object $A$ gives rise to another functor $H_A=\cat{A}(-,A):\catop{A}\to\bcat{Set}$. The question is: what are the maps $H_A\to X$? Since $H_A$ and $X$ are both objects of the presheaf category $[\catop{A}, \bcat{Set}]$, the 'maps' concerned are maps in $[\catop{A},\bcat{Set}]$. So, we are asking what natural transformations
+\begin{equation*}
+\begin{tikzcd}
+    \catop{A}
+    \arrow[rr, bend left=30, "H_A"{name=t}]
+    \arrow[rr, bend right=30, "X"'{name=b}]
+    && \bcat{Set} \
+    \arrow[from=t, Rightarrow, to=b, shorten <= 6pt, shorten >= 6pt]
+\end{tikzcd}
+\end{equation*}
+there are. The set of such natural transformations is called
+\begin{equation*}
+    [\catop{A},\bcat{Set}](H_A,X).
+\end{equation*}
+Are there any other ways to construct a set from the same input data $(A,X)$? Yes: simply take the set $X(A)$.
+
+\begin{theorem}[Yoneda]
+    Let $\cat{A}$ be a locally small category. Then
+    \begin{equation}
+        [\catop{A},\bcat{Set}](H_A,X)\cong X(A)
+    \end{equation}
+    naturally in $A\in\cat{A}$ and $X\in [\catop{A},\bcat{Set}]$.
+\end{theorem}
+
+\subsection{Consequences of the Yoneda lemma}
+
+\begin{notation}
+    An arrow decorated with a $\sim$, as in $A\xrightarrow{\sim}B$, denotes an isomorphism.
+\end{notation}
+
+\begin{corollary}
+    Let $\cat{A}$ be a locally small category and $X:\catop{A}\to\bcat{Set}$. Then a representation of $X$ consists of an object $A\in\cat{A}$ together with an element $u\in X(A)$ such that:\par
+\quad for each $B\in\cat{A}$ and $x\in X(B)$, there is a unique map $\bar{x}:B\to A$ such that $(X\bar{x})(u)=x$.
+\end{corollary}
+By definition, a representation of $X$ is an object $A\in\cat{A}$ together with a natural isomorphism $\alpha: H_A\xrightarrow{\sim}X$. This corollary says that the pair $(A,\alpha)$ are in natural bijection with pairs $(A,u)$ that satisfy the condition above.
+
+\begin{corollary}
+    For any locally small category $\cat{A}$, the Yoneda embedding
+    \begin{equation*}
+        H_{\bullet}: \cat{A}\to[\catop{A}, \bcat{Set}]
+    \end{equation*}
+    is full and faithful.
+\end{corollary}
+Informally, this says that for $A,A'\in\cat{A}$, a map $H_A\to H_{A'}$ of presheaves is the same thing as a map $A\to A'$ in $\cat{A}$.\par
+
+The word 'embedding' is used to mean a map $A\to B$ that makes $A$ isomorphic to its image in $B$. E.g., injective maps can be seen as embeddings. In category theory, a full and faithful functor can be called an embedding.
+
+\begin{lemma}
+    Let $J:\cat{A}\to\cat{B}$ be a full and faithful functor and $A,A'\in\cat{A}$. Then:
+    \begin{enumerate}[label=(\alph*)]
+        \item a map $f$ in $\cat{A}$ is an isomorphism if and only if the map $J(f)$ in $\cat{B}$ is an isomorphism;
+        \item for any isomorphism $g:J(A)\to J(A')$ in $\cat{B}$, there is a unique isomorphism $f:A\to A'$ in $\cat{A}$ such that $J(f)=g$;
+        \item the objects $A$ and $A'$ of $\cat{A}$ are isomorphic if and only if the objects $J(A)$ and $J(A')$ of $\cat{B}$ are isomorphic.
+    \end{enumerate}
+\end{lemma}
