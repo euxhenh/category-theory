@@ -61,3 +61,266 @@ In general, when a poset is regarded as a category, meets are exactly products. 
 The product of a family of objects can be constructed in the most obvious way.\par
 
 Let $\cat{A}$ be a category, and consider an $I$-indexed family $(X_i)_{i\in I}$ of objects of $\cat{A}$ which is a function $I\to\text{ob}(\cat{A})$. The product of the empty family consists of an object $P$ of $\cat{A}$ such that for each object $A\in\cat{A}$, there exists a unique map $\bar{f}:A\to P$. (The commutativity conditions hold trivially.) In other words, a product of the empty family is exactly a terminal object.
+
+\begin{center}
+    \textbf{Equalizer}
+\end{center}
+A \textbf{fork} in a category consists of objects and maps
+\begin{equation}\label{eq:fork}
+\begin{tikzcd}
+    A \arrow[r, "f"] & X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+\end{tikzcd}
+\end{equation}
+such that $sf=tf$.
+
+\begin{definition}
+    Let $\cat{A}$ be a category and let \begin{tikzcd}
+        X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+    \end{tikzcd} be objects and maps in $\cat{A}$. An \textbf{equalizer} of $s$ and $t$ is an object $E$ together with a map $E\xrightarrow{i}X$ such that
+    \begin{equation*}
+        \begin{tikzcd}
+            E \arrow[r, "i"] & X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+        \end{tikzcd}
+    \end{equation*}
+    is a fork, and with the property that for any fork as in (\ref{eq:fork}), there exists a unique map $\bar{f}:A\to E$ such that
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[dd, dotted, "\bar{f}"description] \arrow[ddr, "f"] \\ \\
+        E \arrow[r, "i"'] & X
+    \end{tikzcd}
+    \end{equation*}
+    commutes.
+\end{definition}
+
+\begin{example}
+    In $\bcat{Set}$ an equalizer describes the set of solutions of a single equation. Given sets and functions \begin{tikzcd}
+        X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+    \end{tikzcd}, write
+    \begin{equation*}
+        E = \{ x\in X \mid s(x)=t(x) \},
+    \end{equation*}
+    and write $i:E\to X$ for the inclusion. Then $si=ti$, so we have a fork, and one can check that it is universal among all forks on $s$ and $t$.
+\end{example}
+
+\begin{example}
+    Let $\theta:G\to H$ be a homomorphism of groups. Then $\theta$ gives rise to a fork
+    \begin{equation*}
+    \begin{tikzcd}
+        \text{ker}\theta \arrow[r, "\iota"] & G \arrow[r, shift left, "\theta"] \arrow[r, shift right, "\epsilon"'] & H
+    \end{tikzcd}
+    \end{equation*}
+    where $\iota$ is the inclusion and $\epsilon$ is the trivial homomorphism. This is an equalizer in $\bcat{Grp}$. Showing this amounts to showing that the map that we have been calling $\bar{f}$ is a homomorphism.\par
+
+Thus, kernels are a special case of equaliers.
+\end{example}
+
+\begin{center}
+    \textbf{Pullbacks}
+\end{center}
+
+\begin{definition}
+    Let $\cat{A}$ be a category, and take objects and maps
+    \begin{equation*}
+    \begin{tikzcd}
+        & Y \arrow[d, "t"] \\
+        X \arrow[r, "s"] & Z
+    \end{tikzcd}
+    \end{equation*}
+    in $\cat{A}$. A \textbf{pullback} of this diagram is an object $P\in\cat{A}$ together with maps $p_1:P\to X$ and $p_2:P\to Y$ such that
+    \begin{equation*}
+    \begin{tikzcd}
+        P \arrow[r, "p_2"] \arrow[d, "p_1"'] & Y \arrow[d, "t"] \\
+        X \arrow[r, "s"'] & Z
+    \end{tikzcd}
+    \end{equation*}
+    commutes, and with the property that for any commutative square
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[r, "f_2"] \arrow[d, "f_1"'] & Y \arrow[d, "t"] \\
+        X \arrow[r, "s"'] & Z
+    \end{tikzcd}
+    \end{equation*}
+    in $\cat{A}$, there is a unique map $\bar{f}:A\to P$ such that
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[dr, dotted, "\bar{f}"description] \arrow[drr, bend left, "f_2"] \arrow[ddr, bend right, "f_1"'] \\
+        & P \arrow[r, "p_2"] \arrow[d, "p_1"'] & Y \arrow[d, "t"] \\
+        & X \arrow[r, "s"'] & Z
+    \end{tikzcd}
+    \end{equation*}
+    commutes. I.e., $p_1\bar{f}=f_1$ and $p_2\bar{f}=f_2$, since the commutativity of the square is given.
+\end{definition}
+
+\begin{remark}
+    When $Z$ is a terminal object, then the pullback of $X$ and $Y$ is the product $X\times Y$.
+\end{remark}
+
+\begin{example}
+    The pullback of a diagram in $\bcat{Set}$
+    \begin{equation*}
+        P = \{ (x,y) \in X\times Y\mid s(x)=t(y) \}
+    \end{equation*}
+    with projections $p_1$ and $p_2$ given by $p_1(x,y)=x$ and $p_2(x,y)=y$.
+\end{example}
+
+\begin{example}
+    Intersection of subsets provides another exmaple of pullbacks. Indeed, let $X$ and $Y$ be subsets of a set $Z$. Then,
+    \begin{equation*}
+        \begin{tikzcd}
+            X\cap Y \arrow[r, hook, ""] \arrow[d, hook, ""'] & Y \arrow[d, hook, ""] \\
+            X \arrow[r, hook, ""'] & Z
+        \end{tikzcd}
+    \end{equation*}
+    is a pullback square, where all the arrows are inclusions of subsets.
+\end{example}
+
+\begin{center}
+    \textbf{The definition of a limit}
+\end{center}
+All three constructions: products, equalizers, and pullbacks have something in common. In each, we aim to construct an object with a universal property. In each such construction we start with some data.\par
+
+For products, it is a pair of objects
+\begin{equation*}
+    X \qquad Y.
+\end{equation*}
+Call this diagram $\bcat{T}$. For equalizers, it is a diagram
+\begin{equation*}
+    \begin{tikzcd}
+        X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+    \end{tikzcd}.
+\end{equation*}
+Call it $\bcat{E}$. For pullbacks, it is a diagram
+\begin{equation*}
+\begin{tikzcd}
+    & Y \arrow[d, "t"] \\
+    X \arrow[r, "s"'] & Z.
+\end{tikzcd}
+\end{equation*}
+Call it $\bcat{P}$.\par
+
+If we view the above diagrams as categories $\bcat{I}$, then a functor $\bcat{I}\to\cat{A}$ corresponds to data of the same shape in $\cat{A}$.
+
+\begin{definition}
+    Let $\cat{A}$ be a category and $\bcat{I}$ a small category. A functor $\bcat{I}\to\cat{A}$ is called a \textbf{diagram} in $\cat{A}$ of \textbf{shape} $\bcat{I}$.
+\end{definition}
+
+\begin{definition}
+    Let $\cat{A}$ be a category, $\bcat{I}$ a small category, and $D:\bcat{I}\to\cat{A}$ a diagram of $\cat{A}$.
+    \begin{enumerate}[label=(\alph*)]
+        \item A \textbf{cone} on $D$ is an object $A\in\cat{A}$ (the \textbf{vertex} of the cone) together with a family
+            \begin{equation*}
+                \Big( A\xrightarrow{f_I} D(I) \Big)_{I\in\bcat{I}}
+            \end{equation*}
+            of maps in $\cat{A}$ such that for all maps $I\xrightarrow{u}J$ in $\bcat{I}$, the triangle
+            \begin{equation*}
+            \begin{tikzcd}
+                & D(I) \arrow[dd, "Du"] \\
+                A \arrow[ur, "f_I"] \arrow[dr, "f_J"'] \\
+                & D(J)
+            \end{tikzcd}
+            \end{equation*}
+            commutes.
+    \item A \textbf{limit} of $D$ is a cone $\Big( L\xrightarrow{p_I} D(I) \Big)_{I\in\bcat{I}}$ with the property that for any cone on $D$, there exists a unique map $\bar{f}:A\to L$ such that $p_I\circ\bar{f}=f_I$ for all $I\in\bcat{I}$. The maps $p_I$ are called the \textbf{projections} of the limit.
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    We sometimes abuse language by referring to $L$ as the limit of $D$. We write $L=\lim{D}$.
+\end{remark}
+
+\begin{example}
+    Let $\cat{A}$ be any category. Recall the diagrams $\bcat{T}, \bcat{E}$ and $\bcat{P}$ viewed as categories.
+    \begin{enumerate}[label=(\alph*)]
+        \item A diagram $D$ of shape $\bcat{T}$ in $\cat{A}$ is a pair $(X,Y)$ of objects in $\cat{A}$. A cone on $D$ is an object $A$ with maps $f_1:A\to X$ and $f_2:A\to Y$, and a limit of $D$ is a product of $X$ and $Y$.\par
+            In particular, a limit of the unique functor $\emptyset\to\cat{A}$ is a terminal object of $\cat{A}$.
+        \item A diagram $D$ of shape $\bcat{E}$ in $\cat{A}$ is a parallel pair
+            \begin{tikzcd}
+                X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+            \end{tikzcd} of maps in $\cat{A}$.\par
+            A cone on $D$ consists of objects and maps
+            \begin{equation*}
+            \begin{tikzcd}
+                & A \arrow[dl, "f"'] \arrow[dr, "g"] \\
+                X \arrow[rr, shift left, "s"] \arrow[rr, shift right, "t"'] && Y
+            \end{tikzcd}
+            \end{equation*}
+            such that $s\circ f=g$ and $t\circ f=g$. But since $g$ is determined by $f$, it is equivalent to say that a cone on $D$ consists of an object $A$ and a map $f:A\to X$ such that
+            \begin{equation*}
+            \begin{tikzcd}
+                A \arrow[r, "f"] & X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+            \end{tikzcd}
+            \end{equation*}
+            is a fork. A limit of $D$ is an equalizer of $s$ and $t$.
+        \item A diagram $D$ of shape $\bcat{P}$ in $\cat{A}$ consists of objects and maps
+            \begin{equation*}
+            \begin{tikzcd}
+                & Y \arrow[d, "t"]\\
+                X \arrow[r, "s"'] & Z
+            \end{tikzcd}
+            \end{equation*}
+            in $\cat{A}$. A cone on $D$ is a commutative square. A limit of $D$ is a pullback.
+    \end{enumerate}
+
+    In general, the limit of a diagram $D$ is the terminal object in the category of cones on $D$.
+\end{example}
+
+\begin{definition}
+    \begin{enumerate}[label=(\alph*)]
+        \item Let $\bcat{I}$ be a small category. A category $\cat{A}$ \textbf{has limits of shape} $\bcat{I}$ if for every diagram $D$ of shape $\bcat{I}$ in $\cat{A}$, a limit of $D$ exists.
+        \item A category \textbf{has all limits} if it has limits of shape $\bcat{I}$ for all small categories $\bcat{I}$.
+    \end{enumerate}
+\end{definition}
+
+$\bcat{Set}, \bcat{Top}, \bcat{Grp}, \bcat{Ring}, \bcat{Vect}_k,\dots$ all have all limits. By definition, a category is \textbf{finite} if it contains only finitely many maps (in which case it also contains only finitely many objects). A \textbf{finite limit} is a limit of shape $\bcat{I}$ for some finite category $\bcat{I}$. For instance, binary products are finite limits.
+
+\begin{proposition}\label{prop:limitsexistence}
+    Let $\cat{A}$ be a category.
+    \begin{enumerate}[label=(\alph*)]
+        \item\label{prop:alllimits} If $\cat{A}$ has all products and equalizers then $\cat{A}$ has all limits.
+        \item\label{prop:allfinitelimits} If $\cat{A}$ has binary products, a terminal object and equalizers then $\cat{A}$ has finite limits.
+    \end{enumerate}
+\end{proposition}
+
+\begin{example}
+    Recall that kernels provide equalizers in $\bcat{Vect}_k$. Then by \ref{prop:limitsexistence}\ref{prop:allfinitelimits} finite limits in $\bcat{Vect}_k$ can always be expressed in terms of $\oplus$ (binary direct sum), $\{0\}$, and kernels.
+\end{example}
+
+\begin{center}
+    \textbf{Monics}
+\end{center}
+For maps in an arbitrary category, injectivity does not make sense, but there is a concept which is closely related.
+
+\begin{definition}
+    Let $\cat{A}$ be a category. A map $X\xrightarrow{f}Y$ in $\cat{A}$ is \textbf{monic} (or a \textbf{monomorphism}) if for all objects $A$ and maps \begin{tikzcd}
+        A \arrow[r, shift left, "x"] \arrow[r, shift right, "x'"'] & X
+    \end{tikzcd},
+    \begin{equation*}
+        f\circ x=f\circ x' \Rightarrow x=x'.
+    \end{equation*}
+\end{definition}
+
+\begin{example}
+    In $\bcat{Set}$, a map is monic if and only if it is injective. Indeed, if $f$ is injective then $f$ is monic, and for the converse, take $A=1$.
+\end{example}
+
+\begin{lemma}
+    A map $X\xrightarrow{f}Y$ is monic if and only if the square
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[r, "1"] \arrow[d, "1"'] & X \arrow[d, "f"] \\
+        X \arrow[r, "f"'] & Y
+    \end{tikzcd}
+    \end{equation*}
+    is a pullback.
+\end{lemma}
+\begin{proof}
+    Consider the diagram
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[drr, bend left, "p_1"] \arrow[ddr, bend right, "p_2"'] \arrow[dr, dotted, "t"description] \\
+        & X \arrow[r, "1"] \arrow[d, "1"'] & X \arrow[d, "f"] \\
+        & X \arrow[r, "f"'] & Y
+    \end{tikzcd}
+    \end{equation*}
+    Assume that $f\circ p_1=f\circ p_2$. This means that the outer square commutes. Because the inner square is a pullback, we must have a unique arrow from $A$ to $X$, call it $t$, such that $1\circ t=p_1$ and $1\circ t=p_2$. This means $p_1=p_2$, hence, $f$ is monic.
+\end{proof}
