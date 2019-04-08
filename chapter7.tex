@@ -1,0 +1,84 @@
+\section{Adjoints, representables and limits}
+
+\subsection{Limits in terms of representables and adjoints}
+Consider categories $\bcat{I}$ and $\cat{A}$ and fix an object $A\in\cat{A}$. There exists a functor $\Delta A:\bcat{I}\to\cat{A}$ which sends every object of $\bcat{I}$ to $A$ and every map to $1_A$. This defines a \textbf{diagonal functor}
+\begin{equation*}
+    \Delta : \cat{A}\to [\bcat{I},\cat{A}].
+\end{equation*}
+When $\bcat{I}$ is discrete and has two objects, then $[\bcat{I},\cat{A}]=\cat{A}\times\cat{A}$ and $\Delta(A)=(A,A)$.
+
+Now, consider a diagram $D:\bcat{I}\to\cat{A}$. A cone on $D$ with vertex $A$ has maps going from $A$ into $D(\bcat{I})$ which satisfy composition criteria. This can be thought of as a natural transformation from $\Delta A$ to $D$
+\begin{equation*}
+\begin{tikzcd}
+    \bcat{I} \arrow[r, bend left=30, sloped, "\Delta A"{name=t}]
+    \arrow[r, bend right=30, sloped, "D"'{name=b}]
+    & \cat{A} \
+    \arrow[from=t, Rightarrow, to=b, "", shorten <= 3pt, shorten >= 3pt]
+\end{tikzcd}
+\end{equation*}
+
+If we denote the set of cones on $D$ with vertex $A$ by $\text{Cone}(A,D)$, we have
+\begin{equation*}
+    \text{Cone}(A,D)=[\bcat{I},\cat{A}](\Delta A, D).
+\end{equation*}
+This means that for every natural transformation we get a different cone. Thus, $\text{Cone}(A,D)$ is functorial in $A$ (contravariantly) and $D$ (covariantly).
+
+\begin{proposition}
+    Let $\bcat{I}$ be a small category, $\cat{A}$ a category, and $D:\bcat{I}\to\cat{A}$ a diagram. Then there is a one-to-one correspondence between limit cones on $D$ and representations of the functor
+    \begin{equation*}
+        \textup{Cone}(-,D): \catop{A}\to\bcat{Set},
+    \end{equation*}
+    with the representing objects of $\textup{Cone}(-,D)$ being the limit objects (that is, the vertices of the limit cones) of $D$.
+\end{proposition}
+
+In other words, given an object $A\in\cat{A}$, if $D$ has a limit then
+\begin{equation*}
+    \text{Cone}(A,D)\cong \cat{A}\Big( A, \lim D \Big)
+\end{equation*}
+naturally in $A$.
+
+\begin{corollary}
+    Limits are unique up to isomorphism.
+\end{corollary}
+
+\begin{lemma}
+    Let $\bcat{I}$ be a small category and \begin{tikzcd}
+        \bcat{I} \arrow[r, bend left=30, sloped, "D"{name=t}]
+        \arrow[r, bend right=30, sloped, "D'"'{name=b}]
+        & \cat{A} \
+        \arrow[from=t, Rightarrow, to=b, "\alpha", shorten <= 3pt, shorten >= 3pt]
+    \end{tikzcd} a natural transformation. Let
+    \begin{equation*}
+        \Big( \lim D\xrightarrow{p_I} D(I) \Big)_{I\in\bcat{I}} \qquad \text{and} \qquad \Big( \lim D'\xrightarrow{p_I'} D'(I) \Big)_{I\in\bcat{I}}
+    \end{equation*}
+    be limit cones. Then:
+    \begin{enumerate}[label=(\alph*)]
+        \item there is a unique map $\lim\alpha: \lim D\to\lim D'$ such that for all $I\in\bcat{I}$, the square
+            \begin{equation*}
+            \begin{tikzcd}
+                \lim D \arrow[r, "p_I"] \arrow[d, "\lim\alpha"'] & D(I) \arrow[d, "\alpha_I"] \\
+                \lim D' \arrow[r, "p_I'"'] & D'(I)
+            \end{tikzcd}
+            \end{equation*}
+            commutes;
+        \item given cones $\Big( A\xrightarrow{f_I} D(I) \Big)_{I\in\bcat{I}}$ and $\Big( A'\xrightarrow{f_I'} D'(I)\Big)_{I\in\bcat{I}}$ and a map $s:A\to A'$ such that
+            \begin{equation*}
+            \begin{tikzcd}
+                A \arrow[r, "f_I"] \arrow[d, "s"'] & D(I) \arrow[d, "\alpha_I"] \\
+                A' \arrow[r, "f'_I"'] & D'(I)
+            \end{tikzcd}
+            \end{equation*}
+            commutes for all $I\in\bcat{I}$, the square
+            \begin{equation*}
+            \begin{tikzcd}
+                A \arrow[r, "\overline{f}"] \arrow[d, "s"'] & \lim{D} \arrow[d, "\lim{\alpha}"] \\
+                A' \arrow[r, "\overline{f'}"'] & \lim{D'}
+            \end{tikzcd}
+            \end{equation*}
+            also commutes.
+    \end{enumerate}
+\end{lemma}
+
+\begin{proposition}
+    Let $\bcat{I}$ be a small category and $\cat{A}$ a category with all limits of shape $\bcat{I}$. Then $\lim$ defines a functor $[\bcat{I},\cat{A}]$
+\end{proposition}
