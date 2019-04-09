@@ -80,5 +80,116 @@ naturally in $A$.
 \end{lemma}
 
 \begin{proposition}
-    Let $\bcat{I}$ be a small category and $\cat{A}$ a category with all limits of shape $\bcat{I}$. Then $\lim$ defines a functor $[\bcat{I},\cat{A}]$
+    Let $\bcat{I}$ be a small category and $\cat{A}$ a category with all limits of shape $\bcat{I}$. Then $\lim$ defines a functor $[\bcat{I},\cat{A}]\to\cat{A}$, and this functor is right adjoint to the diagonal functor.
 \end{proposition}
+
+\subsection{Limits and colimits of presheaves}
+\begin{center}
+    \textbf{Representables preserve limits}
+\end{center}
+By definition of product, a map $A\to X\times Y$ amounts to a pair of maps $(A\to X, A\to Y)$, where $A,X$ and $Y$ are objects of a category $\cat{A}$ with binary products. There is therefore a bijection
+\begin{equation*}
+    \cat{A}(A,X\times Y)\cong \cat{A}(A,X)\times\cat{A}(A,Y)
+\end{equation*}
+naturally in $A,X,Y\in\cat{A}$.\par
+
+Similarly, if we consider the fork \begin{equation*}
+\begin{tikzcd}
+    E \arrow[r, "e"] & X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+\end{tikzcd}
+\end{equation*}
+where $E$ is the equalizer of $s$ and $t$, any map from $A$ to $E$ corresponds one-to-one with maps $f:A\to X$ such that $s\circ f=t\circ f$. Now $s$ induces a map
+\begin{equation*}
+    s_*=\cat{A}(A,s): \cat{A}(A,X)\to\cat{A}(A,Y),
+\end{equation*}
+and similarly for $t$. In this notation, what we have just said is that maps from $A$ to $E$ correspond one-to-one with elements $f\in\cat{A}(A,X)$ such that
+\begin{equation*}
+    \big( \cat{A}(A,s) \big)(f)=\big( \cat{A}(A,t) \big)(f).
+\end{equation*}
+But such an $f$ is exactly an element of the equalizer of $\cat{A}(A,s)$ and $\cat{A}(A,t)$, so we have a canonical bijection
+\begin{equation*}
+    \cat{A}\Big( A, \text{Eq}\big( \begin{tikzcd}
+        X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+\end{tikzcd} \big) \Big) \cong \text{Eq}\Big( \begin{tikzcd}
+        \cat{A}(A,X) \arrow[r, shift left, "\cat{A}(A{,}s)"] \arrow[r, shift right, "\cat{A}(A{,}t)"'] & \cat{A}(A,Y)
+\end{tikzcd} \Big).
+\end{equation*}
+
+This looks similar to the isomorphism for products. They suggest that, more generally, we might have the following:
+
+\begin{lemma}
+    Let $\bcat{I}$ be a small category, $\cat{A}$ a locally small category, $D:\bcat{I}\to\cat{A}$ a diagram, and $A\in\cat{A}$. Then
+    \begin{equation*}
+        \textup{Cone}(A,D)\cong\lim{\cat{A}(A,D)}
+    \end{equation*}
+    naturally in $A$ and $D$.
+\end{lemma}
+
+\begin{proposition}[Representables preserve limits]
+    Let $\cat{A}$ be a locally small category and $A\in\cat{A}$. Then $\cat{A}(A,-): \cat{A}\to\bcat{Set}$ preserves limits.
+\end{proposition}
+\begin{proof}
+    Let $\bcat{I}$ be a small category and let $D:\bcat{I}\to\cat{A}$ be a diagram that has a limit. Then
+    \begin{equation*}
+        \cat{A}{\Big( A,\lim{D} \Big)} \cong \text{Cone}(A,D) \cong \lim{\cat{A}(A,D)}
+    \end{equation*}
+    naturally in $A$.
+\end{proof}
+
+To dualize this proposition, we replace $\cat{A}$ by $\catop{A}$. Thus, $\cat{A}(-,A):\catop{A}\to\bcat{Set}$ preserves limits. A limit in $\catop{A}$ is a colimit in $\cat{A}$, so $\cat{A}(-,A)$ transforms colimits in $\cat{A}$ into limits in $\bcat{Set}$.\par
+
+For example, let $X,Y$ and $A$ be objects of a category $\cat{A}$, and suppose the sum $X+Y$ exists. There is a canonical isomorphism
+\begin{equation*}
+    \cat{A}(X+Y,A) \cong \cat{A}(X,A)\times \cat{A}(Y,A).
+\end{equation*}
+
+\begin{center}
+    \textbf{Limits in functor categories}
+\end{center}
+We shall analyze limits and colimits in functor categories $[\bcat{A},\cat{S}]$, where $\bcat{A}$ is small and $\cat{S}$ is locally small. The important cases are $\cat{S}=\bcat{Set}$ and $\cat{S}=\bcatop{Set}$. Limits and colimits in $[\bcat{A},\cat{S}]$ work in a simple way. For instance, if $\cat{S}$ has binary products then so does $[\bcat{A}, \cat{S}]$, and the product of two functors $X,Y:\bcat{A}\to\cat{S}$ is the functor $X\times Y:\bcat{A}\to\cat{S}$ given by
+\begin{equation*}
+    (X\times Y)(A) = X(A)\times Y(A)
+\end{equation*}
+for all $A\in\bcat{A}$.
+
+\begin{notation}
+    Let $\bcat{A}$ and $\cat{S}$ be categories. For each $A\in\bcat{A}$, there is a functor
+    \begin{align*}
+        \text{ev}_A: [\bcat{A},\cat{S}] &\to \cat{S}\\
+        X &\mapsto X(A),
+    \end{align*}
+    called \textbf{evaluation} at $A$. We will be working with diagrams in $[\bcat{A},\cat{S}]$, and given such a diagram $D:\bcat{I}\to[\bcat{A},\cat{S}]$, we have for each $A\in\bcat{A}$ a functor
+    \begin{align*}
+        \text{ev}_A\circ D: \bcat{I} &\to \cat{S}\\
+        I &\mapsto D(I)(A).
+    \end{align*}
+    We write $\text{ev}_A\circ D$ as $D(-)(A)$.
+\end{notation}
+
+\begin{theorem}[Limits in functor categories]
+    Let $\bcat{A}$ and $\bcat{I}$ be small categories and $\cat{S}$ a locally small category. Let $D:\bcat{I}\to[\bcat{A},\cat{S}]$ be a diagram, and suppose that for each $A\in\bcat{A}$, the diagram $D(-)(A):\bcat{I}\to\cat{S}$ has a limit. Then there is a cone on $D$ whose image under $\text{ev}_A$ is a limit cone on $D(-)(A)$ for each $A\in\bcat{A}$. Moreover, any such cone on $D$ is a limit cone.
+\end{theorem}
+This can be expressed as
+\begin{center}
+    \textit{Limits in a functor category are computed pointwise}.
+\end{center}
+
+\begin{corollary}
+    Let $\bcat{I}$ and $\bcat{A}$ be small categories, and $\cat{S}$ a locally small category. If $\cat{S}$ has all limits (respectively, colimits) of shape $\bcat{I}$ then so does $[\bcat{A},\cat{S}]$, and for each $A\in\bcat{A}$, the evaluation functor $\text{ev}_A:[\bcat{A},\cat{S}]\to\cat{S}$ preserves them.
+\end{corollary}
+
+\begin{corollary}
+    Let $\bcat{A}$ be a small category. Then $[\bcatop{A}, \bcat{Set}]$ has all limits and colimits, and for each $A\in\bcat{A}$, the evaluation functor $\text{ev}_A:[\bcatop{A},\bcat{Set}]\to\bcat{Set}$ preserves them.
+\end{corollary}
+
+\begin{corollary}\label{cor:yonedalimit}
+    The Yoneda embedding $H_{\bullet}:\bcat{A}\to[\bcatop{A},\bcat{Set}]$, preserves limits, for any small category $\bcat{A}$.
+\end{corollary}
+
+\begin{example}
+    Let $\bcat{A}$ be a category with binary products. Corollary \ref{cor:yonedalimit} implies that for all $X,Y\in\bcat{A}$,
+    \begin{equation*}
+        H_{X\times Y}\cong H_X\times H_Y
+    \end{equation*}
+    in $[\bcatop{A},\bcat{Set}]$.
+\end{example}
