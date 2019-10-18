@@ -1,0 +1,534 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{enumitem}
+\usepackage[margin=1in]{geometry}
+\author{Euxhen Hasanaj}
+\title{Exercises}
+\input{preamble}
+\begin{document}
+\maketitle
+
+\section{Exercises}
+\begin{exercise}
+    Show that \textbf{Set} $\not\simeq \textbf{Set}^\text{op}$.
+\end{exercise}
+\begin{solution}
+We will need the following lemmas:
+\begin{lemma}\label{eq_init}
+    Let $\cat{C}\simeq\cat{D}$ be two categories which are equivalent thanks to a functor $F:\cat{C}\to\cat{D}$. If $X$ is initial in $\cat{C}$, then $F(X)$ is initial in $\cat{D}$.
+\end{lemma}
+\begin{lemma}\label{eq_prod}
+    If $F:\cat{C}\to\cat{D}$ is an equivalence between categories with products, then $F(X\times Y)\simeq F(X)\times F(Y)$ for all $X,Y$.
+\end{lemma}
+Now suppose there exists a functor $F: \textbf{Set}\to\textbf{Set}^{\text{op}}$ which gives an equivalence between them. Let $X$ be the initial object in \textbf{Set}. By lemma \ref{eq_init}, $F(X)$ is initial in \textbf{Set}$^{\text{op}}$, hence, $F(X)$ is terminal in $\textbf{Set}$. Because the terminal objects in \textbf{Set} are the singletons, there exists an $a$ such that $F(X) = \{a\}$.\par
+    By lemma \ref{eq_prod} and using the fact that products in \textbf{Set} become coproducts in $\textbf{Set}^{\text{op}}$, we have
+    \begin{equation*}
+        \{a\} = F(X) = F(X\times^{Set} X)\simeq F(X)\times^{Set^{op}}F(X) = \{a\}\sqcup\{a\}.
+    \end{equation*}
+    So we have established a bijection between $\{a\}$ and $\{a\}\sqcup\{a\}$ which is a contradiction.
+\end{solution}
+
+\begin{exercise}~
+    \begin{enumerate}[label=(\alph*)]
+        \item Show that in \textbf{Set} the monic arrows coincide with the injective maps.
+        \item Show that in \textbf{Set} the epic arrows coincide with the surjective maps.
+    \end{enumerate}
+\end{exercise}
+\begin{solution}~
+    \begin{enumerate}[label=(\alph*)]
+        \item \begin{enumerate}[label=(\alph*)]
+            \item[$\Rightarrow$] Assume $f$ is monic, i.e., for any pair of parallel arrows $g_1$ and $g_2$ ending on the source of $f$, the equality $f\circ g_1=f\circ g_2$ implies $g_1=g_2$. If the source of $f$ has only one object, then the proof is trivial. Otherwise, let the sources of $g_1$ and $g_2$ be the singletons $\{a'\}$ and $\{b'\}$, such that $g_1(a')=a\neq b= g_2(b')$, where $a, b$ vary in the source of $f$. By the definition of monic, $f(a)\neq f(b)$, hence, $f$ is injective.
+            \item[$\Leftarrow$] Now assume $f$ is injective and let $g_1\neq g_2$. This means there exists at least one point $a$ such that $g_1(a)\neq g_2(a)$. Since $f$ is injective, we have $f\big(g_1(a)\big)\neq f\big(g_2(a)\big)$, i.e., $f\circ g_1\neq f\circ g_2$. By the contrapositive statement, $f$ is monic.
+        \end{enumerate}
+        \item \begin{enumerate}[label=(\alph*)]
+            \item[$\Rightarrow$] Assume $f$ is epic, i.e., for any pair of parallel arrows $h_1$ and $h_2$ starting at the target of $f$ the equality $h_1\circ f=h_2\circ f$ implies $h_1=h_2$. Assume $f$ is not surjective. Then there exists a point $a$ in the target of $f$ whose preimage is the empty set. Consider two maps $h_1$ and $h_2$ which map $a$ to two different singletons. Obviously $h_1\circ f=h_2\circ f$ as they are empty maps, but $h_1\neq h_2$. Contradiction.
+            \item[$\Leftarrow$] Now assume $f$ is surjective and let $h_1\neq h_2$. This means that there exists at least a point $a$ in the target of $f$ such that $h_1(a)\neq h_2(a)$. Because $f$ is surjective, there exists a point $a'$ such that $f(a')=a$. This means that $h_1\big(f(a')\big) \neq  h_2\big(f(a')\big)$, i.e., $h_1\circ f\neq h_2\circ f$. By the contrapoitive statement, $f$ is epic.
+        \end{enumerate}
+    \end{enumerate}
+\end{solution}
+
+\begin{exercise}
+    A category is \textit{balanced} is any arrow that is both mono and epi has to be iso. Show that the category of rings is not balanced, by showing that the embedding of the integers into the rationals is both mono and epi but not iso.
+\end{exercise}
+\begin{solution}
+    Denote the embedding of the integers into the rationals by $\epsilon$. Let $g_1, g_2$ denote two arrows with target $\mathbb{Z}$. Assume $\epsilon\circ g_1 = \epsilon\circ g_2$, i.e., $\epsilon\big(g_1(x)\big) = \epsilon\big(g_2(x)\big)$ for all $x$. Since $g_1(x)$ and $g_2(x)$ are integers, we have $g_1(x)=g_2(x)$, i.e., $g_1=g_2$. Therefore, $\epsilon$ is mono.\par
+    Now assume $h_1, h_2$ are two arrows with source $\mathbb{Q}$ such that $h_1\circ\epsilon=h_2\circ\epsilon$. By the definition of $\epsilon$, $h_1(k)=h_2(k)$ for all $k\in\mathbb{Z}$. Take $\frac{p}{q}\in\mathbb{Q}$ where $p,q\in\mathbb{Z}$. We have
+    \begin{align*}
+        h_1\Big(\dfrac{p}{q}\Big) &= h_1(p)\cdot h_1\Big(\dfrac{1}{q}\Big)\\
+                          &= h_2(p)\cdot h_1\Big(\dfrac{1}{q}\Big)\\
+                          &= h_2\Big(pq\cdot \dfrac{1}{q}\Big)\cdot h_1\Big(\dfrac{1}{q}\Big)\\
+                          &= h_2(pq)\cdot h_2\Big(\dfrac{1}{q}\Big) \cdot h_1\Big(\dfrac{1}{q}\Big)\\
+                          &= h_1(pq)\cdot h_2\Big(\dfrac{1}{q}\Big) \cdot h_1\Big(\dfrac{1}{q}\Big)\\
+                          &= h_1\Big(pq\cdot \dfrac{1}{q}\Big)\cdot h_2\Big(\dfrac{1}{q}\Big)\\
+                          &= h_1(p)\cdot h_2\Big(\dfrac{1}{q}\Big)\\
+                          &= h_2(p)\cdot h_2\Big(\dfrac{1}{q}\Big)\\
+                          &= h_2\Big(p\cdot \dfrac{1}{q}\Big)\\
+                          &= h_2\Big(\dfrac{p}{q}\Big)
+    \end{align*}
+    This shows that $\epsilon$ is epi. Clearly, $\epsilon$ is not surjective so it is not an iso, hence, the category of rings is not balanced.
+\end{solution}
+
+\begin{exercise}
+    View the naturals $(\mathbb{N}, 0, +)$ and the integers $(\mathbb{Z}, 0, +)$ as monoids. Show that the inclusion $\iota: \mathbb{N} \hookrightarrow \mathbb{Z}$  viewed as a morphism of monoids is epic even though it is not onto as a set-theoretic map.
+\end{exercise}
+\begin{solution}
+    For any morphism $h: \mathbb{N}\to\mathbb{Z}$, and for every $n\in\mathbb{N}$ we have $0=h(0)=h(n-n)=h(n)+h(-n)$, which means $h(-n)=-h(n)$.\par
+    Let $h_1, h_2$ be two arrows with source $\mathbb{Z}$. Assume $h_1\circ\iota = h_2\circ\iota$. Clearly, for all $n\in\mathbb{N}$, we have $h_1(n)=h_2(n)$. Also, $h_1(-n)=-h_1(n)=-h_2(n)=h_2(-n)$, hence, $h_1=h_2$ for all $n\in\mathbb{Z}$. Therefore, $\iota$ is epi.
+\end{solution}
+
+\begin{exercise}
+    Consider an object $c$ in the category $\cat{C}$. The \textbf{slice} of $\cat{C}$ \textbf{over} $c$, denoted $\cat{C}/c$, has objects all arrows with target $c$.
+    \begin{enumerate}[label=(\alph*)]
+        \item What are the morphisms in $\cat{C}/c$?
+        \item The dual notion is the \textbf{slice} of $\cat{C}$ \textbf{under} $c$, denoted $c/\cat{C}$. Describe it.
+        \item Describe the functor $U: \cat{C}/c\to\cat{C}$ that forgets $c$.
+    \end{enumerate}
+\end{exercise}
+\begin{solution}~
+    \begin{enumerate}[label=(\alph*)]
+        \item Let $f, g\in \cat{C}/c$. An arrow $h: g\to f$ in $\cat{C}/c$ is an arrow $h$ in $\cat{C}$ such that $f\circ h=g$. Composition and identity is easily shown.
+        \item Let $f, g\in c/\cat{C}$. Similarly, an arrow $h: g\to f$ in $c/\cat{C}$ is an arrow $h$ in $\cat{C}$ such that $h\circ g=f$.
+        \item $U$ maps an object $f:X\to c$ to its source $X$, and maps an arrow $h: g\to f$ (where $f:X\to c$ and $g:X'\to c$) to an arrow $h:X'\to X$.
+    \end{enumerate}
+\end{solution}
+
+\begin{exercise}
+    Describe the endomorphisms of the left (or right) object in the free category on the graph \begin{tikzcd}
+        \bullet \arrow[r, shift left, "f"] & \bullet \arrow[l, shift left, "g"]
+    \end{tikzcd}.
+\end{exercise}
+\begin{solution}
+    Left object. There is an identity morphism, and there is an endomorphism for every finite sequence of alternating $f$'s and $g$'s which starts with $g$ and has length greater than $1$. Examples, $g\circ f$, $g\circ f\circ g$, ....
+\end{solution}
+
+\begin{exercise}
+    Describe the category \textbf{PreOSet} of preordered sets and monotone maps and the category \textbf{POSet} of partially ordered sets and monotone maps. Explain the meaning of the words \textbf{POSet} is a full subcategory of \textbf{PreOSet}.
+\end{exercise}
+\begin{solution}
+    Identity morphism is monotone, and composition of monotone maps is monotone.
+    Every partially ordered set is also a preordered set. Hence, every monotone map between two partially ordered sets in \textbf{POSet} is also a monotone map between the same sets viewed as objects of \textbf{PreOSet}. Hence, \textbf{POSet} is a full subcategory of \textbf{PreOSet}.
+\end{solution}
+
+\begin{exercise}
+    Consider the category $\textbf{Set}_{\bullet}$ of pointed sets. Describe it as a slice of "what" category under "what". The forgetful functor $U: \textbf{Set}_{\bullet}\to \textbf{Set}$ forgets the structure of the choice of a point. Is it full? Is it faithful?
+\end{exercise}
+\begin{solution}
+    Pointed sets can be seen as the slice of the category \textbf{Set} under any singleton. Let $A^{\blacksquare},A^{\Box}\in \textbf{Set}_{\bullet}$. Any map in $\textbf{Set}(U(A^{\blacksquare}), U(A^{\Box}))$ that does not send $\blacksquare$ to $\Box$ does not have a corresponding $U(f)$ for any $f\in \textbf{Set}_{\bullet}(A^{\blacksquare}, A^{\Box})$. Hence, $U$ is not full. It is trivial to show that $U$ is faithful.
+\end{solution}
+
+\begin{exercise}
+    Show that left adjoints preserve initial objects: that is, if \begin{equation*}
+    \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd}
+\end{equation*} and $I$ is initial in $\cat{A}$, then $F(I)$ is initial in $\cat{B}$.
+\end{exercise}
+\begin{solution}
+    We have $\cat{B}\big(F(I),B\big)\cong \cat{A}\big(I, G(B)\big)$ for all $B\in\cat{B}$. The latter has only one element, hence, there is a single arrow from $F(I)$ to $B$ by the isomorphism condition. Therefore, $F(I)$ is initial in $B$.
+\end{solution}
+
+\begin{exercise}
+    Let \begin{tikzcd}
+        A \arrow[r, shift left=1, "f"] &
+        B \arrow[l, shift left=1, "g"]
+    \end{tikzcd} be order-preserving maps between ordered sets. Prove that the following conditions are equivalent:
+    \begin{enumerate}[label=(\alph*)]
+        \item\label{temp:a} for all $a\in A$ and $b\in B$,
+            \begin{equation*}
+                f(a)\leq b \Longleftrightarrow a\leq g(b);
+            \end{equation*}
+        \item\label{temp:b} $a\leq g(f(a))$ for all $a\in A$ and $f(g(b))\leq b$ for all $b\in B$.
+    \end{enumerate}
+\end{exercise}
+\begin{solution}
+    First we prove $\ref{temp:a}\Rightarrow\ref{temp:b}$.
+    We know that $f(a) \leq f(a)$ for all $a\in A$. Treating $f(a)$ as $b$ in \ref{temp:a} we get $a\leq g(f(a))$. Similarly, we know that $g(b)\leq g(b)$ for all $b\in B$. From \ref{temp:a} we get $f(g(b))\leq b$.\par
+    Now let's prove $\ref{temp:b}\Rightarrow\ref{temp:a}$. Assume $f(a)\leq b$. Because $g$ is order-preserving, we get $g(f(a))\leq g(b)$. But $a\leq g(f(a))$, hence, $a\leq g(b)$. Now assume $a\leq g(b)$. Because $f$ is order-preserving, we get $f(a)\leq f(g(b))\leq b$.
+\end{solution}
+
+\begin{exercise}
+    Show that for any adjunction, the right adjoint is full and faithful if and only if the counit is an isomorphism.
+\end{exercise}
+\begin{solution}
+    Let \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd} and counit be $\epsilon: FG\to 1_B$. Assume $\epsilon$ is an isomorphism. This means that for all $B\in\cat{B}$, $B\in\cat{B}_{\text{fix}}$. Hence, $\cat{B}=\cat{B}_{\text{fix}}$. Restrict the adjunction $(F,G,\eta,\epsilon)$ to $(F',G',\eta',\epsilon')$ on the full subcategories of fixed points. We thus get an equivalence between $\cat{A}_{\text{fix}}\simeq \cat{B}$ with $G'=G$ being an equivalence functor. Hence, $G$ is full, faithful, and essentially surjective on objects of $\cat{A}_{\text{fix}}$ and respectively full and faithful on $\cat{A}$.\par
+    Now assume that $G$ is full and faithful.
+\end{solution}
+
+\begin{exercise}
+    Let \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd} be locally small categories, and let $A\in\cat{A}$. Then the functor
+    \begin{equation*}
+        \cat{A}(A,G(-)): \cat{B}\to\bcat{Set}
+    \end{equation*}
+    (that is, the composite $\cat{B} \xrightarrow{G} \cat{A} \xrightarrow{H^A} \bcat{Set}$) is representable.
+\end{exercise}
+\begin{solution}
+    We have
+    \begin{equation*}
+        \cat{A}(A,G(B))\cong \cat{B}(F(A),B)
+    \end{equation*}
+    for each $B\in\cat{B}$. This isomorphism is natural in $B$, so $\cat{A}(A,G(-))$ is isomorphic to $H^{F(A)}$ and is therefore representable.
+\end{solution}
+
+\begin{exercise}
+    Any set-valued functor with left adjoint is representable.
+\end{exercise}
+\begin{solution}
+    Let $G:\cat{A}\to\bcat{Set}$ be a functor with a left adjoint $F$. If $1$ is the singleton, consider
+    \begin{equation*}
+        \cat{A}\xrightarrow{G}\bcat{Set}\xrightarrow{H^1}\bcat{Set}.
+    \end{equation*}
+    We have
+    \begin{equation*}
+        G(A)\cong\bcat{Set}(1,G(A))
+    \end{equation*}
+    naturally in $A\in\cat{A}$, i.e., $G\cong \bcat{Set}(1,G(-))$. By the previous exercise, we have $\bcat{Set}(1,G(-))\cong H^{F(1)}$, hence, $G\cong H^{F(1)}$.
+\end{solution}
+
+\begin{exercise}
+    The \textbf{Sierpinski space} is a two-point topological space $S$ in which one of the singleton subsets is open but the other is not. Prove that for any topological space $X$, there is a canonical bijection between the open subsets of $X$ and the continuous maps $X\to S$. Use this to show that the functor $\mathcal{O}: \bcatop{Top}\to\bcat{Set}$ which sends an object of $\bcat{Top}$ to the set of its open subsets, is represented by $S$.
+\end{exercise}
+\begin{solution}
+    Let $S=\{\emptyset, \{1\}, \{1, 2\}\}$. For every continuous map $f:X\to S$, there is a natural map
+    \begin{align*}
+        \bcat{Top}(X,S) &\to \mathcal{T}_X\\
+        f &\mapsto f^{-1}(\{1\}).
+    \end{align*}
+    Conversely, for every open set $U\in\mathcal{T}_X$, take the characteristic function $\mathbb{I}_U$ which is inverse to the above. Hence, there is a bijection between $\mathcal{T}_X$ and $\bcat{Top}(X,S)$.\par
+    By definition, $\mathcal{O}=\mathcal{T}_X$ and $H_S=\bcat{Top}(X,S)$. Hence, $\mathcal{O}\cong H_S$ and $\mathcal{O}$ is representable.
+\end{solution}
+
+\begin{exercise}
+    Let $M:\bcat{Cat}\to\bcat{Set}$ be the functor that sends a small category $\cat{A}$ to the set of all maps in $\cat{A}$. Prove that $M$ is representable.
+\end{exercise}
+\begin{solution}
+    Let $\bcat{2}\in\bcat{Cat}$ denote the category with two objects and a single arrow between them $\bullet\rightarrow\bullet$. A functor from $\bcat{2}\to\cat{A}$ corresponds to a choice of a map in $\cat{A}$ and $H^\bcat{2}:\bcat{Cat}\to\bcat{Set}$ is the set of all such maps. Hence, there is a natural bijection between $H^\bcat{2}$ and $M$, so $M$ is representable.
+\end{solution}
+
+\begin{exercise}
+    Let $\cat{A}$ be a locally small category, and let $A,A'\in\cat{A}$ with $H_A\cong H_{A'}$. Prove that $A\cong A'$.
+\end{exercise}
+\begin{solution}
+    Let \begin{tikzcd}
+        H_A \arrow[r, shift left=1, "H_f"] &
+        H_{A'} \arrow[l, shift left=1, "H_{g}"]
+        \end{tikzcd} be such that $H_f\circ H_{g}=1_{H_{A'}}$ and $H_{g}\circ H_f=1_{H_A}$. By the Yoneda lemma, $H_{\bullet}$ is fully faithful. Hence there exist maps, \begin{tikzcd}
+        A \arrow[r, shift left=1, "f"] &
+        A' \arrow[l, shift left=1, "g"]
+    \end{tikzcd} such that $H_{\bullet}(f)=H_f$ and $H_{\bullet}(g)=H_g$. Consider $g\circ f\in End(A)$. Because functors preserve composition, we have $H_{\bullet}(g\circ f)=H_g\circ H_f=1_{H_{A}}$. But because $H_{\bullet}$ is faithful, then there is exactly one map in $End(A)$ that maps to $1_{H_A}$ and this must be $1_A$, hence, $g\circ f=1_A$. Similarly, $f\circ g=1_{A'}$. Therefore, $A\cong A'$.
+\end{solution}
+
+\begin{exercise}
+    Verify that in the category of vector spaces, the product of two vector spaces is their direct sum.
+\end{exercise}
+\begin{solution}
+    Fix a field $k$ and let $V,W\in\bcat{Vect}_k$. Assume WLOG that $V$ and $W$ are disjoint and denote $V\oplus W$ their direct sum. First we show that there exist projection maps
+    \begin{equation*}
+    \begin{tikzcd}
+        V & V\oplus W \arrow[l, "p_1"'] \arrow[r, "p_2"] & W
+    \end{tikzcd}
+    \end{equation*}
+    By definition $z\in V\oplus W$, if there exist $v\in V$ and $w\in W$ such that $z=v+w$. Define
+    \begin{align*}
+        &p_1(z)=v &p_2(z)=w.
+    \end{align*}
+    Now assume there exists $X\in\bcat{Vect}_k$ such that there exist maps $f_1$ and $f_2$ as in
+    \begin{equation*}
+    \begin{tikzcd}
+        V & X \arrow[l, "f_1"'] \arrow[r, "f_2"] & W
+    \end{tikzcd}
+    \end{equation*}
+    We show that there exists a unique map $f$ from $X$ to $V\oplus W$.\par
+    First let's show existence. Define $f$ as
+    \begin{align*}
+        f: X\to V\oplus W\\
+        f(x) = f_1(x) + f_2(x)
+    \end{align*}
+    where $f_1(x) + f_2(x)\in V\oplus W$.\par
+    Now let's show uniqueness. Because of the assumed disjointness, $f_1$ and $f_2$ uniquely determine the action of $f$ on an element $x\in X$. I.e., for any $f:X\to V\oplus W$ and $x\in X$, we must have $f(x)=f_1(x) + f_2(x)$.
+\end{solution}
+
+\begin{exercise}
+    Take objects and maps \begin{tikzcd}
+        E \arrow[r, "i"] & X \arrow[r, shift left, "f"] \arrow[r, shift right, "g"'] & Y
+    \end{tikzcd} in some category. If this is an equalizer, is the square
+    \begin{equation*}
+    \begin{tikzcd}
+        E \arrow[r, "i"] \arrow[d, "i"'] & X \arrow[d, "g"] \\
+        X \arrow[r, "f"'] & Y
+    \end{tikzcd}
+    \end{equation*}
+    necessarily a pullback? What about the converse?
+\end{exercise}
+\begin{solution}
+    Because $E$ is an equalizer, we have $fi=gi$, so the given square commutes. Assume there exists a fork \begin{tikzcd}
+        W \arrow[r, "j"] & X \arrow[r, shift left, "f"] \arrow[r, shift right, "g"'] & Y
+    \end{tikzcd}, i.e., $fj=gj$. Then because $E$ is an equalizer we must have a unique arrow $s:W\to E$, such that $is=j$. This completes the requirements for $E$ to be a pullback as in
+    \begin{equation*}
+    \begin{tikzcd}
+        W \arrow[drr, bend left, "j"] \arrow[ddr, bend right, "j"'] \arrow[dr, dotted, "s"description] \\
+        & E \arrow[r, "i"] \arrow[d, "i"'] & X \arrow[d, "g"] \\
+        & X \arrow[r, "f"'] & Y
+    \end{tikzcd}
+    \end{equation*}
+    The converse can also be easily shown.
+\end{solution}
+
+\begin{exercise}\label{ex:pullbacklemma}
+    Take a commutative diagram
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[r, "a"] \arrow[d, "f"'] & B \arrow[r, "b"] \arrow[d, "g"] & C \arrow[d, "c"] \\
+        F \arrow[r, "e"'] & E \arrow[r, "d"'] & D
+    \end{tikzcd}
+    \end{equation*}
+    in some category. Suppose that the right-hand square is a pullback. Show that the left-hand square is a pullback if and only if the outer rectangle is a pullback.
+\end{exercise}
+\begin{solution}
+    First assume that the left-hand square is a pullback. Assume there exists an element $X$ such that the outer square
+    \begin{equation}\label{eq:outsq}
+    \begin{tikzcd}
+        X \arrow[drrr, bend left, "x"] \arrow[ddr, bend right, "y"'] \\
+        & A \arrow[rr, "ba"] \arrow[d, "f"'] && C \arrow[d, "c"] \\
+        & F \arrow[rr, "de"'] && D
+    \end{tikzcd}
+    \end{equation}
+    commutes. We are to show that there exists a unique map $s:X\to A$. The fact that the outer square commutes is the same as saying that the outer square of
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[drrr, bend left, "x"] \arrow[ddrr, bend right, "ey"'] \\
+        && B \arrow[r, "b"] \arrow[d, "g"'] & C \arrow[d, "c"] \\
+        && E \arrow[r, "d"'] & D
+    \end{tikzcd}
+    \end{equation*}
+    commutes. But because the inner square is a pullback, we have a unique map $t:X\to B$ such that $bt=x$ and $gt=ey$. Now consider
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[drr, bend left, "t"] \arrow[ddr, bend right, "y"'] \\
+        & A \arrow[r, "a"] \arrow[d, "f"'] & B \arrow[d, "g"] \\
+        & F \arrow[r, "e"'] & E
+    \end{tikzcd}
+    \end{equation*}
+    Because $gt=ey$, the outer square commutes. Since the inner square is a pullback, we must have a unique map $s:X\to A$ such that $as=t$ and $fs=y$. This means that $bas=bt=x$ and so the outer square in (\ref{eq:outsq}) is a pullback.\par
+    Now assume that the outer rectangle is a pullback. Assume there exists $X$ such that the outer square of
+    \begin{equation}\label{eq:outsq2}
+    \begin{tikzcd}
+        X \arrow[drr, bend left, "x"] \arrow[ddr, bend right, "y"'] \\
+        & A \arrow[r, "a"] \arrow[d, "f"'] & B \arrow[d, "g"] \\
+        & F \arrow[r, "e"'] & E
+    \end{tikzcd}
+    \end{equation}
+    commutes, i.e., $gx=ey$. Extending by $d$ we get $dgx=dey$. Since the right-hand square commutes, we have $cbx=dey$. This means that the outer square of
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[drrr, bend left, "bx"] \arrow[ddr, bend right, "y"'] \\
+        & A \arrow[rr, "ba"] \arrow[d, "f"'] && C \arrow[d, "c"] \\
+        & F \arrow[rr, "de"'] && D
+    \end{tikzcd}
+    \end{equation*}
+    commutes. Since the inner square is a pullback, we have a unique map $s:X\to A$ such that $bas=bx$ and $fs=y$. We get that the outer square of
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[drrr, bend left, "bas"] \arrow[ddrr, bend right, "ey"'] \\
+        && B \arrow[r, "b"] \arrow[d, "g"'] & C \arrow[d, "c"] \\
+        && E \arrow[r, "d"'] & D
+    \end{tikzcd}
+    \end{equation*}
+    commutes. Hence,, there is a unique arrow $x:X\to B$. We already know that $fs=y$ and because $x$ is unique, we must have that the composition $as=x$, hence showing that the outer square of (\ref{eq:outsq2}) commutes.
+\end{solution}
+
+\begin{exercise}
+    Let $D:\bcat{I}\to\cat{A}$ be a diagram and $\Big( L\xrightarrow{p_I} D(I) \Big)_{I\in\bcat{I}}$ a limit cone on $D$.
+    \begin{enumerate}[label=(\alph*)]
+        \item Prove that whenever \begin{tikzcd}
+            A \arrow[r, shift left, "h"] \arrow[r, shift right, "h'"'] & L
+        \end{tikzcd} are maps such that $p_I\circ h=p_I\circ h'$ for all $I\in\bcat{I}$, then $h=h'$.
+        \item What does the result of $(a)$ mean when $\bcat{I}$ is the two-object discrete category, $\cat{A}=\bcat{Set}$, and $A=1$?
+    \end{enumerate}
+\end{exercise}
+\begin{solution}\leavevmode
+    \begin{enumerate}[label=(\alph*)]
+        \item Every map $A\xrightarrow{f}L$ gives rise to a cone $\Big( A\xrightarrow{p_I\circ f}D(I) \Big)_{I\in\bcat{I}}$. So the maps $h$ and $h'$ will give rise to two respective cones. Because $L$ is a limit, each such map must be unique with respect to their cone. Hence, to prove that $h=h'$, all we need to show is that the two cones, induced by $h$ and $h'$ are the same. But this is trivial since $p_I\circ h=p_I\circ h'$ for all $I\in\bcat{I}$ and based on the way we constructed the cones, i.e., by composing with $p_I$, these two cones must be the same.
+        \item If we let the objects of $I$ be $M$ and $N$, it says that the product of $M$ and $N$ has a universal property.
+    \end{enumerate}
+\end{solution}
+
+\begin{exercise}
+    Let $\cat{A}$ be a category and $A\in\cat{A}$. A \textbf{subobject} of $A$ is an isomorphism class of monics into $A$. More precisely, let $\bcat{Monic}(A)$ be the full subcategory of $\cat{A}/A$ whose objects are the monics; then a subobject of $A$ is an isomorphism class of objects of $\bcat{Monic}(A)$.
+    \begin{enumerate}[label=(\alph*)]
+        \item Let $X\xrightarrow{m}A$ and $X'\xrightarrow{m'}A$ be monics in $\bcat{Set}$. Show that $m$ and $m'$ are isomorphic in $\bcat{Monic}(A)$ if and only if they have the same image. Deduce that the subobjects of $A$ are in canonical one-to-one correspondence with the subsets of $A$.
+        \item In $\bcat{Set}$ subobjects are subsets. What are subobjects in $\bcat{Grp}, \bcat{Ring}, \bcat{Vect}_k$?
+    \end{enumerate}
+\end{exercise}
+\begin{solution}\leavevmode
+    \begin{enumerate}[label=(\alph*)]
+        \item First assume that $m$ and $m'$ are isomorphic in $\bcat{Monic}(A)$ and let \begin{tikzcd}
+            m \arrow[r, shift left, "p"] & m' \arrow[l, shift left, "q"]
+        \end{tikzcd} be such isomorphisms. By the definition of the slice category $\cat{A}/A$ this means that there exist maps $p:X\to X'$ and $q:X'\to X$ in $\bcat{Set}$ such that 
+        \begin{align}
+            m\circ q&=m'\label{eq:comp1}\\
+            m'\circ p&=m\label{eq:comp2}.
+        \end{align}
+        If $X$ is empty, then $X'$ must also be empty since the only map into the empty set is the empty map. Therefore, the images of $m$ and $m'$ are the same. Now assume $X$ is not empty and let $a\in A$ be in the image of $m$. This means that there exists $x\in X$ such that $m(x)=a$. But by (\ref{eq:comp2}), $m(x)=m'(p(x))$ where $p(x)\in X'$, hence, $a$ is also in the image of $m'$, i.e., $\text{Im}(m)\subset\text{Im}(m')$. Similarly, if $a'\in A$ is in the image of $m'$, this means that there exist $x'\in X'$ such that $m'(x')=a'$. By ($\ref{eq:comp1}$), we have $m'(x')=m(q(x'))$ with $q(x')\in X$. So $a'$ is also in the image of $X$, i.e., $\text{Im}(m')\subset\text{Im}(m)$. Hence we must have $\text{Im}(m)=\text{Im}(m')$.\par
+        Now assume that $\text{Im}(m)=\text{Im}(m')$, in particular, $\vert\text{Im}(m)\vert = \vert\text{Im}(m')\vert$, where $\vert\cdot\vert$ denotes the cardinality of a set. Because $m$ and $m'$ are monic, then $\vert X\vert = \vert X'\vert$, i.e., $X$ and $X'$ are isomorphic. If $a\in\text{Im}(m)$, then there exist $x\in X$ and $x'\in X'$ such that $m(x)=m'(x')=a$. Define a bijection between $X$ and $X'$ as a map $p$, which takes $x$ to $x'$. This is a canonical bijection.
+        \item Subobjects in $\bcat{Grp}$ are subgroups, in $\bcat{Ring}$ are subrings, and in $\bcat{Vect}_k$ are vector subspaces.
+    \end{enumerate}
+\end{solution}
+
+\begin{exercise}\label{ex:monicifsquare}
+    A map $X\xrightarrow{f}Y$ is monic if and only if the square
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[r, "1"] \arrow[d, "1"'] & X \arrow[d, "f"] \\
+        X \arrow[r, "f"'] & Y
+    \end{tikzcd}
+    \end{equation*}
+    is a pullback.
+\end{exercise}
+\begin{solution}
+    Consider the diagram
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[drr, bend left, "p_1"] \arrow[ddr, bend right, "p_2"'] \arrow[dr, dotted, "t"description] \\
+        & X \arrow[r, "1"] \arrow[d, "1"'] & X \arrow[d, "f"] \\
+        & X \arrow[r, "f"'] & Y
+    \end{tikzcd}
+    \end{equation*}
+    Assume that $f\circ p_1=f\circ p_2$. This means that the outer square commutes. Because the inner square is a pullback, we must have a unique arrow from $A$ to $X$, call it $t$, such that $1\circ t=p_1$ and $1\circ t=p_2$. This means $p_1=p_2$, hence, $f$ is monic.
+\end{solution}
+
+\begin{exercise}
+    Let
+    \begin{equation*}
+    \begin{tikzcd}
+        X' \arrow[r, "f'"] \arrow[d, "m'"'] & X \arrow[d, "m"] \\
+        A' \arrow[r, "f"'] & A
+    \end{tikzcd}
+    \end{equation*}
+    be a pullback square in some category. Show that if $m$ is monic then so is $m'$.
+\end{exercise}
+\begin{solution}
+    Let $A$ be an object as in
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[dr, bend left, "j"] \arrow[dr, bend right, "i"'] \arrow[ddr, bend right=45, "m'\circ i"'] \arrow[drr, bend left=45, "f'\circ j"] \\
+        & X' \arrow[r, "f'"] \arrow[d, "m'"'] & X \arrow[d, "m"] \\
+        & A' \arrow[r, "f"'] & A
+    \end{tikzcd}
+    \end{equation*}
+    with the property that $m'\circ i = m'\circ j$. We want to show $i=j$.\par
+    The outer square commutes because $f\circ m'\circ i=f\circ m'\circ j = m\circ f'\circ j$. Because the inner square is a pullback, there is a unique arrow $s:A\to X'$ such that $f'\circ s=f'\circ j$ and $m'\circ s=m'\circ i$. Because $m$ is monic and the fact that $m\circ f'\circ i=f\circ m'\circ i=m\circ f'\circ j$, we have $f'\circ i=f'\circ j$. We also know $m'\circ i=m'\circ j$. This means that both $i$ and $j$ make the outer square commute, so they must be both equal to $s$, hence, $i=j$.
+\end{solution}
+
+\begin{exercise}
+    Let \begin{tikzcd}
+        X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+    \end{tikzcd} be maps in some category. Prove that $s=t$ if and only if the equalizer of $s$ and $t$ exists and is an isomorphism, if and only if the coequalizer of $s$ and $t$ is an isomorphism.
+\end{exercise}
+\begin{solution}
+    Assume $s=t$. Then it is easy to check that $1_X:X\to X$ and $1_Y:Y\to Y$ serve as equalizer and coequalizer, respectively, and are isomorphisms.\par
+    On the other hand, assume that the equalizer of $s$ and $t$ exists, call it $p:E\to X$, such that $p$ is an isomorphism. Then there exists $q:X\to E$, such that $p\circ q=1_X$. We have $s\circ p=t\circ p$. Precomposing with $q$, we get $s\circ p\circ q=t\circ p\circ q$, or $s=t$. A similar argument can be drawn for the coequalizer.
+\end{solution}
+
+\begin{exercise}
+    A map $m:A\to B$ is \textbf{regular monic} if there exist an object $C$ and maps $B\rightrightarrows C$ of which $m$ is an equalizer. A map $m:A\to B$ is \textbf{split monic} if there exists a map $e:B\to A$ such that $em=1_A$.
+    \begin{enumerate}[label=(\alph*)]
+        \item Show that split monic $\Rightarrow$ regular monic $\Rightarrow$ monic.
+        \item In $\bcat{Ab}$, show that all monics are regular but not all monics are split.
+    \end{enumerate}
+\end{exercise}
+\begin{solution}\leavevmode
+    \begin{enumerate}[label=(\alph*)]
+        \item Assume $m$ is split monic. Consider the fork
+            \begin{equation*}
+            \begin{tikzcd}
+                A \arrow[r, "m"] & B \arrow[r, shift left, "i"] \arrow[r, shift right, "me"'] & B
+            \end{tikzcd}
+            \end{equation*}
+            We claim that $m$ is regular monic. Clearly, the fork commutes, as $mem = m$ by the fact that $em=1_A$. Now assume the following is also a commuting fork
+            \begin{equation*}
+            \begin{tikzcd}
+                X \arrow[r, "x"] & B \arrow[r, shift left, "i"] \arrow[r, shift right, "me"'] & B
+            \end{tikzcd}
+            \end{equation*}
+            i.e., $mex=x$. Clearly, the map $ex: X\to A$ exists. Now assume there exists another map $s:X\to A$, such that $ms=x$. Postcomposing with $e$, we get $ems=ex$, from where $s=ex$, hence, $ex$ is unique. Therefore, $m$ is an equalizer and is regular monic.\par
+            Now assume $m$ is regular monic. We want to show $m$ is monic.\par
+            Let $m$ be the equalizer of $p$ and $q$ and assume there exists an object $X$ with maps $x,y: X\to A$ such that $mx=my$ as in the figure
+            \begin{equation*}
+            \begin{tikzcd}
+                X \arrow[r, shift left, "x"] \arrow[r, shift right, "y"']
+                & A \arrow[r, "m"] & B \arrow[r, shift left, "p"] \arrow[r, shift right, "q"'] & C
+            \end{tikzcd}
+            \end{equation*}
+            From the fact that $pm=qm$, we get $pmx=qmx=qmy=pmy$. As $m$ is an equalizer, there is a unique map from $s:X\to A$, such that $ms=mx=my$. Because both $x$ and $y$ satisfy the commutativity of the triangle $XAB$, they must be equal to $s$, and hence, equal to each-other. Therefore, $m$ is monic.
+        \item Let $m:A\to B$ be monic. Consider the abelian group $B/\text{Im}(m)$ and maps $\theta, z: B\to B/\text{Im}(m)$ where $\theta$ is the quotient map, and $z$ is the zero map. It is easy to show that the fork
+            \begin{equation*}
+            \begin{tikzcd}
+                A \arrow[r, "m"] & B \arrow[r, shift left, "\theta"] \arrow[r, shift right, "z"'] & B/\text{Im}(m)
+            \end{tikzcd}
+            \end{equation*}
+            commutes, i.e., $zm=\theta m$. Now for universality, assume that there exists an object $X$ and a map $k:X\to B$ which equalizes $\theta$ and $z$. This means that $\text{Im}(k)\subset\text{Im}(m)$, so there is a well defined homomorphism $s$ from $X$ to $A$ defined as $s(x)=m^{-1}(k(x))$ for $x\in X$. Here $m^{-1}:\text{Im}(m)\to A$ makes sense because $m$ is monic.\par
+            For the second part, consider the inclusion map $\mathbb{Z}/n\mathbb{Z}\xrightarrow{\iota}\mathbb{Z}$. $\iota$ is monic, but not split.
+    \end{enumerate}
+\end{solution}
+
+\begin{exercise}
+    Prove that in any category, a map is an isomorphism if and only if it is both monic and regular epic.
+\end{exercise}
+\begin{solution}
+    Let $m:A\to B$.\par 
+    Assume $m$ is an isomorphism. Then $m$ is split monic and split epic, hence, it is also monic and regular epic.\par
+    Now assume $m$ is monic and regular epic. Then there exist maps $X \rightrightarrows A$ of which $m$ is a coequalizer, call them $x$ and $y$. Now consider
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[r, shift left, "x"] \arrow[r, shift right, "y"'] & A \arrow[r, "m"] \arrow[dr, "1_A"'] & B \arrow[d, dotted, "\exists !s"description] \\
+                                                                  &&A.
+    \end{tikzcd}
+    \end{equation*}
+    We have $mx=my$. But $m$ is monic, so we must have $x=y$. This means that $1_A$ also coequalizes $x$ and $y$, hence, we must have a unique map, call it $s$, from $B$ to $A$ such that $sm=1_A$. Postcomposing with $m$, we get $msm=m$. Now consider
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[r, shift left, "x"] \arrow[r, shift right, "y"'] & A \arrow[r, "m"] \arrow[dr, "m"'] & B \arrow[d, dotted, "1_B"description] \\
+                                                                  && B.
+    \end{tikzcd}
+    \end{equation*}
+    Obviously, $m$ coequalizes $x$ and $y$, so we must have a unique arrow from $B$ to $B$ that make the triangle commute, namely the identity. But we have already seen that $ms$ makes this triangle commute, so we must have $ms=1_B$. We showed that $sm=1_A$ and $ms=1_B$, hence, $m$ is an isomorphism.
+\end{solution}
+
+\begin{exercise}
+    An arrow $f:A\to A$ is called \textbf{idempotent} when $f^2=f$; an idempotent is said to split when there exist arrows $g$ and $h$ such that $f=hg$ and $gh=1$.\par
+    In $\bcat{Set}$, show that all idempotents split.
+\end{exercise}
+\begin{solution}
+    Assume $f$ is idempotent. Consider
+    \begin{equation*}
+    \begin{tikzcd}
+        A \arrow[r, shift left, sloped, "g"] & \text{Im}(f) \arrow[l, shift left, sloped, "\iota"']
+    \end{tikzcd}
+    \end{equation*}
+    where $g:A\to\text{Im}(f)$ is defined as $g: x\mapsto f(x)$ and $\iota$ is the inclusion map. We have $f=\iota g$ because the image of $f$ does not change under subsequent applications of $f$ so it is the same as including $\text{Im}(f)$ in $A$. Also, $g\iota=1_{\text{Im}(f)}$. Hence, $f$ is split.
+\end{solution}
+
+\begin{exercise}
+    An arrow $f:A\to B$ in a category $\cat{C}$ is \textbf{regular} when there exists an arrow $g:B\to A$ such that $fgf=f$. Prove that every arrow in $\bcat{Set}$ with $A\neq\emptyset$ is regular.
+\end{exercise}
+\begin{solution}
+    Let $f^{-1}(b)$ denote the fiber of $b\in B$. Choose an element $k\in f^{-1}(b)$ and define $g: B\to A$ by $g: b\mapsto k$. It can be easily shown that $fgf=f$.
+\end{solution}
+
+\begin{exercise}
+    Consider the category with objects $<X,e,t>$, where $X$ is a set, $e\in X$, and $t:X\to X$, and with arrows $f:<X,e,t>\to <X',e',t'>$ the functions $f$ on $X$ to $X'$ with $fe=e'$
+\end{exercise}
+
+\end{document}

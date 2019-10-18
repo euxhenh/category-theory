@@ -1,0 +1,309 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{enumitem}
+\usepackage[margin=0.5in]{geometry}
+\author{}
+\date{}
+\title{Cheat Sheet}
+\include{preamble}
+
+\begin{document}
+\maketitle
+\begin{proposition}
+    A functor is an equivalence if and only if it is full, faithful, and essentially surjective on objects.
+\end{proposition}
+
+The naturality axiom of adjoints has two parts:
+\begin{equation}\label{eq:naturality1}
+    \overline{\big( F(A)\xrightarrow{g} B\xrightarrow{q} B' \big)} = \big( A\xrightarrow{\bar{g}} G(B) \xrightarrow{G(q)} G(B') \big)
+\end{equation}
+(that is, $\overline{q\circ g}=G(q)\circ\bar{g}$) for all $g$ and $q$, and
+\begin{equation}\label{eq:naturality2}
+    \overline{\big(A' \xrightarrow{p} A \xrightarrow{f} G(B) \big)} = \big(F(A') \xrightarrow{F(p)} F(A) \xrightarrow{\bar{f}} B\big)
+\end{equation}
+for all $p$ and $f$.\par
+
+Forgetful functors between categories of algebraic structures usually have left adjoints.
+
+\begin{example}
+    Initial and terminal objects can be described as adjoints. Let $\cat{A}$ be a category. There is precisely one functor $\cat{A} \to \textbf{1}$. Also, a functor $ \textbf{1}\to\cat{A}$ is essentially just an object of $\cat{A}$. Viewing functors $ \textbf{1}\to\cat{A}$ as objects of $\cat{A}$, a left adjoint to $\cat{A}\to \textbf{1}$ is exactly an initial object of $\cat{A}$.\par
+    Similarly, a right adjoint to the unique functor $\cat{A}\to \textbf{1}$ is exactly a terminal object of $\cat{A}$.
+\end{example}
+
+For each $A\in\cat{A}$, we have a map
+\begin{equation}\label{eq:eta}
+    \big(A\xrightarrow{\eta_A} GF(A)\big) = \overline{\big(F(A)\xrightarrow{1} F(A)\big)}.
+\end{equation}
+Dually, for each $B\in\cat{B}$, we have a map
+\begin{equation}\label{eq:eps}
+    \big(FG(B)\xrightarrow{\epsilon_B} B\big) = \overline{\big(G(B)\xrightarrow{1} G(B)\big)}.
+\end{equation}
+These define natural transformations
+\begin{equation*}
+    \eta: 1_{\cat{A}}\to G\circ F,\qquad\epsilon: F\circ G\to 1_{\cat{B}},
+\end{equation*}
+called the \textbf{unit} and \textbf{counit} of the adjunction, respectively.
+
+\begin{lemma}\label{lemma:adjunction}
+    Given an adjunction $F\dashv G$ with unit $\eta$ and counit $\epsilon$, the triangles
+    \begin{equation*}
+    \begin{tikzcd}
+        F \arrow[r, "F\eta"] \arrow[dr, "1_F"'] & FGF \arrow[d, "\epsilon F"] \\
+        & F
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+        G \arrow[r, "\eta G"] \arrow[dr, "1_G"'] & GFG \arrow[d, "G\epsilon"] \\
+        & G
+    \end{tikzcd}
+    \end{equation*}
+    commute.
+\end{lemma}
+\begin{remark}
+    These are called the \textbf{triangle identities}. An equivalent statement is that the triangles
+    \begin{equation}\label{lemma:triangle_identities}
+    \begin{tikzcd}
+        F(A) \arrow[r, "F(\eta_A)"] \arrow[dr, "1_{F(A)}"'] & FGF(A) \arrow[d, "\epsilon_{F(A)}"] \\
+        & F(A)
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+        G(B) \arrow[r, "\eta_{G(B)}"] \arrow[dr, "1_{G(B)}"'] & GFG(B) \arrow[d, "G(\epsilon_B)"] \\
+        & G(B)
+    \end{tikzcd}
+    \end{equation}
+    commute for all $A\in\cat{A}$ and $B\in\cat{B}$.
+\end{remark}
+
+\begin{definition}
+    Given categories and functors
+    \begin{equation*}
+    \begin{tikzcd}
+        & \cat{B} \arrow[d, "Q"]\\
+        \cat{A} \arrow[r, "P"'] & \cat{C},
+    \end{tikzcd}
+    \end{equation*}
+    the \textbf{comma category} $\comma{P}{Q}$ (often written as $(P\downarrow Q)$) is the category defined as follows:
+    \begin{itemize}
+        \item objects are triples $(A,h,B)$ with $A\in\cat{A}, B\in\cat{B}$, and $h: P(A)\to Q(B)$ in $\cat{C}$;
+        \item maps $(A,h,B)\to (A',h',B')$ are pairs $(f:A\to A', g:B\to B')$ of maps such that the square
+            \begin{equation*}
+            \begin{tikzcd}
+                P(A) \arrow[r, "P(f)"] \arrow[d, "h"'] & P(A') \arrow[d, "h'"] \\
+                Q(B) \arrow[r, "Q(g)"'] & Q(B')
+            \end{tikzcd}
+            \end{equation*}
+            commutes.
+    \end{itemize}
+\end{definition}
+
+\begin{example}
+    Let $\cat{A}$ be a category and $A\in\cat{A}$. The \textbf{slice category} of $\cat{A}$ over $A$, denoted by $\cat{A}/A$, is the category whose objects are maps into $A$ and whose maps are commutative triangles. More precisely, an object is a pair $(X,h)$ with $X\in\cat{A}$ and $h:X\to A$ in $\cat{A}$, and a map $(X,h)\to (X',h')$ in $\cat{A}/A$ is a map $f: X\to X'$ in $\cat{A}$ making the triangle
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[rr, "f"] \arrow[dr, "h"'] && X' \arrow[dl, "h'"] \\
+        & A
+    \end{tikzcd}
+    \end{equation*}
+    commute.
+\end{example}
+
+Slice categories are a special case of comma categories. Functors $\bcat{1}\to\cat{A}$ are just objects of $\cat{A}$. Now, given an object $A$ of $\cat{A}$, consider the comma category $\comma{1_{\cat{A}}}{A}$, as in the diagram
+    \begin{equation*}
+    \begin{tikzcd}
+        & \bcat{1} \arrow[d, "A"] \\
+        \cat{A} \arrow[r, "1_{\cat{A}}"'] & \cat{A}.
+    \end{tikzcd}
+    \end{equation*}
+    An object of $\comma{1_{\cat{A}}}{A}$ is in principle a triple $(X,h,B)$, with $X\in\cat{A}$, $B\in\bcat{1}$, and $h:X\to A$ in $\cat{A}$; but $\bcat{1}$ has only one object, so it is essentially just a pair $(X,h)$. Hence the comma category $\comma{1_{\cat{A}}}{A}$ has the same objects as the slice category $\cat{A}/A$ and one can check that is has the same maps too, so $\cat{A}/A\cong \comma{1_{\cat{A}}}{A}$.\par
+
+\begin{lemma}\label{lemma:unit_is_initial}
+    Take an adjunction \begin{tikzcd}
+        \cat{A} \arrow[r, shift left=2, "F"] &
+        \cat{B} \arrow[l, shift left=2, "G", "\bot"']
+    \end{tikzcd} and an object $A\in\cat{A}$. Then the unit map $\eta_A: A\to GF(A)$ is an initial object of $\comma{A}{G}$.
+\end{lemma}
+
+\begin{corollary}
+    Let $G:\cat{B}\to\cat{A}$ be a functor. Then $G$ has a left adjoint if and only if for each $A\in\cat{A}$, the category $\comma{A}{G}$ has an initial object.
+\end{corollary}
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category and $A\in\cat{A}$. We define a functor
+    \begin{equation*}
+        H^A=\cat{A}(A,-): \cat{A}\to\bcat{Set}
+    \end{equation*}
+    as follows:
+    \begin{itemize}
+        \item for objects $B\in\cat{A}$, put $H^A(B)=\cat{A}(A,B)$;
+        \item for maps $B\xrightarrow{g}B'$ in $\cat{A}$, define
+            \begin{equation*}
+                H^A(g)=\cat{A}(A,g): \cat{A}(A,B)\to\cat{A}(A,B')
+            \end{equation*}
+            by
+            \begin{equation*}
+                p\mapsto g\circ p
+            \end{equation*}
+            for all $p:A\to B$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category. A functor $X:\cat{A}\to\bcat{Set}$ is \textbf{representable} if $X\cong H^A$ for some $A\in\cat{A}$. A \textbf{representation} of $X$ is a choice of an object $A\in\cat{A}$ and an isomorphism between $H^A$ and $X$.
+\end{definition}
+
+\begin{proposition}
+    Any set-valued functor with left adjoint is representable.
+\end{proposition}
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category and $A\in\cat{A}$. We define a functor
+    \begin{equation*}
+        H_A=\cat{A}(-,A): \catop{A}\to\bcat{Set}
+    \end{equation*}
+    as follows:
+    \begin{itemize}
+        \item for objects $B\in\cat{A}$, put $H_A(B)=\cat{A}(B,A)$;
+        \item for maps $B'\xrightarrow{g}B$ in $\cat{A}$, define
+            \begin{equation*}
+                H_A(g)=\cat{A}(g,A): \cat{A}(B,A)\to\cat{A}(B',A)
+            \end{equation*}
+            by
+            \begin{equation*}
+                p\mapsto p\circ g
+            \end{equation*}
+            for all $p:B\to A$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category. A functor $X:\catop{A}\to\bcat{Set}$ is \textbf{representable} if $X\cong H_A$ for some $A\in\cat{A}$. A \textbf{representation} of $X$ is a choice of an object $A\in\cat{A}$ and an isomorphism between $H_A$ and $X$.
+\end{definition}
+
+Any map $A\xrightarrow{f}A'$ in $\cat{A}$ induces a natural transformation
+\begin{equation*}
+\begin{tikzcd}
+    \catop{A}
+    \arrow[rr, bend left=30, "H_A"{name=t}]
+    \arrow[rr, bend right=30, "H_{A'}"'{name=b}]
+    && \bcat{Set} \
+    \arrow[from=t, Rightarrow, to=b, "H_f", shorten <= 6pt, shorten >= 6pt]
+\end{tikzcd}
+\end{equation*}
+whose component at an object $B\in\cat{A}$ is 
+\begin{align*}
+    H_A(B)=\cat{A}(B,A) &\to H_{A'}(B)=\cat{A}(B,A')\\
+    p\qquad &\mapsto\qquad f\circ p.
+\end{align*}
+
+\begin{definition}
+    Let $\cat{A}$ be a locally small category. The \textbf{Yoneda embedding} of $\cat{A}$ is the functor
+    \begin{equation*}
+        H_{\bullet}:\cat{A}\to [\catop{A},\bcat{Set}]
+    \end{equation*}
+    defined on objects $A$ by $H_{\bullet}(A)=H_A$ and on maps $f$ by $H_{\bullet}(f)=H_f$.
+\end{definition}
+
+Here is a summary of the definitions so far.
+\begin{align*}
+    &\text{For each $A\in\cat{A}$, we have a functor} &\cat{A} \xrightarrow{H^A} \bcat{Set}.\\
+    &\text{Putting them all together gives a functor} &\catop{A} \xrightarrow{H^{\bullet}} [\cat{A},\bcat{Set}].\\ \\
+    &\text{For each $A\in\cat{A}$, we have a functor} &\catop{A} \xrightarrow{H_A} \bcat{Set}.\\
+    &\text{Putting them all together gives a functor} &\cat{A} \xrightarrow{H_{\bullet}} [\catop{A},\bcat{Set}].
+\end{align*}
+
+Fix a small category $\cat{A}$. Take an object $A\in\cat{A}$ and a functor $X:\catop{A}\to\bcat{Set}$. The object $A$ gives rise to another functor $H_A=\cat{A}(-,A):\catop{A}\to\bcat{Set}$. The question is: what are the maps $H_A\to X$? Since $H_A$ and $X$ are both objects of the presheaf category $[\catop{A}, \bcat{Set}]$, the 'maps' concerned are maps in $[\catop{A},\bcat{Set}]$. So, we are asking what natural transformations
+\begin{equation*}
+\begin{tikzcd}
+    \catop{A}
+    \arrow[rr, bend left=30, "H_A"{name=t}]
+    \arrow[rr, bend right=30, "X"'{name=b}]
+    && \bcat{Set} \
+    \arrow[from=t, Rightarrow, to=b, shorten <= 6pt, shorten >= 6pt]
+\end{tikzcd}
+\end{equation*}
+there are. The set of such natural transformations is called
+\begin{equation*}
+    [\catop{A},\bcat{Set}](H_A,X).
+\end{equation*}
+Are there any other ways to construct a set from the same input data $(A,X)$? Yes: simply take the set $X(A)$.
+
+\begin{theorem}[Yoneda]
+    Let $\cat{A}$ be a locally small category. Then
+    \begin{equation}
+        [\catop{A},\bcat{Set}](H_A,X)\cong X(A)
+    \end{equation}
+    naturally in $A\in\cat{A}$ and $X\in [\catop{A},\bcat{Set}]$.
+\end{theorem}
+
+\begin{proposition}
+    Let $\cat{A}$ be a category.
+    \begin{enumerate}[label=(\alph*)]
+        \item If $\cat{A}$ has all products and equalizers then $\cat{A}$ has all limits.
+        \item If $\cat{A}$ has binary products, a terminal object and equalizers then $\cat{A}$ has finite limits.
+    \end{enumerate}
+\end{proposition}
+
+\begin{lemma}
+    A map $X\xrightarrow{f}Y$ is monic if and only if the square
+    \begin{equation*}
+    \begin{tikzcd}
+        X \arrow[r, "1"] \arrow[d, "1"'] & X \arrow[d, "f"] \\
+        X \arrow[r, "f"'] & Y
+    \end{tikzcd}
+    \end{equation*}
+    is a pullback.
+\end{lemma}
+
+\begin{example}
+    Take sets and functions \begin{tikzcd}
+        X \arrow[r, shift left, "s"] \arrow[r, shift right, "t"'] & Y
+    \end{tikzcd}. To find the coequalizer of $s$ and $t$, we must construct in some canonical way a set $C$ and a function $p:Y\to C$ such that $p(s(x))=p(t(x))$ for all $x\in X$. Let $\sim$ be the equivalence relation on $Y$ generated by $s(x)\sim t(x)$ for all $x\in X$. Take the quotient map $p:Y\to Y/\sim$. The maps $Y/\sim \to B$ correspond one-to-one with maps $f:Y\to B$, so $p$ is indeed the coequalizer of $s$ and $t$.
+\end{example}
+
+\begin{definition}
+    \begin{enumerate}[label=(\alph*)]
+        \item\label{item:a} Let $\bcat{I}$ be a small category. A functor $F:\cat{A} \to \cat{B}$ \textbf{preserves limits of shape} $\bcat{I}$ if for all diagrams $D:\bcat{I}\to\cat{A}$ and all cones $\Big( A\xrightarrow{p_I} D(I) \Big)_{I\in\bcat{I}}$ on $D$,
+            \begin{align*}
+                \Big( A\xrightarrow{p_I} D(I) \Big)_{I\in\bcat{I}} \text{ is a limit cone on } D \text{ in } \cat{A}\\
+                \Rightarrow \Big( F(A) \xrightarrow{Fp_I} FD(I) \Big)_{I\in\bcat{I}} \text{ is a limit cone on } F\circ D \text{ in } \cat{B}.
+            \end{align*}
+        \item A functor $F:\cat{A}\to\cat{B}$ \textbf{preserves limits} if it preserves limits of shape $\bcat{I}$ for all small categories $\bcat{I}$.
+        \item \textbf{Reflection} of limits is defined as in \ref{item:a}, but with $\Leftarrow$ instead of $\Rightarrow$.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    A functor $F:\cat{A}\to\cat{B}$ \textbf{creates limits (of shape $\bcat{I}$)} if whenever $D:\bcat{I}\to\cat{A}$ is a diagram in $\cat{A}$,
+    \begin{itemize}
+        \item for any limit cone $\Big( B\xrightarrow{q_I} FD(I) \Big)_{I\in\bcat{I}}$ on the diagram $F\circ D$, there is a unique cone $\Big( A\xrightarrow{p_I} D(I) \Big)_{I\in\bcat{I}}$ on $D$ such that $F(A)=B$ and $F(p_I)=q_I$ for all $I\in\bcat{I}$;
+        \item this cone $\Big( A\xrightarrow{p_I} D(I) \Big)_{I\in\bcat{I}}$ is a limit cone on $D$.
+    \end{itemize}
+\end{definition}
+
+The forgetful functors from $\bcat{Grp}, \bcat{Ring},\dots$ to $\bcat{Set}$ all create limits.
+
+\begin{lemma}
+    Let $F:\cat{A}\to\cat{B}$ be a functor and $\bcat{I}$ a small category. Suppose that $\cat{B}$ has, and $F$ creates, limits of shape $\bcat{I}$. Then $\cat{A}$ has, and $F$ preserves limits of shape $\bcat{I}$.
+\end{lemma}
+
+\subsection{Bonus}
+\begin{equation*}
+    \text{Hom}(X,A)\times\text{Hom}(X,B)\cong\text{Hom}(X,A\times B)
+\end{equation*}
+\begin{equation*}
+    \text{Hom}(A,X)\times\text{Hom}(B,X)\cong\text{Hom}(A+B, X)
+\end{equation*}
+\begin{equation*}
+    \text{Hom}(X\times A,B)\cong\text{Hom}(X,B^A)
+\end{equation*}
+\begin{equation*}
+    HA\cong HB \Rightarrow A\cong B
+\end{equation*}
+
+\end{document}

@@ -1,9 +1,0 @@
-# Fdb version 3
-["pdflatex"] 1554728442 "chapter7.tex" "chapter7.pdf" "chapter7" 1554728442
-  "/usr/share/texmf-dist/web2c/texmf.cnf" 1550406775 33301 a3134070eacafb10b1f371612ce2650d ""
-  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1554641259 7919195 913b1651453c6ef83a4c728282a95b90 ""
-  "chapter7.aux" 1554728442 8 a94a2480d3289e625eea47cd1b285758 ""
-  "chapter7.tex" 1554728095 46 1fb6cd5c26527ce68b720f63dd1edb95 ""
-  (generated)
-  "chapter7.pdf"
-  "chapter7.log"
